@@ -1,0 +1,78 @@
+SERVICE_NAME: e-referrals-service-patient-care-api
+PRODUCT_DISPLAY_NAME: e-referrals-service-patient-care-api
+DESCRIPTION: example description
+APIGEE_ENVIRONMENTS:
+  - name: internal-dev
+    display_name: Internal Development
+  - name: internal-dev-sandbox
+    display_name: Internal Development Sandbox
+  - name: internal-qa
+    display_name: Internal QA
+  - name: internal-qa-sandbox
+    display_name: Internal QA Sandbox
+  - name: ref
+    display_name: Reference
+  - name: sandbox
+    display_name: Sandbox
+# Enable int environment when ready by uncommenting:
+#   - name: int
+#     display_name: Integration Testing
+---
+meta:
+  api:
+    name: e-referrals-service-patient-care-api
+    guid: 6792bc27-4aca-420f-a347-bbf6f2fcae10
+    spec_guids:
+      - 66f6b5ed-072a-4a38-a864-f79bba63dbe7
+  schema_version: 1.3
+apigee:
+  environments:
+{% for ENV in APIGEE_ENVIRONMENTS %}
+{% set TITLE = PRODUCT_DISPLAY_NAME + ' (' + ENV.display_name + ' Environment)' %}
+{% set NAME = SERVICE_NAME + '-' + ENV.name %}
+  - name: {{ ENV.name }}
+    products:
+      - name: {{ NAME }}
+        approvalType: auto
+        attributes:
+          - name: access
+            value: public
+            # For a parameterised example of rate limiting per environment,
+            # see https://github.com/NHSDigital/personal-demographics-service-api/blob/master/manifest_template.yml
+          - name: ratelimiting
+            value:
+              {{ NAME }}:
+                quota:
+                  enabled: true
+                  limit: 300
+                  interval: 1
+                  timeunit: minute
+                spikeArrest:
+                  enabled: true
+                  ratelimit: 600pm # 10 requests per second
+              app:
+                quota:
+                  enabled: false
+                spikeArrest:
+                  enabled: false
+        description: {{ DESCRIPTION }}
+        displayName: {{ TITLE }}
+        environments: [ {{ ENV.name }} ]
+        proxies:
+          - {{ NAME }}
+          - identity-service-{{ ENV.name }}
+        scopes:
+          - 'urn:nhsd:apim:app:level3:{{ SERVICE_NAME }}'
+          - 'urn:nhsd:apim:user-nhs-id:aal3:{{ SERVICE_NAME }}'
+    specs:
+      - name: {{ NAME }}
+        path: {{ SERVICE_NAME }}.json
+    api_catalog:
+      - edgeAPIProductName: {{ NAME }}
+        anonAllowed: true
+        description: {{ DESCRIPTION }}
+        requireCallbackUrl: false
+        title: {{ TITLE }}
+        visibility: false
+        specId: {{ NAME }}
+{% endfor %}

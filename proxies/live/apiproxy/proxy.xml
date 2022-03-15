@@ -1,0 +1,4 @@
+<APIProxy name="erspca">
+  <!-- This is the root of the application -->
+  <Description>"e-referrals-service-patient-care-api"</Description>
+</APIProxy>

@@ -1,0 +1,16 @@
+node_modules/
+bin/
+dist/
+build/
+public/
+newman/
+.idea
+.DS_Store
+.#*
+
+__pycache__/
+.envrc
+.idea/
+.venv/
+
+smoketest-report.xml
