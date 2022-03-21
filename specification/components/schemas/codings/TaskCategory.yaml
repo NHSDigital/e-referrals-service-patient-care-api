@@ -1,0 +1,27 @@
+type: array
+minItems: 1
+maxItems: 1
+items:
+  type: object
+  required:
+    - system
+    - code
+    - display
+  properties:
+    system:
+      type: string
+      enum:
+        - 'http://snomed.info/sct'
+      example: 'http://snomed.info/sct'
+    code:
+      type: string
+      enum:
+        - '413292001'
+        - '386053000'
+      example: '413292001'
+    display:
+      type: string
+      enum:
+        - 'Assessment for referral'
+        - 'Evaluation procedure'
+      example: 'Assessment for referral'

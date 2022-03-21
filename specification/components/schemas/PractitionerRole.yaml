@@ -1,0 +1,31 @@
+title: PractitionerRole
+type: object
+required:
+  - resourceType
+  - id
+  - practitioner
+  - organization
+properties:
+  resourceType: 
+    type: string
+    enum:
+      - PractitionerRole
+    example: 'PractitionerRole'
+  id:
+    type: string
+    example: 'PractitionerRole-R69-000000000101'
+  practitioner:
+    type: object
+    required:
+      - identifier
+    properties:
+      identifier:
+        type: string
+        $ref: identifiers/SdsUserId.yaml
+  organization:
+    type: object
+    required:
+      - identifier
+    properties:
+      identifier:
+        $ref: identifiers/OdsOrganizationCode.yaml

@@ -1,0 +1,126 @@
+type: object
+required:
+  - id
+  - meta
+  - resourceType
+  - identifier
+  - extension
+  - status
+  - intent
+  - category
+  - requester
+  - priority
+  - subject
+  - authoredOn
+properties:
+  id:
+    type: string
+    example: '6c2a1f9b-2517-419d-9099-591ba63f176c'
+  meta:
+    type: object
+    required: 
+      - versionId
+    properties:
+      versionId:
+        type: string
+        example: '4'
+  resourceType:
+    type: string
+    enum: 
+      - ServiceRequest
+    example: 'ServiceRequest'
+  identifier:
+    type: array
+    minItems: 1
+    maxItems: 1
+    items:  
+      $ref: identifiers/UBRN.yaml
+  extension:
+    type: array
+    minItems: 3
+    maxItems: 3
+    nullable: false
+    description: |
+      | Field                                      | Cardinality | Notes                                                                 |
+      | ------------------------------------------ | ----------- | --------------------------------------------------------------------- |
+      | `Extension-Portal-Link`                    | `1..1`      |  Deep Link into the specific landing page in MYR                      |
+      | `Extension-ServiceRequest-Priority`        | `1..1`      |  Code for the priority of the referral set by the Referring Clinician |
+      | `Extension-ServiceRequest-State`           | `1..1`      |  Code for the ServiceRequest state                                    |
+    items:
+      anyOf:
+        - $ref: 'extensions/Extension-Portal-Link.yaml'
+        - $ref: 'extensions/Extension-ServiceRequest-Priority.yaml'
+        - $ref: 'extensions/Extension-ServiceRequest-State.yaml'
+  contained:
+    type: array
+    minItems: 1
+    maxItems: 1
+    nullable: false
+    description: |
+      | Field                                   | Cardinality | Notes                                      |
+      | --------------------------------------- | ----------- | ------------------------------------------ |
+      | `PractitionerRole`                      | `1..1`      |                                            |  
+    items:
+      anyOf:
+        - $ref: 'PractitionerRole.yaml'
+  status:
+    description: The status of the Service Request.
+    type: string
+    enum:
+      - active
+    example: 'active'
+  priority:
+    type: string
+    enum:
+      - routine
+      - urgent
+      - asap
+    example: 'asap'
+  intent:
+    type: string
+    enum:
+      - order
+    example: 'order'
+  category:
+    type: array
+    minItems: 1
+    maxItems: 1
+    items: 
+      type: object
+      required:
+        - coding
+      properties:
+        coding:
+          $ref: codings/ServiceRequestCategory.yaml
+  subject:
+    type: object
+    required:
+      - identifier
+    properties:
+      identifier:
+        $ref: identifiers/NhsNumber.yaml
+  requester:
+    type: object
+    required:
+      - reference
+    properties:
+      reference:
+        type: string
+        example: '#PractitionerRole-R69-000000000101'
+  performerType:
+    description: Specialty used to search for the shortlisted service(s) (if one was used).
+    type: object
+    required:
+      - coding
+    properties:
+      coding:
+        type: array
+        minItems: 1
+        maxItems: 1
+        items:
+          $ref: codings/Specialty.yaml
+  authoredOn:
+    description: Date the referral was initiated in e-RS
+    type: string
+    format: date-time
+    example: '2022-03-15T12:17:35.128Z'

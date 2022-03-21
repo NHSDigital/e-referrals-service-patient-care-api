@@ -1,0 +1,21 @@
+type: array
+minItems: 1
+maxItems: 1
+items:
+  type: object
+  required:
+    - system
+    - code
+    - display
+  properties:
+    system:
+      type: string
+      enum:
+        - 'http://snomed.info/sct'
+      example: 'http://snomed.info/sct'
+    code:
+      type: string
+      example: '3457005'
+    display:
+      type: string
+      example: 'Patient referral'

@@ -1,0 +1,14 @@
+type: object
+description: Unique Booking Reference Number. (12 digit number used as an internal and external identifier of the referral), known as "Booking Reference" Patient side.
+required:
+  - system
+  - value
+properties:
+  system:
+    type: string
+    enum:
+      - 'https://fhir.nhs.uk/Id/UBRN'
+    example: 'https://fhir.nhs.uk/Id/UBRN'
+  value:
+    type: string
+    example: '000000072241'

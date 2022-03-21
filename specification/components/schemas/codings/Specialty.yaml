@@ -1,0 +1,18 @@
+items:
+  type: object
+  required:
+    - system
+    - code
+    - display
+  properties:
+    system:
+      type: string
+      enum: 
+        - 'https://fhir.nhs.uk/CodeSystem/eRS-Specialty'
+      example: 'https://fhir.nhs.uk/CodeSystem/eRS-Specialty'
+    code:
+      type: string
+      example: 'DERMATOLOGY'
+    display:
+      type: string
+      example: 'Dermatology'

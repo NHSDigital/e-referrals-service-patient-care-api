@@ -1,0 +1,146 @@
+title: Bundle resource containing Service Requests
+type: object
+required:
+  - id
+  - meta
+  - timestamp
+  - resourceType
+  - type
+  - total
+  - link
+properties:
+  id:
+    type: string
+    example: '08acc887-6a7b-4b38-8f50-022e41319efe'
+  meta:
+    type: object
+    required: 
+      - lastUpdated
+    properties:
+      lastUpdated:
+        type: string
+        format: date-time
+        example: '2021-04-20T12:17:35.128Z'
+  resourceType:
+    type: string
+    enum:
+      - Bundle
+    example: 'Bundle'
+  timestamp:
+    type: string
+    format: date-time
+    example: '2022-03-14T14:35:00.00Z'
+  type:
+    type: string
+    enum:
+      - searchset
+    example: 'searchset'
+  total:
+    type: integer
+    minimum: 0
+    format: int32
+    example: 3
+  link:
+    type: array
+    minItems: 1
+    maxItems: 1
+    items:
+      type: object
+      required:
+        - relation
+        - url
+      properties:
+        relation:
+          type: string
+          enum:
+            - self
+          example: 'self'
+        url:
+          type: string
+          example: '_baseUrl_/ServiceRequest?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C9912003888&category=http%3A%2F%2Fsnomed.info%2Fsct%7C3457005&_revinclude=Task%3Afocus&_revinclude=Appointment%3Abased-on&_revinclude=Task%3Afocus'
+  entry:
+    type: array
+    description: |
+      | Field                  | Cardinality | Notes                                                                                       |
+      | ---------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+      | `ServiceRequest`       | `0..*`      | A ServiceRequest might have an Appointment or a Task related, but not both at the same time. If the Service request is unbooked then it will not have an Appointment or a Task.|
+      | `Appointment`          | `0..*`      | If the Service Request is booked then it will have one Appointment. Note that multiple Appointments can be returned, but each one will refer to a single Service request.      |
+      | `Task`                 | `0..*`      | If the Service Request has a deferral or a triage deferral. Note that multiple Tasks can be returned, but each one will refer to a single Service request.                     |
+    items:
+      anyOf:
+        - title: ServiceRequest
+          description: |
+            The details of an active ServiceRequest.
+          type: object
+          required:
+            - fullUrl
+            - resource
+            - search
+          properties:
+            fullUrl:
+              type: string
+              example: '_baseUrl_/ServiceRequest/6c2a1f9b-2517-419d-9099-591ba63f176c'
+            resource:
+              $ref: 'ServiceRequest.yaml'
+            search:
+              type: object
+              required:
+                - mode
+              properties:
+                mode:
+                  type: string
+                  enum:
+                    - match
+                  example: 'match'
+        - title: Appointment
+          description: |
+            The current Appointment for a ServiceRequest.
+          type: object
+          required:
+            - fullUrl
+            - resource
+            - search
+          properties:
+            fullUrl:
+              type: string
+              example: '_baseUrl_/Appointment/2c539951-0819-4ffb-ab77-b7cbdc5d9c9a'
+            resource:
+              $ref: 'Appointment.yaml'
+            search:
+              type: object
+              required:
+                - mode
+              properties:
+                mode:
+                  type: string
+                  enum:
+                    - include
+                  example: 'include'
+        - title: Task
+          description: |
+            The current Task for a ServiceRequest.
+          type: object
+          required:
+            - fullUrl
+            - resource
+            - search
+          properties:
+            fullUrl:
+              type: string
+              example: '_baseUrl_/Task/9f7d3feb-5442-4df7-83ef-7afd2e99f0e5'
+            resource:
+              $ref: 'Task.yaml'
+            search:
+              type: object
+              required:
+                - mode
+              properties:
+                mode:
+                  type: string
+                  enum:
+                    - include
+                  example: 'include'
+      
+
+
+

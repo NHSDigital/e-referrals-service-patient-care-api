@@ -1,0 +1,87 @@
+type: object
+required: 
+  - id
+  - resourceType
+  - meta
+  - owner
+  - status
+  - intent
+  - code
+  - for
+  - focus
+properties:
+  id:
+    type: string
+    example: '9f7d3feb-5442-4df7-83ef-7afd2e99f0e5'
+  resourceType:
+    type: string
+    enum:
+      - Task
+    example: 'Task'
+  status:
+    type: string
+    enum:
+      - requested
+    example: 'requested'
+  intent:
+    type: string
+    enum:
+      - order
+    example: 'order' 
+  code:
+    description: Indicates what type of task this is. Will differentiate between an appointment deferral and a triage deferral.
+    type: object
+    required:
+      - coding
+    properties:
+      coding:
+        $ref: codings/TaskCategory.yaml
+  focus:
+    description: Which service request is this Deferral related to.
+    type: object
+    required:
+      - reference
+    properties:
+      reference:
+        type: string
+        example: "_baseUrl_/ServiceRequest/eb13327f-e990-4667-b37a-89eb93a94c47"
+  for:
+    type: object
+    required:
+      - identifier
+    properties:
+      identifier:
+        $ref: identifiers/NhsNumber.yaml
+  owner:
+    type: object
+    required:
+      - identifier
+    properties:
+      identifier:
+        $ref: identifiers/HealthcareService.yaml
+  restriction:
+    description: | 
+      Review Due Date. 
+      If deferred to provider (because there were no appointments available for a directly bookable service) then this is the date by which the provide should resolve the appointment slot issue; or
+      If the service request was sent to a triage service then this is the date by which the provider should have reviewed the service request.
+    type: object
+    required:
+      - period
+    properties:
+      period:
+        type: object
+        required:
+          - end
+        properties:
+          end:
+            type: string
+            format: date
+            example: '2022-01-25'
+  meta:
+    type: object
+    required: 
+      - versionId
+    properties:
+      versionId:
+        type: string
+        example: '2'

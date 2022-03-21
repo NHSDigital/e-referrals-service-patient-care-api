@@ -1,0 +1,15 @@
+title: Extension-Portal-Link
+description: Extension to supply the deep Link into the specific landing page in MYR
+type: object
+required:
+  - url
+  - valueUrl
+properties:
+  url:
+    type: string
+    enum:
+      - 'https://fhir.nhs.uk/StructureDefinition/Extension-Portal-Link'
+    example: 'https://fhir.nhs.uk/StructureDefinition/Extension-Portal-Link'
+  valueUrl:
+    type: string
+    example: 'https://refer.nhs.uk/nhslogin?ubrn=111111111112'

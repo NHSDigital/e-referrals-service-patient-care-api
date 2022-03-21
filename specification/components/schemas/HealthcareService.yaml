@@ -1,0 +1,103 @@
+title: A single Healthcare service.
+type: object
+required:
+  - id
+  - meta
+  - identifier
+  - resourceType
+  - name
+  - specialty
+  - location
+  - providedBy
+properties:
+  id:
+    type: string
+    example: '123'
+  meta:
+    type: object
+    required: 
+      - versionId
+    properties:
+      versionId:
+        type: string
+        example: '4'
+  identifier:
+    type: array
+    minItems: 1
+    maxItems: 1
+    items: 
+      anyOf:
+      - $ref: identifiers/HealthcareService.yaml
+  providedBy:
+    type: object
+    required:
+      - identifier
+    properties:
+      identifier:
+        $ref: identifiers/OdsOrganizationCode.yaml
+  specialty:
+    type: array
+    minItems: 1
+    maxItems: 1
+    items:
+      type: object
+      required: 
+        - coding
+      properties:
+       coding:
+        type: array
+        minItems: 1
+        maxItems: 1
+        items:
+          $ref: codings/Specialty.yaml
+  type:
+    type: array
+    minItems: 0
+    maxItems: 1
+    items: 
+      type: object
+      required:
+        - coding
+      properties:
+        coding:
+          $ref: codings/AppointmentType.yaml
+  location:
+    type: array
+    items:
+      type: object
+      properties:
+        identifier:
+          description: 'Reference detailing the location a service is based within.'
+          type: object
+          properties:
+            system:
+              type: string
+              enum:
+                - 'https://fhir.nhs.uk/Id/ods-site-code'
+              example: 'https://fhir.nhs.uk/Id/ods-site-code'
+            value:
+              type: string
+              example: 'R6901'
+  name:
+    description: Name of the HealthcareService (as per e-RS Directory of Services).
+    type: string
+    example: 'Direct SVC 1'
+  endpoint:
+    description: Slot Management Provider System Endpoint, only applicable if the HealtchareService is directly bookable. 
+    type: array
+    items:
+      anyOf:
+      - title: NhsSpineASID
+        type: object
+        required:
+          - identifier
+        properties:
+          identifier:
+            $ref: identifiers/NhsSpineASID.yaml
+      - title: NhsMhsPartyKey
+        type: object
+        required:
+          - identifier
+        properties:
+          identifier:
+            $ref: identifiers/NhsMhsPartyKey.yaml
