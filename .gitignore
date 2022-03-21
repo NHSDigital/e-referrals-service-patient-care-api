@@ -4,13 +4,22 @@ dist/
 build/
 public/
 newman/
+build/
+specification/components/examples/
+tests/functional/test_env/
 .idea
 .DS_Store
+venv
+.direnv
 .#*
 
 __pycache__/
 .envrc
-.idea/
-.venv/
+.vscode
+.mypy_cache
 
-smoketest-report.xml
+tests/test-report.xml
+tests/functional-test-report.xml
+.orig
+
+.python-version
