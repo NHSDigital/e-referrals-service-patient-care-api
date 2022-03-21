@@ -56,3 +56,23 @@ test:
 smoketest:
 #	this target is for end to end smoketests this would be run 'post deploy' to verify an environment is working
 	poetry run pytest -v --junitxml=smoketest-report.xml -s -m smoketest
+
+setup-environment:
+	@if [ -e /usr/bin/yum ]; then \
+		scripts/rhel_setup_environment.sh; \
+	elif [ -e /usr/local/bin/brew ]; then \
+		echo "TODO is Mac"; \
+	else \
+		echo "Environment not Mac or RHEL"; \
+	fi
+
+clean-environment:
+	@if [ -e /usr/bin/yum ]; then \
+		scripts/rhel_clean_environment.sh; \
+	elif [ -e /usr/local/bin/brew ]; then \
+		echo "TODO is Mac"; \
+	else \
+		echo "Environment not Mac or RHEL"; \
+	fi
+
+.PHONY: setup-environment clean-environment
