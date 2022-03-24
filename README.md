@@ -50,6 +50,8 @@ There are `make` commands that alias some of this functionality:
  * `lint` -- Lints the spec and code
  * `publish` -- Outputs the specification as a **single file** into the `build/` directory
  * `serve` -- Serves a preview of the specification in human-readable format
+ * `setup-environment` -- installs python env for the project
+ * `clean-environment` -- clears the setup-environment
 
 ### Testing
 Each API and team is unique. We encourage you to use a `test/` folder in the root of the project, and use whatever testing frameworks or apps your team feels comfortable with. It is important that the URL your test points to be configurable. We have included some stubs in the Makefile for running tests.
