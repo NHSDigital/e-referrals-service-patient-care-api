@@ -95,3 +95,5 @@ Telling Apigee how to connect to your backend requires a *Target Server*, which 
 Our *Target Servers* defined in the [api-management-infrasture](https://github.com/NHSDigital/api-management-infrastructure) repository.
 
 :bulb: For Sandbox-running environments (`test`) these need to be present for successful deployment but can be set to empty/dummy values.
+
+TODO Remove this sentence;
