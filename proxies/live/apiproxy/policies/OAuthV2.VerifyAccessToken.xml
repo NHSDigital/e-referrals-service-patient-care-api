@@ -1,3 +1,5 @@
 <OAuthV2 async="false" continueOnError="false" enabled="true" name="OauthV2.VerifyAccessToken">
   <Operation>VerifyAccessToken</Operation>
+  <!-- Set Scope to accept only P9 nhs login security level. -->
+  <Scope>urn:nhsd:apim:user-nhs-login:P9:e-referrals-service-patient-care-api</Scope>
 </OAuthV2>

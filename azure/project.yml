@@ -2,3 +2,4 @@ variables:
   service_name: e-referrals-service-patient-care-api
   short_service_name: erspca
   service_base_path: e-referrals-service-patient-care-api
+  product_display_name: e-Referrals-Service-Patient-Care

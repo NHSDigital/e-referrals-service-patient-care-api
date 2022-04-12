@@ -1,22 +1,43 @@
 SERVICE_NAME: e-referrals-service-patient-care-api
 PRODUCT_DISPLAY_NAME: e-referrals-service-patient-care-api
-DESCRIPTION: example description
+DESCRIPTION: e-RS Patient Care API
+
 APIGEE_ENVIRONMENTS:
-  - name: internal-dev
-    display_name: Internal Development
-  - name: internal-dev-sandbox
-    display_name: Internal Development Sandbox
-  - name: internal-qa
-    display_name: Internal QA
-  - name: internal-qa-sandbox
-    display_name: Internal QA Sandbox
-  - name: ref
-    display_name: Reference
-  - name: sandbox
-    display_name: Sandbox
-# Enable int environment when ready by uncommenting:
-#   - name: int
-#     display_name: Integration Testing
+    - name: internal-dev
+      display_name: Internal Development
+    - name: internal-dev-sandbox
+      display_name: Internal Development Sandbox
+    - name: int
+      display_name: Integration Testing
+    - name: internal-qa
+      display_name: Internal QA
+    - name: internal-qa-sandbox
+      display_name: Internal QA Sandbox
+    - name: ref
+      display_name: Reference
+    - name: sandbox
+      display_name: Sandbox
+    - name: prod
+      approval_type: manual
+      display_name: Production
+#      ratelimit: '15000pm'
+#      quota: '7800'
+
+
+INTERNAL_DEV_VARIANTS:
+    - name: alpha
+    - name: rc
+    - name: fix
+    - name: ft01
+      service: fti
+    - name: ft04
+      service: ftiv
+    - name: ft05
+      service: ftv
+    - name: ft09
+      service: ftix
+    - name: ft22
+      service: ftxxii
 ---
 meta:
   api:
@@ -28,12 +49,14 @@ meta:
 apigee:
   environments:
 {% for ENV in APIGEE_ENVIRONMENTS %}
-{% set TITLE = PRODUCT_DISPLAY_NAME + ' (' + ENV.display_name + ' Environment)' %}
+{% set TITLE = 'e-Referral Service Patient Care' %}
 {% set NAME = SERVICE_NAME + '-' + ENV.name %}
+{% if ENV.name == 'internal-dev' %}
   - name: {{ ENV.name }}
     products:
-      - name: {{ NAME }}
-        approvalType: auto
+{% for VARIANT in INTERNAL_DEV_VARIANTS %}
+      - name: {{ SERVICE_NAME }}-{{ VARIANT.service | default(VARIANT.name) }}-{{ ENV.name }}
+        approvalType: {{ ENV.approval_type | default('auto') }}
         attributes:
           - name: access
             value: public
@@ -44,26 +67,84 @@ apigee:
               {{ NAME }}:
                 quota:
                   enabled: true
-                  limit: 300
+                  limit: {{ ENV.quota | default('300') }}
                   interval: 1
                   timeunit: minute
                 spikeArrest:
                   enabled: true
-                  ratelimit: 600pm # 10 requests per second
+                  ratelimit: {{ ENV.ratelimit | default('600pm') }} # 10 requests per second default
               app:
                 quota:
                   enabled: false
                 spikeArrest:
                   enabled: false
         description: {{ DESCRIPTION }}
-        displayName: {{ TITLE }}
+        displayName: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
+        environments: [ {{ ENV.name }} ]
+        proxies:
+          - {{ SERVICE_NAME }}-{{ VARIANT.service | default(VARIANT.name) }}-{{ ENV.name }}
+          - identity-service-{{ ENV.name }}
+          - identity-service-mock-{{ ENV.name }}
+        scopes:
+          - 'urn:nhsd:apim:user-nhs-login:P9:{{ SERVICE_NAME }}'
+{% endfor %}
+    specs:
+{% for VARIANT in INTERNAL_DEV_VARIANTS %}
+      - name: {{ SERVICE_NAME }}-{{ VARIANT.service | default(VARIANT.name) }}-{{ ENV.name }}
+        path: {{ SERVICE_NAME }}.json
+{% endfor %}
+    api_catalog:
+{% for VARIANT in INTERNAL_DEV_VARIANTS %}
+      - edgeAPIProductName: {{ SERVICE_NAME }}-{{ VARIANT.service | default(VARIANT.name) }}-{{ ENV.name }}
+        anonAllowed: true
+        description: {{ DESCRIPTION }} ({{ ENV.display_name}} - {{ VARIANT.name }})
+        requireCallbackUrl: false
+        title: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
+        visibility: false
+        specId: {{ SERVICE_NAME }}-{{ VARIANT.service | default(VARIANT.name) }}-{{ ENV.name }}
+{% endfor %}
+{% else %}
+  - name: {{ ENV.name }}
+    products:
+      - name: {{ NAME }}
+        approvalType: {{ ENV.approval_type | default('auto') }}
+        attributes:
+          - name: access
+            value: public
+            # For a parameterised example of rate limiting per environment,
+            # see https://github.com/NHSDigital/personal-demographics-service-api/blob/master/manifest_template.yml
+          - name: ratelimiting
+            value:
+              {{ NAME }}:
+                quota:
+                  enabled: true
+                  limit: {{ ENV.quota | default('300') }}
+                  interval: 1
+                  timeunit: minute
+                spikeArrest:
+                  enabled: true
+                  ratelimit: {{ ENV.ratelimit | default('600pm') }} # 10 requests per second default
+              app:
+                quota:
+                  enabled: false
+                spikeArrest:
+                  enabled: false
+        description: {{ DESCRIPTION }}
+        displayName: {{ TITLE }} ({{ ENV.display_name }})
         environments: [ {{ ENV.name }} ]
         proxies:
           - {{ NAME }}
           - identity-service-{{ ENV.name }}
+{% if ENV.name == 'int' %}
+          - identity-service-int-no-smartcard
+          - identity-service-mock-{{ ENV.name }}
+{% endif %}
+{% if ENV.name == 'internal-qa' %}
+          - identity-service-{{ ENV.name }}-int
+          - identity-service-mock-{{ ENV.name }}
+{% endif %}
         scopes:
-          - 'urn:nhsd:apim:app:level3:{{ SERVICE_NAME }}'
-          - 'urn:nhsd:apim:user-nhs-id:aal3:{{ SERVICE_NAME }}'
+          - 'urn:nhsd:apim:user-nhs-login:P9:{{ SERVICE_NAME }}'
     specs:
       - name: {{ NAME }}
         path: {{ SERVICE_NAME }}.json
@@ -72,7 +153,8 @@ apigee:
         anonAllowed: true
         description: {{ DESCRIPTION }}
         requireCallbackUrl: false
-        title: {{ TITLE }}
+        title: {{ TITLE }} ({{ ENV.display_name}})
         visibility: false
         specId: {{ NAME }}
+{% endif %}
 {% endfor %}

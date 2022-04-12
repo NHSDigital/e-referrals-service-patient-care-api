@@ -27,32 +27,106 @@ variables:
 extends:
   template: azure/common/apigee-deployment.yml@common
   parameters:
-    service_name: ${{ variables.service_name }} 
-    short_service_name: ${{ variables.short_service_name }} 
-    service_base_path: ${{ variables.service_base_path }} 
+    service_name: ${{ variables.service_name }}
+    short_service_name: ${{ variables.short_service_name }}
+    service_base_path: ${{ variables.service_base_path }}
+    enable_status_monitoring: true
+    manual_approval_env: manual-approval-ptl
     apigee_deployments:
+      - environment: manual-approval
+        stage_name: manual_approval_alpha
       - environment: internal-dev
+        stage_name: ers_alpha_release
+        service_name: "${{ variables.service_name }}-alpha"
+        short_service_name: "${{ variables.short_service_name }}-alpha"
+        service_base_path: "${{ variables.service_base_path }}-alpha"
+        jinja_templates:
+          ERS_TARGET_SERVER: e-referrals-service-patient-care-api--alpha
+          ALLOW_ECHO_TARGET: true
         post_deploy:
-          - template: ./templates/run-smoke-tests.yml
-    #  - environment: internal-qa
-    #    make_spec_visible: true
-    #    post_deploy:
-    #      - template: ./templates/run-smoke-tests.yml
-    #  - environment: internal-qa-sandbox
-    #    proxy_path: sandbox
-    #    make_spec_visible: true
-    #    post_deploy:
-    #      - template: ./templates/run-smoke-tests.yml
-    # make_spec_visible is false for sandbox environment
-    # (App subscription make sense for most sandbox implementations)
-    #  - environment: sandbox
-    #    proxy_path: sandbox
-    #    post_deploy:
-    #      - template: ./templates/run-smoke-tests.yml
-    # Enable int environment when ready by uncommenting:
-    #   - environment: int
-    #     depends_on:
-    #       - internal_qa
-    #       - internal_qa_sandbox
-    #     post_deploy:
-    #       - template: ./templates/run-smoke-tests.yml
+          - template: templates/run-tests.yml
+            parameters:
+              integration_tests: true
+              smoke_tests: true
+        depends_on:
+          - manual_approval_alpha
+      - environment: manual-approval
+        stage_name: manual_approval_rc
+      - environment: internal-dev
+        stage_name: ers_rc_release
+        service_name: "${{ variables.service_name }}-rc"
+        short_service_name: "${{ variables.short_service_name }}-rc"
+        service_base_path: "${{ variables.service_base_path }}-rc"
+        jinja_templates:
+          ERS_TARGET_SERVER: e-referrals-service-patient-care-api--rc
+          ALLOW_ECHO_TARGET: true
+        post_deploy:
+          - template: templates/run-tests.yml
+            parameters:
+                integration_tests: true
+                smoke_tests: true
+        depends_on:
+          - manual_approval_rc
+      - environment: manual-approval
+        stage_name: manual_approval_fix
+      - environment: internal-dev
+        stage_name: ers_fix_release
+        service_name: "${{ variables.service_name }}-fix"
+        short_service_name: "${{ variables.short_service_name }}-fix"
+        service_base_path: "${{ variables.service_base_path }}-fix"
+        jinja_templates:
+          ERS_TARGET_SERVER: e-referrals-service-patient-care-api--fix
+          ALLOW_ECHO_TARGET: true
+        post_deploy:
+          - template: templates/run-tests.yml
+            parameters:
+              integration_tests: true
+              smoke_tests: true
+        depends_on:
+          - manual_approval_fix
+      - environment: manual-approval
+        stage_name: manual_approval_sa
+      - environment: internal-qa
+        stage_name: ers_sa_release
+        post_deploy:
+          - template: templates/run-tests.yml
+            parameters:
+              smoke_tests: true
+        depends_on:
+          - manual_approval_sa
+      - environment: manual-approval
+        stage_name: manual_approval_int
+      - environment: int
+        stage_name: ers_int_release
+        post_deploy:
+          - template: templates/run-tests.yml
+            parameters:
+              smoke_tests: true
+        depends_on:
+          - manual_approval_int
+      - environment: prod
+        stage_name: prod #revert to ers_prod_release when monitoring stack fixed to support it.
+        post_deploy:
+          - template: templates/run-tests.yml
+            parameters:
+              smoke_tests: true
+        depends_on:
+          - ers_sa_release
+      - environment: manual-approval
+        stage_name: manual_approval_nft2
+      - environment: ref
+        stage_name: ers_nft2_release
+        post_deploy:
+          - template: templates/run-tests.yml
+            parameters:
+              smoke_tests: true
+        depends_on:
+          - manual_approval_nft2
+      - environment: internal-qa-sandbox
+        proxy_path: sandbox
+        depends_on:
+          - manual_approval_sa
+      - environment: sandbox
+        proxy_path: sandbox
+        depends_on:
+          - manual_approval_int
