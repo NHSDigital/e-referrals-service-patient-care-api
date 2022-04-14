@@ -1,0 +1,57 @@
+{
+    "resourceType": "HealthcareService",
+    "id": "70000",
+    "identifier": [
+      {
+        "system": "https://fhir.nhs.uk/Id/ers-service",
+        "value": "123"
+      }
+    ],
+    "meta": {
+      "versionId": "2"
+    },
+    "providedBy": {
+      "identifier": {
+        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+        "value": "R69"
+      }
+    },
+    "type": [
+      {
+        "coding": [
+          {
+            "system": "https://fhir.nhs.uk/CodeSystem/eRS-AppointmentType",
+            "code": "DAY_CASE"
+          }
+        ]
+      }
+    ],
+    "specialty": [
+      {
+        "coding": [
+          {
+            "system": "https://fhir.nhs.uk/CodeSystem/eRS-Specialty",
+            "code": "DERMATOLOGY",
+            "display": "Dermatology"
+          }
+        ]
+      }
+    ],
+    "location": [
+      {
+        "identifier": {
+          "system": "https://fhir.nhs.uk/Id/ods-site-code",
+          "value": "R6901"
+        }
+      }
+    ],
+    "name": "Direct SVC 1",
+    "endpoint": [
+      {
+        "identifier": {
+          "system": "https://fhir.nhs.uk/Id/nhsSpineASID",
+          "value": "999900000041"
+        }
+      }
+    ]
+  }

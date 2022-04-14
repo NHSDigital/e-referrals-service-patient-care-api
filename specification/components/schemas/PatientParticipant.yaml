@@ -1,0 +1,18 @@
+title: PatientParticipant
+type: object
+required:
+  - actor
+  - status
+properties:
+  actor:
+    type: object
+    required:
+    - identifier
+    properties:
+      identifier:
+        $ref: identifiers/NhsNumber.yaml
+  status:
+    type: string
+    enum:
+      - accepted
+    example: 'accepted'

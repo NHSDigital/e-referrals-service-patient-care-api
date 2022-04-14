@@ -1,0 +1,22 @@
+type: object
+required:
+  - system
+  - code
+  - display
+properties:
+  system:
+    type: string
+    enum:
+      - 'https://fhir.nhs.uk/CodeSystem/eRS-Priority'
+    example: 'https://fhir.nhs.uk/CodeSystem/eRS-Priority'
+  code:
+    type: string
+    enum:
+      - ROUTINE
+      - URGENT
+      - TWO_WEEK_WAIT
+    example: 'TWO_WEEK_WAIT'
+  display:
+    description: display value of the priority as it is shown on e-RS.
+    type: string
+    example: '2 Week Wait'

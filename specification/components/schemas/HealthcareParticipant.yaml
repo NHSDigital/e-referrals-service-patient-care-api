@@ -1,0 +1,18 @@
+title: HealthcareParticipant
+type: object
+required:
+  - actor
+  - status
+properties:
+  actor:
+    type: object
+    required:
+    - identifier
+    properties:
+      identifier:
+        $ref: identifiers/HealthcareService.yaml
+  status:
+    type: string
+    enum:
+      - accepted
+    example: 'accepted'

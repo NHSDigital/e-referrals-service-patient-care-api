@@ -12,15 +12,17 @@ install-node:
 
 install: install-node install-python .git/hooks/pre-commit
 
-lint:
+lint: copy-examples
 	npm run lint
 	find . -name '*.py' -not -path '**/.venv/*' | xargs poetry run flake8
+	@printf "\nLinting passed.\n\n"
 
-clean:
+clean: 
 	rm -rf build
 	rm -rf dist
+	rm -rf specification/components/examples
 
-publish: clean
+publish: clean copy-examples
 	mkdir -p build
 	npm run publish 2> /dev/null
 
@@ -30,6 +32,9 @@ serve:
 check-licenses:
 	npm run check-licenses
 	scripts/check_python_licenses.sh
+
+copy-examples:
+	scripts/copy_examples_from_sandbox.sh
 
 format:
 	poetry run black **/*.py

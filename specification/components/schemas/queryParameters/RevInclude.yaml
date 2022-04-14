@@ -1,0 +1,24 @@
+in: query
+style: form
+explode: true
+name: _revinclude
+description: |
+  An URL parameter that returns the active Appointment or Task to a Service Request.
+  Please note that '_revinclude' query parameter can be supplied multiple times for example:
+
+  `GET /ServiceRequest
+  ?patient:identifier=https://fhir.nhs.uk/Id/nhs-number|9912003888
+  &category=http://snomed.info/sct|3457005
+  &_revinclude=Appointment:based-on
+  &_revinclude=Task:focus
+required: true
+schema:
+  type: array
+  minItems: 2
+  maxItems: 2
+  items:
+    type: string
+    enum:
+      - 'Appointment:based-on'
+      - 'Task:focus'
+  example: 'Appointment:based-on'

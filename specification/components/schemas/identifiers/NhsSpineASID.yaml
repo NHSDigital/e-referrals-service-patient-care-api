@@ -1,0 +1,13 @@
+type: object
+required:
+  - system
+  - value
+properties:
+  system:
+    type: string
+    enum:
+      - 'https://fhir.nhs.uk/Id/nhsSpineASID'
+    example: 'https://fhir.nhs.uk/Id/nhsSpineASID'
+  value:
+    type: string
+    example: '9912003888'

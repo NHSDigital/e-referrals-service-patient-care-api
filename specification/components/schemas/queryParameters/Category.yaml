@@ -1,0 +1,15 @@
+in: query
+name: category
+description: |
+  Parameter to supply the category, defined as per http://snomed.info/sct. Supported only 'Patient referral', which is the value 3457005.
+required: true
+schema:
+  type: string
+  enum:
+    - '3457005'
+    - 'http://snomed.info/sct|3457005'
+  example: 
+    code:
+      '3457005'
+    systemWithCode:
+     'http://snomed.info/sct|3457005'

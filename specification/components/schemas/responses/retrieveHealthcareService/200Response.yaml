@@ -1,0 +1,16 @@
+description: |
+  The Response contains a Healthcare service.
+headers:
+  x-correlation-id:
+    $ref: '../../headers/response/CorrelationID.yaml'
+  x-request-id: 
+    $ref: '../../headers/response/RequestID.yaml'
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../../HealthcareService.yaml'
+    examples:
+      single:
+        summary: Healthcare service exists 
+        value:
+          $ref: '../../../examples/retrieveHealthcareService/responses/Single.json'

@@ -1,0 +1,14 @@
+title: Extension-ServiceRequest-Priority
+description: Extension to supply the current priority of a ServiceRequest within e-RS
+type: object
+required:
+  - url
+  - valueCoding
+properties:
+  url:
+    type: string
+    enum:
+      - 'https://fhir.nhs.uk/StructureDefinition/Extension-ServiceRequest-Priority'
+    example: 'https://fhir.nhs.uk/StructureDefinition/Extension-ServiceRequest-Priority'
+  valueCoding:
+    $ref: '../codings/Priority.yaml'

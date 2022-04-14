@@ -1,0 +1,75 @@
+type: object
+required: 
+  - id
+  - resourceType
+  - meta
+  - status
+  - basedOn
+  - participant
+properties:
+  id:
+    type: string
+    example: "2c539951-0819-4ffb-ab77-b7cbdc5d9c9a"
+  resourceType:
+    type: string
+    enum:
+      - Appointment
+    example: 'Appointment'  
+  meta:
+    type: object
+    required: 
+      - versionId
+    properties:
+      versionId:
+        type: string
+        example: '5'
+  status:
+    type: string
+    enum:
+      - booked
+    example: 'booked'
+  basedOn:
+    type: array
+    items:
+      type: object
+      required:
+        - reference
+      properties:
+        reference: 
+          type: string
+          example: '_baseUrl_/ServiceRequest/6c2a1f9b-2517-419d-9099-591ba63f176c'
+  start:
+    description: Date time of the current appointment booking.
+    type: string
+    format: date-time
+    example: '2022-03-15T12:17:35.128Z'
+  end:
+    description: The appointment end date time.
+    type: string
+    format: date-time
+    example: '2022-03-15T12:17:35.128Z'
+  slot:
+    type: array
+    minItems: 1
+    maxItems: 1
+    description: When the Healthcare Service is directly bookable then there will be 1 slot, however when it's indirectly bookable then there are no slots.
+    items:
+      type: object
+      required:
+        - identifier
+      properties:
+        identifier:
+          $ref: identifiers/Slot.yaml
+  participant:
+    type: array
+    minItems: 2
+    maxItems: 2
+    description: |
+      | Field                                   | Cardinality | Notes                                      |
+      | --------------------------------------- | ----------- | ------------------------------------------ |
+      | `HealthcareService`                     | `1..1`      |                                            |  
+      | `Patient`                               | `1..1`      |                                            |  
+    items:
+      anyOf:
+        - $ref: HealthcareParticipant.yaml
+        - $ref: PatientParticipant.yaml

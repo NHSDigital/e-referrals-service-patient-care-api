@@ -12,10 +12,67 @@ info:
     url: 'https://digital.nhs.uk/developer/help-and-support'
     email: api.management@nhs.net
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/e-referrals-service-patient-care-api'
+  - url: 'https://sandbox.api.service.nhs.uk/e-referrals-service-patient-care-api/FHIR/R4'
     description: Sandbox environment.
-  - url: 'https://int.api.service.nhs.uk/e-referrals-service-patient-care-api'
+  - url: 'https://int.api.service.nhs.uk/e-referrals-service-patient-care-api/FHIR/R4'
     description: Integration test environment.
-  - url: 'https://api.service.nhs.uk/e-referrals-service-patient-care-api'
+  - url: 'https://api.service.nhs.uk/e-referrals-service-patient-care-api/FHIR/R4'
     description: Production environment.
-paths: {}
+paths:
+  /ServiceRequest:
+    get:
+      parameters: 
+        - $ref: 'components/schemas/queryParameters/Patient.yaml'
+        - $ref: 'components/schemas/queryParameters/Category.yaml'
+        - $ref: 'components/schemas/queryParameters/RevInclude.yaml'
+        - $ref: 'components/schemas/headers/request/CorrelationID.yaml'
+      summary: Retrieve Service Requests
+      description: |
+        ## Overview
+        
+        Use this endpoint to retrieve active referrals for a patient.  You can test the following scenarios in our sandbox environment:
+
+        | Scenario                                    | Request Query Parameters                                                                                                  | Response                                                                |
+        | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------| ----------------------------------------------------------------------- |
+        | Service requests with Appointment and Task  | `patient:identifier`=`9912003888`, `category`=`3457005`, `_revinclude`=`Appointment:based-on`, `_revinclude`=`Task:focus` | Illustrates a Service request with 'Appointment' or 'Task' linked    |
+        | Empty service request search response       | `patient:identifier`=`1000000001`, `category`=`3457005`, `_revinclude`=`Appointment:based-on`, `_revinclude`=`Task:focus` | Illustrates how a 'no service request' response appears.                |
+
+      operationId: a001-retrieve-service-requests
+      responses:
+        '200':
+          $ref: 'components/schemas/responses/retrieveServiceRequests/200Response.yaml'
+        '400':
+          $ref: 'components/schemas/responses/BadRequest.yaml'
+        '403':
+          $ref: 'components/schemas/responses/Forbidden.yaml'
+        '429':
+          $ref: 'components/schemas/responses/TooManyRequests.yaml'
+        '500':
+          $ref: 'components/schemas/responses/InternalServerError.yaml'
+  /HealthcareService/{id}:
+    get:
+      parameters:
+        - $ref: 'components/schemas/path/HealthcareId.yaml'
+        - $ref: 'components/schemas/headers/request/CorrelationID.yaml'
+      operationId: a002-retrieve-healthcare-service
+      summary: Retrieve Healthcare Service
+      description: | 
+        ## Overview
+
+        Use this endpoint to retrieve a specific Healthcare service by their identifier.
+      
+      responses:
+        '200':
+          $ref: 'components/schemas/responses/retrieveHealthcareService/200Response.yaml'
+        '400':
+          $ref: 'components/schemas/responses/BadRequest.yaml'
+        '429':
+          $ref: 'components/schemas/responses/TooManyRequests.yaml'
+        '500':
+          $ref: 'components/schemas/responses/InternalServerError.yaml'
+
+
+          
+        
+
+

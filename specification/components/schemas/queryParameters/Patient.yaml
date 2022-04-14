@@ -1,0 +1,12 @@
+in: query
+name: patient
+description: |
+  Parameter to supply a patient nhs-number.
+required: true
+schema:
+  type: string
+  example: 
+    nhsNumber:
+      '9912003888'
+    systemWithNhsNumber:
+      'https://fhir.nhs.uk/Id/nhs-number|9912003888'

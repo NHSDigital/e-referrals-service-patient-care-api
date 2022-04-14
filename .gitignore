@@ -2,6 +2,7 @@ node_modules/
 bin/
 dist/
 build/
+specification/components/examples/
 public/
 newman/
 .idea
