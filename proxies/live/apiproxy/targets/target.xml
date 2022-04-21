@@ -7,6 +7,10 @@
       <Step>
         <Name>FlowCallout.ApplyRateLimiting</Name>
       </Step>
+      {% if ALLOW_ECHO_TARGET | default(false) == true %} <Step>
+        <Name>AssignMessage.SetEchoTarget</Name>
+        <Condition>(request.header.echo)</Condition>
+      </Step> {% endif %}
     </Request>
   </PreFlow>
   <FaultRules>
@@ -20,24 +24,19 @@
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
     </FaultRule>
   </FaultRules>
-  <!--
-    To point to a named target server as this is how it SHOULD be implemented:
-    For example:
-    <HTTPTargetConnection>
-      <SSLInfo>
+  <HTTPTargetConnection>
+      <SSLInfo>{% if '--ft-' in (ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api')) %}
+        <TrustStore>ref://e-referral-service-ca</TrustStore> {% endif %}
         <Enabled>true</Enabled>
       </SSLInfo>
       <LoadBalancer>
-        <Server name="e-referrals-service-patient-care-api" />
+        <Server name="{{ ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api') }}"/>
       </LoadBalancer>
-    </HTTPTargetConnection>
-  -->
-  <HTTPTargetConnection>
-    <URL>http://mocktarget.apigee.net</URL>
-    <Properties>
-      <Property name="supports.http10">true</Property>
-      <Property name="request.retain.headers">User-Agent,Referer,Accept-Language</Property>
-      <Property name="retain.queryparams">apikey</Property>
-    </Properties>
+      <Path>/v1</Path>
+      <Properties>
+        <Property name="supports.http10">true</Property>
+        <Property name="request.retain.headers">User-Agent,Referer,Accept-Language</Property>
+        <Property name="retain.queryparams">apikey</Property>
+      </Properties>
   </HTTPTargetConnection>
 </TargetEndpoint>
