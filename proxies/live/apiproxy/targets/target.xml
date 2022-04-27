@@ -7,6 +7,9 @@
       <Step>
         <Name>FlowCallout.ApplyRateLimiting</Name>
       </Step>
+      <Step>
+        <Name>AssignMessage.AddBaseUrlHeader</Name>
+      </Step>
       {% if ALLOW_ECHO_TARGET | default(false) == true %} <Step>
         <Name>AssignMessage.SetEchoTarget</Name>
         <Condition>(request.header.echo)</Condition>
