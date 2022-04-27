@@ -32,7 +32,9 @@
       <LoadBalancer>
         <Server name="{{ ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api') }}"/>
       </LoadBalancer>
+{% if '--ft-' not in (ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api')) %}
       <Path>/v1</Path>
+{% endif %}
       <Properties>
         <Property name="supports.http10">true</Property>
         <Property name="request.retain.headers">User-Agent,Referer,Accept-Language</Property>
