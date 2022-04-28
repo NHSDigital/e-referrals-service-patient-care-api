@@ -13,7 +13,7 @@
         <LoadBalancer>
             <Server name="{{ ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api') }}"/>
         </LoadBalancer>
-        <Path>/v1/_ping</Path>
+        <Path>{{ '/_ping' if '--ft-' in (ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api')) else  '/v1/_ping' }}</Path>
     </HTTPTargetConnection>
     <Timeout>20000</Timeout>
 </ServiceCallout>
