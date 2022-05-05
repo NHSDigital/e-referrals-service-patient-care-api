@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Errors.CatchAllMessage">
-  <Set>
-    <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
-    {
+    <Set>
+      <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
+      {
         "resourceType": "OperationOutcome",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/NHSDigital-OperationOutcome"
+          ]
+        },
         "issue": [
-            {
+          {
             "severity": "error",
-            "code": "%error.status.code#",
-            "details": {
-                "coding": [
-                {
-                    "code": "%error.status.code#",
-                    "display": "%error.reason.phrase#"
-                }
-                ]
+            "code": "%erspca.error.code#",
+           "details": {
+              "coding": [
+               {
+                 "system": "https://fhir.nhs.uk/CodeSystem/NHSD-API-ErrorOrWarningCode",
+                 "code": "%erspca.error.coding.code#"
+               }
+              ]
             },
-            "diagnostics": "%error.content#"
-            }
+            "diagnostics": "%erspca.error.diagnostics#",
+            "expression": "%erspca.error.expression#"
+          }
         ]
-    }
+      }
     </Payload>
-    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
-    <AssignTo createNew="false" transport="https" type="request"/>
-  </Set>
+        <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+        <AssignTo createNew="false" transport="https" type="request"/>
+    </Set>
 </AssignMessage>
