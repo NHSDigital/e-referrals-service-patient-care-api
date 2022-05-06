@@ -1,0 +1,80 @@
+title: OperationOutcome
+type: object
+required:
+  - resourceType
+  - meta
+  - issue
+properties:
+  resourceType:
+    type: string
+    enum:
+      - OperationOutcome
+    example: 'OperationOutcome'
+  meta:
+    type: object
+    required:
+      - profile
+      - lastUpdated
+    properties:
+      profile:
+        type: array
+        items:
+          type: string
+          enum:
+            - 'https://fhir.nhs.uk/StructureDefinition/NHSDigital-OperationOutcome'
+          example: 'https://fhir.nhs.uk/StructureDefinition/NHSDigital-OperationOutcome'
+        minItems: 1
+        maxItems: 1
+      lastUpdated:
+        type: string
+        format: date-time
+        example: '2022-03-15T12:17:35.128Z'
+  issue:
+    type: array
+    items:
+      type: object
+      required:
+        - severity
+        - code
+        - details
+        - diagnostics
+      properties:
+        severity:
+          type: string
+          example: 'error'
+        code:
+          type: string
+          enum: 
+            - 'required'
+            - 'not-found'
+            - 'forbidden'
+            - 'exception'
+          example: 'required'
+        diagnostics:
+          type: string
+          example: "Missing mandatory value"
+        expression:
+          type: string
+          example: "http.\"patient:identifer\""
+        details:
+          type: object
+          required:
+            - coding
+          properties:
+            coding:
+              type: array
+              items:
+                type: object
+                required:
+                  - system
+                  - code
+                properties:
+                  system:
+                    type: string
+                    enum:
+                      - 'https://fhir.nhs.uk/CodeSystem/NHSD-API-ErrorOrWarningCode'
+                      - 'https://fhir.nhs.uk/CodeSystem/http-error-codes'
+                    example: 'https://fhir.nhs.uk/CodeSystem/NHSD-API-ErrorOrWarningCode'
+                  code:
+                    type: string
+                    example: 'ACCESS_DENIED'

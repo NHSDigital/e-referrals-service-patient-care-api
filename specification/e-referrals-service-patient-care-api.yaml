@@ -64,8 +64,8 @@ paths:
       responses:
         '200':
           $ref: 'components/schemas/responses/retrieveHealthcareService/200Response.yaml'
-        '400':
-          $ref: 'components/schemas/responses/BadRequest.yaml'
+        '404':
+          $ref: 'components/schemas/responses/retrieveHealthcareService/404Response.yaml'  
         '429':
           $ref: 'components/schemas/responses/TooManyRequests.yaml'
         '500':
