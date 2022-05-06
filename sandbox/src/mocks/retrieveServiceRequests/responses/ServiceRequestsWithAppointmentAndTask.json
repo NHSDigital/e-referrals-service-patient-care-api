@@ -352,9 +352,8 @@
           "code": {
             "coding": [
               {
-                "system": "http://snomed.info/sct",
-                "code": "386053000",
-                "display": "Evaluation procedure"
+                "system": "https://fhir.nhs.uk/CodeSystem/Workflow-Code",
+                "code": "TRIAGE_DEFERRAL"
               }
             ]
           },
