@@ -1,9 +1,10 @@
 description: |
-  Where status code 429 (Too Many Requests) is returned when too many requests received in a given amount of time. An OperationOutcome will be included in the body, as detailed below.
+  Where status code 406 (Not Acceptable) is returned when the request 'Accept' field is present and indicates that the caller cannot accept the format of the response. 
+  An OperationOutcome will be included in the body, as detailed below.
   
   | Error code                         | Description                                                                                                                  |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-  | TOO_MANY_REQUESTS                  | Too many requests received. |
+  | SEND_NOT_ACCEPTABLE                | The 'Accept' is present but the format of the response is not supported for the caller |
 headers:
   x-correlation-id:
     $ref: '../headers/response/CorrelationID.yaml'

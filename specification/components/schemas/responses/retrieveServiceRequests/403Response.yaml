@@ -3,7 +3,7 @@ description: |
   
   | Error code                         | Description                                                                                                                  |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-  | forbidden                          | The user cannot retrieve the requested data. |
+  | REC_FORBIDDEN                      | The user cannot retrieve the requested data. |
 headers:
   x-correlation-id:
     $ref: '../../headers/response/CorrelationID.yaml'

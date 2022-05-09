@@ -4,7 +4,7 @@ description: |
   
   | Error code                         | Description                                                                                                                  |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-  | required                           | Required parameter is missing. |
+  | REC_BAD_REQUEST                    | The request is invalid, a required parameter is missing. |
 headers:
   x-correlation-id:
     $ref: '../../headers/response/CorrelationID.yaml'

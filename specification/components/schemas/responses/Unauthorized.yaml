@@ -1,1 +1,19 @@
-description: Unauthorized
+description: |
+  Where status code 401 (Unauthorized) is returned when there is a failure on the authentication process. An OperationOutcome will be included in the body, as detailed below.
+  
+  | Error code                         | Description                                                                                                                  |
+  | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+  | ACCESS_DENIED                      | Failure in the authentication process. |
+headers:
+  x-correlation-id:
+    $ref: '../headers/response/CorrelationID.yaml'
+  x-request-id:
+    $ref: '../headers/response/RequestID.yaml'
+  Content-Type:
+    $ref: '../headers/response/ContentTypeFhirJson.yaml'
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../OperationOutcome.yaml'
+    example:
+      $ref: '../../examples/OperationOutcome.json'

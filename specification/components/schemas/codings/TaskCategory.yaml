@@ -17,4 +17,4 @@ items:
       enum:
         - 'APPOINTMENT_DEFERRAL'
         - 'TRIAGE_DEFERRAL'
-      example: '413292001'
+      example: 'APPOINTMENT_DEFERRAL'

@@ -3,7 +3,7 @@ description: |
   
   | Error code                         | Description                                                                                                                  |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-  | not-found                          | The healthcare service with the specified ID does not exist |
+  | REC_NOT_FOUND                      | The healthcare service with the specified ID does not exist |
 headers:
   x-correlation-id:
     $ref: '../../headers/response/CorrelationID.yaml'

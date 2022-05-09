@@ -37,7 +37,6 @@ properties:
         - severity
         - code
         - details
-        - diagnostics
       properties:
         severity:
           type: string
@@ -54,8 +53,10 @@ properties:
           type: string
           example: "Missing mandatory value"
         expression:
-          type: string
-          example: "http.\"patient:identifer\""
+          type: array
+          items:
+            type: string
+            example: "http.\"patient:identifer\""
         details:
           type: object
           required:

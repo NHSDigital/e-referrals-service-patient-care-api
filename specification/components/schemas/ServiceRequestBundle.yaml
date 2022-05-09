@@ -67,7 +67,7 @@ properties:
           example: 'self'
         url:
           type: string
-          example: '_baseUrl_/FHIR/R4/ServiceRequest?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C9912003888&category=http%3A%2F%2Fsnomed.info%2Fsct%7C3457005&_revinclude=Task%3Afocus&_revinclude=Appointment%3Abased-on&_revinclude=Task%3Afocus'
+          example: '_baseUrl_/ServiceRequest?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C9912003888&category=http%3A%2F%2Fsnomed.info%2Fsct%7C3457005&_revinclude=Task%3Afocus&_revinclude=Appointment%3Abased-on&_revinclude=Task%3Afocus'
   entry:
     type: array
     description: |
@@ -89,7 +89,7 @@ properties:
           properties:
             fullUrl:
               type: string
-              example: '_baseUrl_/FHIR/R4/ServiceRequest/6c2a1f9b-2517-419d-9099-591ba63f176c'
+              example: '_baseUrl_/ServiceRequest/6c2a1f9b-2517-419d-9099-591ba63f176c'
             resource:
               $ref: 'ServiceRequest.yaml'
             search:
@@ -113,7 +113,7 @@ properties:
           properties:
             fullUrl:
               type: string
-              example: '_baseUrl_/FHIR/R4/Appointment/2c539951-0819-4ffb-ab77-b7cbdc5d9c9a'
+              example: '_baseUrl_/Appointment/2c539951-0819-4ffb-ab77-b7cbdc5d9c9a'
             resource:
               $ref: 'Appointment.yaml'
             search:
@@ -137,7 +137,7 @@ properties:
           properties:
             fullUrl:
               type: string
-              example: '_baseUrl_/FHIR/R4/Task/9f7d3feb-5442-4df7-83ef-7afd2e99f0e5'
+              example: '_baseUrl_/Task/9f7d3feb-5442-4df7-83ef-7afd2e99f0e5'
             resource:
               $ref: 'Task.yaml'
             search:

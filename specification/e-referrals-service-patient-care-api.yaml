@@ -42,13 +42,19 @@ paths:
         '200':
           $ref: 'components/schemas/responses/retrieveServiceRequests/200Response.yaml'
         '400':
-          $ref: 'components/schemas/responses/BadRequest.yaml'
+          $ref: 'components/schemas/responses/retrieveServiceRequests/400Response.yaml'
+        '401':
+          $ref: 'components/schemas/responses/Unauthorized.yaml'
         '403':
-          $ref: 'components/schemas/responses/Forbidden.yaml'
+          $ref: 'components/schemas/responses/retrieveServiceRequests/403Response.yaml'
+        '406':
+          $ref: 'components/schemas/responses/SendNotAcceptable.yaml'
         '429':
           $ref: 'components/schemas/responses/TooManyRequests.yaml'
         '500':
           $ref: 'components/schemas/responses/InternalServerError.yaml'
+        '504':
+          $ref: 'components/schemas/responses/GatewayTimeout.yaml'
   /FHIR/R4/HealthcareService/{id}:
     get:
       parameters:
@@ -64,12 +70,18 @@ paths:
       responses:
         '200':
           $ref: 'components/schemas/responses/retrieveHealthcareService/200Response.yaml'
+        '401':
+          $ref: 'components/schemas/responses/Unauthorized.yaml'
         '404':
           $ref: 'components/schemas/responses/retrieveHealthcareService/404Response.yaml'  
+        '406':
+          $ref: 'components/schemas/responses/SendNotAcceptable.yaml'
         '429':
           $ref: 'components/schemas/responses/TooManyRequests.yaml'
         '500':
           $ref: 'components/schemas/responses/InternalServerError.yaml'
+        '504':
+          $ref: 'components/schemas/responses/GatewayTimeout.yaml'
 
 
           
