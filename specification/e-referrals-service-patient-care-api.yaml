@@ -12,14 +12,14 @@ info:
     url: 'https://digital.nhs.uk/developer/help-and-support'
     email: api.management@nhs.net
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/e-referrals-service-patient-care-api/FHIR/R4'
+  - url: 'https://sandbox.api.service.nhs.uk/e-referrals-service-patient-care-api'
     description: Sandbox environment.
-  - url: 'https://int.api.service.nhs.uk/e-referrals-service-patient-care-api/FHIR/R4'
+  - url: 'https://int.api.service.nhs.uk/e-referrals-service-patient-care-api'
     description: Integration test environment.
-  - url: 'https://api.service.nhs.uk/e-referrals-service-patient-care-api/FHIR/R4'
+  - url: 'https://api.service.nhs.uk/e-referrals-service-patient-care-api'
     description: Production environment.
 paths:
-  /ServiceRequest:
+  /FHIR/R4/ServiceRequest:
     get:
       parameters: 
         - $ref: 'components/schemas/queryParameters/Patient.yaml'
@@ -49,7 +49,7 @@ paths:
           $ref: 'components/schemas/responses/TooManyRequests.yaml'
         '500':
           $ref: 'components/schemas/responses/InternalServerError.yaml'
-  /HealthcareService/{id}:
+  /FHIR/R4/HealthcareService/{id}:
     get:
       parameters:
         - $ref: 'components/schemas/path/HealthcareId.yaml'

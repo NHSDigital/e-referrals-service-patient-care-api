@@ -9,7 +9,7 @@
   "link": [
       {
           "relation": "self",
-          "url": "_baseUrl_/ServiceRequest?subject:identifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C9912003888&category=http%3A%2F%2Fsnomed.info%2Fsct%7C3457005&_count=10&_skip=0&_revinclude=Appointment:based-on&_revinclude=Task:focus"
+          "url": "_baseUrl_/FHIR/R4/ServiceRequest?subject:identifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C9912003888&category=http%3A%2F%2Fsnomed.info%2Fsct%7C3457005&_count=10&_skip=0&_revinclude=Appointment:based-on&_revinclude=Task:focus"
       }
   ],
   "id": "d9126546-3492-4086-a810-8ad91e788158"

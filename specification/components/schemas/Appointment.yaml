@@ -47,7 +47,7 @@ properties:
       properties:
         reference: 
           type: string
-          example: '_baseUrl_/ServiceRequest/6c2a1f9b-2517-419d-9099-591ba63f176c'
+          example: '_baseUrl_/FHIR/R4/ServiceRequest/6c2a1f9b-2517-419d-9099-591ba63f176c'
   start:
     description: Date time of the current appointment booking.
     type: string

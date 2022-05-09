@@ -44,7 +44,7 @@ properties:
     properties:
       reference:
         type: string
-        example: "_baseUrl_/ServiceRequest/eb13327f-e990-4667-b37a-89eb93a94c47"
+        example: "_baseUrl_/FHIR/R4/ServiceRequest/eb13327f-e990-4667-b37a-89eb93a94c47"
   for:
     type: object
     required:
