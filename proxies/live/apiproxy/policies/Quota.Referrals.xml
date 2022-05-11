@@ -1,5 +1,5 @@
 <Quota name="Quota.Referrals">
-    <Internal>8</Internal>
+    <Interval>8</Interval>
     <TimeUnit>hour</TimeUnit>
     <Allow countRef="app.quota.referralLimit"/>
 </Quota>
