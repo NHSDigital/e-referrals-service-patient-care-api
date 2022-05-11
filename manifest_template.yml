@@ -5,12 +5,24 @@ DESCRIPTION: e-RS Patient Care API
 APIGEE_ENVIRONMENTS:
     - name: internal-dev
       display_name: Internal Development
+      quota_referral_limit: 288000
+      quota_general_limit: 288000
+      spikearrest_referral_limit: 660pm
+      spikearrest_general_limit: 660pm
     - name: internal-dev-sandbox
       display_name: Internal Development Sandbox
     - name: int
       display_name: Integration Testing
+      quota_referral_limit: 288000
+      quota_general_limit: 288000
+      spikearrest_referral_limit: 660pm
+      spikearrest_general_limit: 660pm
     - name: internal-qa
       display_name: Internal QA
+      quota_referral_limit: 288000
+      quota_general_limit: 288000
+      spikearrest_referral_limit: 660pm
+      spikearrest_general_limit: 660pm
     - name: internal-qa-sandbox
       display_name: Internal QA Sandbox
     - name: ref
@@ -20,9 +32,6 @@ APIGEE_ENVIRONMENTS:
     - name: prod
       approval_type: manual
       display_name: Production
-#      ratelimit: '15000pm'
-#      quota: '7800'
-
 
 INTERNAL_DEV_VARIANTS:
     - name: alpha
@@ -60,24 +69,14 @@ apigee:
         attributes:
           - name: access
             value: public
-            # For a parameterised example of rate limiting per environment,
-            # see https://github.com/NHSDigital/personal-demographics-service-api/blob/master/manifest_template.yml
-          - name: ratelimiting
-            value:
-              {{ NAME }}:
-                quota:
-                  enabled: true
-                  limit: {{ ENV.quota | default('300') }}
-                  interval: 1
-                  timeunit: minute
-                spikeArrest:
-                  enabled: true
-                  ratelimit: {{ ENV.ratelimit | default('600pm') }} # 10 requests per second default
-              app:
-                quota:
-                  enabled: false
-                spikeArrest:
-                  enabled: false
+          - name: app.quota.referralLimit
+            value: {{ ENV.quota_referral_limit | default('2880000') }}
+          - name: app.quota.generalLimit
+            value: {{ ENV.quota_general_limit | default('2880000') }}
+          - name: app.spikeArrest.referralLimit
+            value: {{ ENV.spikearrest_referral_limit | default('6300pm') }}
+          - name: app.spikeArrest.generalLimit
+            value: {{ ENV.spikearrest_general_limit | default('6300pm') }}
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
         environments: [ {{ ENV.name }} ]

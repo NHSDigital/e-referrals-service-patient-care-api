@@ -1,0 +1,5 @@
+<Quota name="Quota.General">
+    <Internal>8</Internal>
+    <TimeUnit>hour</TimeUnit>
+    <Allow count="2880000" countRef="app.quota.generalLimit"/>
+</Quota>

@@ -5,9 +5,6 @@
         <Name>OauthV2.VerifyAccessToken</Name>
       </Step>
       <Step>
-        <Name>FlowCallout.ApplyRateLimiting</Name>
-      </Step>
-      <Step>
         <Name>AssignMessage.AddBaseUrlHeader</Name>
       </Step>
       <Step>
@@ -54,6 +51,30 @@
             </Step>
         </Response>
   </PreFlow>
+  <Flows>
+    <Flow name="ReferralRateLimiting">
+      <Step>
+         <Name>SpikeArrest.Referrals</Name>
+      </Step>
+      <Step>
+        <Name>Quota.Referrals</Name>
+      </Step>
+      <Condition>
+        (proxy.pathsuffix MatchesPath "/ServiceRequest")
+      </Condition>
+    </Flow>
+    <Flow name="GeneralRateLimiting">
+      <Step>
+        <Name>SpikeArrest.General</Name>
+      </Step>
+      <Step>
+        <Name>Quota.General</Name>
+      </Step>
+      <Condition>
+        (not(proxy.pathsuffix MatchesPath "/ServiceRequest"))
+      </Condition>
+    </Flow>
+  </Flows>
   <FaultRules>
     <FaultRule name="access_token_expired">
       <Step>

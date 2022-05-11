@@ -1,0 +1,4 @@
+<SpikeArrest name="SpikeArrest.Referrals">
+    <Rate ref="app.spikeArrest.generalLimit">6300pm</Rate>
+    <UseEffectiveCount>true</UseEffectiveCount>
+</SpikeArrest>
