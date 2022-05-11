@@ -5,9 +5,6 @@
         <Name>OauthV2.VerifyAccessToken</Name>
       </Step>
       <Step>
-        <Name>FlowCallout.ApplyRateLimiting</Name>
-      </Step>
-      <Step>
         <Name>AssignMessage.AddBaseUrlHeader</Name>
       </Step>
       <Step>
@@ -27,6 +24,9 @@
       </Step>
       <Step>
         <Name>AssignMessage.Remove.x-request-id-header</Name>
+      </Step>
+      <Step>
+        <Name>javascript.SetCurrentTimestamp</Name>
       </Step>
       {% if ALLOW_ECHO_TARGET | default(false) == true %} <Step>
         <Name>AssignMessage.SetEchoTarget</Name>
@@ -54,6 +54,36 @@
             </Step>
         </Response>
   </PreFlow>
+  <Flows>
+    <Flow name="ReferralRateLimiting">
+      <Request>
+        <Step>
+          <Name>SpikeArrest.Referrals</Name>
+        </Step>
+        <Step>
+          <Name>Quota.Referrals</Name>
+        </Step>
+      </Request>
+      <Condition>
+        (proxy.pathsuffix MatchesPath "/FHIR/R4/ServiceRequest")
+      </Condition>
+    </Flow>
+    <!--Captures any calls which are not hitting the ServiceRequest endpoint which would include both the HealthcareService endpoint and any unknown paths. As the client will have already been authenticated 
+    before hitting this flow capturing calls to unknown paths with the same rate limiting being applied to the HealthcareService path is thought to be acceptable.-->
+    <Flow name="GeneralRateLimiting">
+      <Request>
+        <Step>
+          <Name>SpikeArrest.General</Name>
+        </Step>
+        <Step>
+          <Name>Quota.General</Name>
+        </Step>
+      </Request>
+      <Condition>
+        (not(proxy.pathsuffix MatchesPath "/FHIR/R4/ServiceRequest"))
+      </Condition>
+    </Flow>
+  </Flows>
   <FaultRules>
     <FaultRule name="access_token_expired">
       <Step>
@@ -63,6 +93,18 @@
         <Name>AssignMessage.OAuthPolicyErrorResponse</Name>
       </Step>
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
+    </FaultRule>
+    <FaultRule name="quota_violation">
+      <Step>
+        <Name>AssignMessage.RatelimitResponse</Name>
+      </Step>
+      <Condition>(ratelimit.Quota.Referrals.failed = true) or (ratelimit.Quota.General.failed = true)</Condition>
+    </FaultRule>
+    <FaultRule name="spikeArrest_violation">
+      <Step>
+        <Name>AssignMessage.RatelimitResponse</Name>
+      </Step>
+      <Condition>(ratelimit.SpikeArrest.Referrals.failed = true) or (ratelimit.SpikeArrest.General.failed = true) </Condition>
     </FaultRule>
   </FaultRules>
   <HTTPTargetConnection>

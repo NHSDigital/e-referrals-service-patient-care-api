@@ -1,0 +1,7 @@
+<Quota name="Quota.General" type="rollingwindow">
+    <Interval>8</Interval>
+    <TimeUnit>hour</TimeUnit>
+    <Allow countRef="apiproduct.requestLimit_general"/>
+    <Distributed>true</Distributed>
+    <Synchronous>false</Synchronous>
+</Quota>
