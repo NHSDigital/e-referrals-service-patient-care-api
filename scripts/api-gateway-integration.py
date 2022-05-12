@@ -32,8 +32,8 @@ def main():
     openapi_spec = json.load(sys.stdin)
 
     paths = openapi_spec["paths"]
-    paths["/ServiceRequest"]["get"]["x-amazon-apigateway-integration"] = ServiceRequestIntegration
-    paths["/HealthcareService/{id}"]["get"]["x-amazon-apigateway-integration"] = HealthcareServiceIntegration
+    paths["/FHIR/R4/ServiceRequest"]["get"]["x-amazon-apigateway-integration"] = ServiceRequestIntegration
+    paths["/FHIR/R4/HealthcareService/{id}"]["get"]["x-amazon-apigateway-integration"] = HealthcareServiceIntegration
 
     sys.stdout.write(json.dumps(openapi_spec, indent=2))
     sys.stdout.close()
