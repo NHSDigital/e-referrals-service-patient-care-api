@@ -1,9 +1,9 @@
 description: |
-  Where status code 429 (Too Many Requests) is returned when too many requests received in a given amount of time. An OperationOutcome will be included in the body, as detailed below.
+  Where status code 504 (Gateway Timeout) is returned then an OperationOutcome will be included in the body. An OperationOutcome will be included in the body, as detailed below.
   
   | Error code                         | Description                                                                                                                  |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-  | TOO_MANY_REQUESTS                  | Too many requests received. |
+  | GATEWAY_TIMEOUT                    | The API operation took too long. |
 headers:
   x-correlation-id:
     $ref: '../headers/response/CorrelationID.yaml'

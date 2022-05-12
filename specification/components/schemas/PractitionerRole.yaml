@@ -5,6 +5,7 @@ required:
   - id
   - practitioner
   - organization
+  - meta
 properties:
   resourceType: 
     type: string
@@ -29,3 +30,17 @@ properties:
     properties:
       identifier:
         $ref: identifiers/OdsOrganizationCode.yaml
+  meta:
+    type: object
+    required:
+      - profile
+    properties:
+      profile:
+        type: array
+        items:
+          type: string
+          enum:
+            - 'https://fhir.nhs.uk/StructureDefinition/NHSDigital-PractitionerRole-Minimal'
+          example: 'https://fhir.nhs.uk/StructureDefinition/NHSDigital-PractitionerRole-Minimal'
+        minItems: 1
+        maxItems: 1 
