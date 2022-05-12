@@ -69,13 +69,13 @@ apigee:
         attributes:
           - name: access
             value: public
-          - name: app.quota.referralLimit
+          - name: quota_referralLimit
             value: {{ ENV.quota_referral_limit | default('2880000') }}
-          - name: app.quota.generalLimit
+          - name: quota_generalLimit
             value: {{ ENV.quota_general_limit | default('2880000') }}
-          - name: app.spikeArrest.referralLimit
+          - name: spikeArrest_referralLimit
             value: {{ ENV.spikearrest_referral_limit | default('6300pm') }}
-          - name: app.spikeArrest.generalLimit
+          - name: spikeArrest_generalLimit
             value: {{ ENV.spikearrest_general_limit | default('6300pm') }}
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
@@ -110,13 +110,13 @@ apigee:
         attributes:
           - name: access
             value: public
-          - name: app.quota.referralLimit
+          - name: quota_referralLimit
             value: {{ ENV.quota_referral_limit | default('2880000') }}
-          - name: app.quota.generalLimit
+          - name: quota_generalLimit
             value: {{ ENV.quota_general_limit | default('2880000') }}
-          - name: app.spikeArrest.referralLimit
+          - name: spikeArrest_referralLimit
             value: {{ ENV.spikearrest_referral_limit | default('6300pm') }}
-          - name: app.spikeArrest.generalLimit
+          - name: spikeArrest_generalLimit
             value: {{ ENV.spikearrest_general_limit | default('6300pm') }}
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name }})

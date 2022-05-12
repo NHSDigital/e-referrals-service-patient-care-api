@@ -1,4 +1,4 @@
 <SpikeArrest name="SpikeArrest.Referrals">
-    <Rate ref="app.spikeArrest.referralLimit" />
+    <Rate ref="spikeArrest_referralLimit" />
     <UseEffectiveCount>true</UseEffectiveCount>
 </SpikeArrest>

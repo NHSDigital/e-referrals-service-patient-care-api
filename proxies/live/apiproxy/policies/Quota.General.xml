@@ -1,5 +1,5 @@
 <Quota name="Quota.General">
     <Interval>8</Interval>
     <TimeUnit>hour</TimeUnit>
-    <Allow countRef="app.quota.generalLimit"/>
+    <Allow countRef="quota_generalLimit"/>
 </Quota>
