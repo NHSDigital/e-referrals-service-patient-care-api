@@ -26,6 +26,15 @@ publish: clean copy-examples
 	mkdir -p build
 	npm run publish 2> /dev/null
 
+publish-aws: clean copy-examples
+	mkdir -p build
+	npm run publish-aws 2> /dev/null
+
+publish-all: clean copy-examples
+	mkdir -p build
+	npm run publish 2> /dev/null
+	npm run publish-aws 2> /dev/null
+
 serve:
 	npm run serve
 
