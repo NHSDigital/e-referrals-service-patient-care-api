@@ -1,0 +1,20 @@
+description: |
+  Where status code 400 (Bad Request) is returned then an OperationOutcome will be included in the body, as detailed below. 
+  Check diagnostics property for specific information regarding the error.
+  
+  | Error code                         | Description                                                                                                                  |
+  | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+  | REC_BAD_REQUEST                    | The request is invalid, a required parameter is missing. |
+headers:
+  x-correlation-id:
+    $ref: '../../headers/response/CorrelationID.yaml'
+  x-request-id:
+    $ref: '../../headers/response/RequestID.yaml'
+  Content-Type:
+    $ref: '../../headers/response/ContentTypeFhirJson.yaml'
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../../OperationOutcome.yaml'
+    example:
+      $ref: '../../../examples/OperationOutcome.json'

@@ -1,0 +1,19 @@
+description: |
+  Where status code 403 (Forbidden) is returned then an OperationOutcome will be included in the body, as detailed below.
+  
+  | Error code                         | Description                                                                                                                  |
+  | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+  | REC_FORBIDDEN                      | The user cannot retrieve the requested data. |
+headers:
+  x-correlation-id:
+    $ref: '../../headers/response/CorrelationID.yaml'
+  x-request-id:
+    $ref: '../../headers/response/RequestID.yaml'
+  Content-Type:
+    $ref: '../../headers/response/ContentTypeFhirJson.yaml'
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../../OperationOutcome.yaml'
+    example:
+      $ref: '../../../examples/OperationOutcome.json'

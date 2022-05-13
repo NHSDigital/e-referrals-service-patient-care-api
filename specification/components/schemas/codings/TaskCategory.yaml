@@ -6,22 +6,15 @@ items:
   required:
     - system
     - code
-    - display
   properties:
     system:
       type: string
       enum:
-        - 'http://snomed.info/sct'
-      example: 'http://snomed.info/sct'
+        - 'https://fhir.nhs.uk/CodeSystem/Workflow-Code'
+      example: 'https://fhir.nhs.uk/CodeSystem/Workflow-Code'
     code:
       type: string
       enum:
-        - '413292001'
-        - '386053000'
-      example: '413292001'
-    display:
-      type: string
-      enum:
-        - 'Assessment for referral'
-        - 'Evaluation procedure'
-      example: 'Assessment for referral'
+        - 'APPOINTMENT_DEFERRAL'
+        - 'TRIAGE_DEFERRAL'
+      example: 'APPOINTMENT_DEFERRAL'

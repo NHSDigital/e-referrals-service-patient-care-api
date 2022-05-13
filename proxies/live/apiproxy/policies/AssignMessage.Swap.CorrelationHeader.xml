@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Swap.CorrelationHeader">
+  <Set>
+    <Headers>
+      <Header name="nhsd-correlation-id">{message.header.x-correlation-id}.{messageid}</Header>
+    </Headers>
+  </Set>
+  <Remove>
+    <Headers>
+      <Header name="x-correlation-id"/>
+    </Headers>
+  </Remove>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <AssignTo createNew="false"/>
+</AssignMessage>

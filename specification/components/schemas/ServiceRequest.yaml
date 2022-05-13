@@ -20,10 +20,20 @@ properties:
     type: object
     required: 
       - versionId
+      - profile
     properties:
       versionId:
         type: string
         example: '4'
+      profile:
+        type: array
+        items:
+          type: string
+          enum:
+            - 'https://fhir.nhs.uk/StructureDefinition/NHSDigital-ServiceRequest-PatientCare'
+          example: 'https://fhir.nhs.uk/StructureDefinition/NHSDigital-ServiceRequest-PatientCare'
+        minItems: 1
+        maxItems: 1
   resourceType:
     type: string
     enum: 

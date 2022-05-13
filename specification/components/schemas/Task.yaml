@@ -81,7 +81,17 @@ properties:
     type: object
     required: 
       - versionId
+      - profile
     properties:
       versionId:
         type: string
         example: '2'
+      profile:
+        type: array
+        items:
+          type: string
+          enum:
+            - 'https://fhir.nhs.uk/StructureDefinition/NHSDigital-Task-PatientCare'
+          example: 'https://fhir.nhs.uk/StructureDefinition/NHSDigital-Task-PatientCare'
+        minItems: 1
+        maxItems: 1 

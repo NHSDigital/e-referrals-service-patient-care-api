@@ -1,1 +1,19 @@
-description: Internal Server Error
+description: |
+  Where status code 500 (Internal Server Error) is returned then an OperationOutcome will be included in the body. An OperationOutcome will be included in the body, as detailed below.
+  
+  | Error code                         | Description                                                                                                                  |
+  | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+  | REC_SERVER_ERROR                   | There was an error in the server. |
+headers:
+  x-correlation-id:
+    $ref: '../headers/response/CorrelationID.yaml'
+  x-request-id:
+    $ref: '../headers/response/RequestID.yaml'
+  Content-Type:
+    $ref: '../headers/response/ContentTypeFhirJson.yaml'
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../OperationOutcome.yaml'
+    example:
+      $ref: '../../examples/OperationOutcome.json'

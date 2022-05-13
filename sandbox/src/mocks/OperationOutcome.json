@@ -1,0 +1,27 @@
+{
+	"meta": {
+		"lastUpdated": "2022-05-09T08:30:46.262Z",
+		"profile": [
+			"https://fhir.nhs.uk/StructureDefinition/NHSDigital-OperationOutcome"
+		]
+	},
+	"resourceType": "OperationOutcome",
+	"issue": [
+		{
+			"severity": "error",
+			"code": "required",
+			"diagnostics": "Missing mandatory value",
+			"details": {
+				"coding": [
+					{
+						"system": "https://fhir.nhs.uk/CodeSystem/http-error-codes",
+						"code": "REC_BAD_REQUEST"
+					}
+				]
+			},
+			"expression": [
+				"http.\"category\""
+			]
+		}
+	]
+}

@@ -6,7 +6,6 @@ items:
   required:
     - system
     - code
-    - display
   properties:
     system:
       type: string
@@ -16,6 +15,3 @@ items:
     code:
       type: string
       example: '3457005'
-    display:
-      type: string
-      example: 'Patient referral'

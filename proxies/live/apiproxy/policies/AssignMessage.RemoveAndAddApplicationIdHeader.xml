@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.RemoveAndAddApplicationIdHeader">
+  <Set>
+    <Headers>
+      <Header name="nhsd-application-id">{developer.app.id}</Header>
+    </Headers>
+  </Set>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignTo createNew="false"/>
+</AssignMessage>
