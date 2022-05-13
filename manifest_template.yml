@@ -7,22 +7,22 @@ APIGEE_ENVIRONMENTS:
       display_name: Internal Development
       quota_referral_limit: '288000'
       quota_general_limit: '288000'
-      spikearrest_referral_limit: '660pm'
-      spikearrest_general_limit: '660pm'
+      spikeArrest_referral_limit: '660pm'
+      spikeArrest_general_limit: '660pm'
     - name: internal-dev-sandbox
       display_name: Internal Development Sandbox
     - name: int
       display_name: Integration Testing
       quota_referral_limit: '288000'
       quota_general_limit: '288000'
-      spikearrest_referral_limit: '660pm'
-      spikearrest_general_limit: '660pm'
+      spikeArrest_referral_limit: '660pm'
+      spikeArrest_general_limit: '660pm'
     - name: internal-qa
       display_name: Internal QA
       quota_referral_limit: '288000'
       quota_general_limit: '288000'
-      spikearrest_referral_limit: '660pm'
-      spikearrest_general_limit: '660pm'
+      spikeArrest_referral_limit: '660pm'
+      spikeArrest_general_limit: '660pm'
     - name: internal-qa-sandbox
       display_name: Internal QA Sandbox
     - name: ref
@@ -70,13 +70,13 @@ apigee:
           - name: access
             value: public
           - name: quota_referralLimit
-            value: {{ ENV.quota_referral_limit | default('2880000') }}
+            value: '10'
           - name: quota_generalLimit
-            value: {{ ENV.quota_general_limit | default('2880000') }}
+            value: '10'
           - name: spikeArrest_referralLimit
-            value: {{ ENV.spikearrest_referral_limit | default('6300pm') }}
+            value: 1pm
           - name: spikeArrest_generalLimit
-            value: {{ ENV.spikearrest_general_limit | default('6300pm') }}
+            value: 1pm
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
         environments: [ {{ ENV.name }} ]
@@ -111,13 +111,13 @@ apigee:
           - name: access
             value: public
           - name: quota_referralLimit
-            value: {{ ENV.quota_referral_limit | default('2880000') }}
+            value: '10'
           - name: quota_generalLimit
-            value: {{ ENV.quota_general_limit | default('2880000') }}
+            value: '10'
           - name: spikeArrest_referralLimit
-            value: {{ ENV.spikearrest_referral_limit | default('6300pm') }}
+            value: 1pm
           - name: spikeArrest_generalLimit
-            value: {{ ENV.spikearrest_general_limit | default('6300pm') }}
+            value: 1pm
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name }})
         environments: [ {{ ENV.name }} ]
