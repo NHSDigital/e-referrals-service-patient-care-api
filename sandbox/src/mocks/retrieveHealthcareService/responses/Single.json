@@ -8,7 +8,8 @@
       }
     ],
     "meta": {
-      "versionId": "2"
+      "versionId": "2",
+      "profile": ["https://fhir.nhs.uk/StructureDefinition/NHSDigital-HealthcareService-PatientCare"]
     },
     "providedBy": {
       "identifier": {
