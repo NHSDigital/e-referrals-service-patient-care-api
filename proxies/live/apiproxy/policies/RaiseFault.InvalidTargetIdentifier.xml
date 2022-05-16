@@ -23,7 +23,7 @@
     </AssignVariable>
     <AssignVariable>
       <Name>erspca.error.expression</Name>
-      <Value>http.&quot;NHSD-Target-Identifier&quot;</Value>
+      <Value>http."NHSD-Target-Identifier"</Value>
     </AssignVariable>
   </FaultResponse>
   <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>

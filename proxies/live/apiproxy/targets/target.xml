@@ -2,6 +2,9 @@
   <PreFlow>
     <Request>
       <Step>
+        <Name>javascript.SetCurrentTimestamp</Name>
+      </Step>
+      <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
       </Step>
       <Step>
@@ -24,9 +27,6 @@
       </Step>
       <Step>
         <Name>AssignMessage.Remove.x-request-id-header</Name>
-      </Step>
-      <Step>
-        <Name>javascript.SetCurrentTimestamp</Name>
       </Step>
       {% if ALLOW_ECHO_TARGET | default(false) == true %} <Step>
         <Name>AssignMessage.SetEchoTarget</Name>
@@ -80,7 +80,7 @@
         (proxy.pathsuffix MatchesPath "/FHIR/R4/ServiceRequest")
       </Condition>
     </Flow>
-    <!--Captures any calls which are not hitting the ServiceRequest endpoint which would include both the HealthcareService endpoint and any unknown paths. As the client will have already been authenticated 
+    <!--Captures any calls which are not hitting the ServiceRequest endpoint which would include both the HealthcareService endpoint and any unknown paths. As the client will have already been authenticated
     before hitting this flow capturing calls to unknown paths with the same rate limiting being applied to the HealthcareService path is thought to be acceptable.-->
     <Flow name="GeneralRateLimiting">
       <Request>
@@ -149,7 +149,8 @@
             <Condition>(response.header.nhsd-correlation-id ~~ ".+")</Condition>
         </Step>
         <Step>
-            <Name>AssignMessage.Errors.CatchAllMessage</Name>
+            <Name>AssignMessage.Errors.CatchAllTarget</Name>
+            <Condition>erspca.error.code != null</Condition>
         </Step>
     </DefaultFaultRule>
 </TargetEndpoint>

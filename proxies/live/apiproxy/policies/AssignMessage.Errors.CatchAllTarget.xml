@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Errors.CatchAllTarget">
+    <Set>
+      <Payload contentType="application/fhir+json" variablePrefix="%" variableSuffix="#">
+      {
+        "resourceType": "OperationOutcome",
+        "meta": {
+          "lastUpdated": "%current_timestamp#",
+          "profile": [
+            "https://fhir.nhs.uk/StructureDefinition/NHSDigital-OperationOutcome"
+          ]
+        },
+        "issue": [
+          {
+            "severity": "error",
+            "code": "%erspca.error.code#",
+           "details": {
+              "coding": [
+               {
+                 "system": "https://fhir.nhs.uk/CodeSystem/NHSD-API-ErrorOrWarningCode",
+                 "code": "%erspca.error.coding.code#"
+               }
+              ]
+            },
+            "diagnostics": "%erspca.error.diagnostics#",
+            "expression": "%escapeJSON(erspca.error.expression)#"
+          }
+        ]
+      }
+    </Payload>
+        <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+        <AssignTo createNew="false" transport="https" type="request"/>
+    </Set>
+</AssignMessage>
