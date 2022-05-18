@@ -1,0 +1,4 @@
+<SpikeArrest name="SpikeArrest.General">
+    <Rate ref="apiproduct.burstLimit_general" />
+    <UseEffectiveCount>true</UseEffectiveCount>
+</SpikeArrest>

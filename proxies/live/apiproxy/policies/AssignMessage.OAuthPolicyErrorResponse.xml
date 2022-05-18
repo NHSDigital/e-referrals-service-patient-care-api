@@ -1,23 +1,28 @@
 <AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.OAuthPolicyErrorResponse">
   <Set>
     <StatusCode>401</StatusCode>
-    <Payload contentType="application/json">
+    <Payload contentType="application/fhir+json" variablePrefix="%" variableSuffix="#">
       {
         "resourceType": "OperationOutcome",
+        "meta": {
+          "lastUpdated": "%current_timestamp#",
+          "profile": [
+            "https://fhir.nhs.uk/StructureDefinition/NHSDigital-OperationOutcome"
+          ]
+        },
         "issue": [
           {
             "severity": "error",
             "code": "forbidden",
-            "details": {
+           "details": {
               "coding": [
-                {
-                  "system": "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode",
-                  "version": "1",
-                  "code": "ACCESS_DENIED",
-                  "display": "{faultstring}"
-                }
+               {
+                 "system": "https://fhir.nhs.uk/CodeSystem/NHSD-API-ErrorOrWarningCode",
+                 "code": "ACCESS_DENIED"
+               }
               ]
-            }
+            },
+            "diagnostics": "%faultstring#",
           }
         ]
       }

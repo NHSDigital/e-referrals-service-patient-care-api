@@ -1,0 +1,5 @@
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="50" name="javascript.SetCurrentTimestamp">
+    <DisplayName>javascript.SetCurrentTimestamp</DisplayName>
+    <Properties/>
+    <ResourceURL>jsc://SetCurrentTimestamp.js</ResourceURL>
+</Javascript>

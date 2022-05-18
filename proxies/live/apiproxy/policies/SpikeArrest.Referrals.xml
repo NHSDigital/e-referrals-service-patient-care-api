@@ -1,0 +1,4 @@
+<SpikeArrest name="SpikeArrest.Referrals">
+    <Rate ref="apiproduct.burstLimit_referral" />
+    <UseEffectiveCount>true</UseEffectiveCount>
+</SpikeArrest>

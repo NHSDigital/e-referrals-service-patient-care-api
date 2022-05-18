@@ -17,21 +17,26 @@ keywords = ["healthcare", "uk", "nhs"] #TODO add additional keywords
 
 [tool.poetry.dependencies]
 python = "^3.8"
+pyyaml = "^5.2"
+docopt = "^0.6.2"
+jsonpath-rw = "^1.4.0"
+semver = "^2.9.0"
+gitpython = "^3.0.5"
+lxml = "^4.6.3"
+xmlformatter = "^0.2.4"
+pytest-check = "^1.0.1"
+requests = "^2.25.1"
+openapi-core = "0.14.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7.9"
 black = "^20.8b1"
 pip-licenses = "^2.0.1"
 jinja2 = "^2.11.1"
-pyyaml = "^5.2"
-docopt = "^0.6.2"
-jsonpath-rw = "^1.4.0"
-semver = "^2.9.0"
-gitpython = "^3.0.5"
 pytest = "^6.1.2"
 coverage = "^5.5"
 aiohttp = "^3.7.3"
 pytest-asyncio = "^0.14.0"
-api-test-utils = {url = "https://github.com/NHSDigital/apim-test-utils/releases/download/v1.0.92-alpha/api_test_utils-1.0.92a0-py3-none-any.whl"}
+api-test-utils = {url = "https://github.com/NHSDigital/apim-test-utils/releases/download/v1.1.31-alpha/api_test_utils-1.1.31a0-py3-none-any.whl"}
 
 [tool.poetry.scripts]
