@@ -2,15 +2,24 @@ SERVICE_NAME: e-referrals-service-patient-care-api
 PRODUCT_DISPLAY_NAME: e-referrals-service-patient-care-api
 DESCRIPTION: e-RS Patient Care API
 
+# The request_limit and burst_limit variables included here define the ratelimiting applied to each policy. 
+# The request_limit variable defines how many requests can be made to the referenced proxy over 8 hours, 
+# whereas the burst_limit defines how many requests can be sent to the reference proxy as a spike of traffic.
 APIGEE_ENVIRONMENTS:
     - name: internal-dev
       display_name: Internal Development
+      request_limit: '288000'
+      burst_limit: '660pm'
     - name: internal-dev-sandbox
       display_name: Internal Development Sandbox
     - name: int
       display_name: Integration Testing
+      request_limit: '288000'
+      burst_limit: '660pm'
     - name: internal-qa
       display_name: Internal QA
+      request_limit: '288000'
+      burst_limit: '660pm'
     - name: internal-qa-sandbox
       display_name: Internal QA Sandbox
     - name: ref
@@ -20,9 +29,6 @@ APIGEE_ENVIRONMENTS:
     - name: prod
       approval_type: manual
       display_name: Production
-#      ratelimit: '15000pm'
-#      quota: '7800'
-
 
 INTERNAL_DEV_VARIANTS:
     - name: alpha
@@ -60,24 +66,21 @@ apigee:
         attributes:
           - name: access
             value: public
-            # For a parameterised example of rate limiting per environment,
-            # see https://github.com/NHSDigital/personal-demographics-service-api/blob/master/manifest_template.yml
           - name: ratelimiting
             value:
-              {{ NAME }}:
-                quota:
-                  enabled: true
-                  limit: {{ ENV.quota | default('300') }}
-                  interval: 1
-                  timeunit: minute
-                spikeArrest:
-                  enabled: true
-                  ratelimit: {{ ENV.ratelimit | default('600pm') }} # 10 requests per second default
-              app:
+              {{ SERVICE_NAME }}-{{ VARIANT.service | default(VARIANT.name) }}-{{ ENV.name }}:
                 quota:
                   enabled: false
                 spikeArrest:
                   enabled: false
+          - name: requestLimit_referral
+            value: {{ ENV.request_limit | default('2880000') }}
+          - name: requestLimit_general
+            value: {{ ENV.request_limit | default('2880000') }}
+          - name: burstLimit_referral
+            value: {{ ENV.burst_limit | default('6300pm') }}
+          - name: burstLimit_general
+            value: {{ ENV.burst_limit | default('6300pm') }}
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
         environments: [ {{ ENV.name }} ]
@@ -111,24 +114,21 @@ apigee:
         attributes:
           - name: access
             value: public
-            # For a parameterised example of rate limiting per environment,
-            # see https://github.com/NHSDigital/personal-demographics-service-api/blob/master/manifest_template.yml
           - name: ratelimiting
             value:
               {{ NAME }}:
-                quota:
-                  enabled: true
-                  limit: {{ ENV.quota | default('300') }}
-                  interval: 1
-                  timeunit: minute
-                spikeArrest:
-                  enabled: true
-                  ratelimit: {{ ENV.ratelimit | default('600pm') }} # 10 requests per second default
-              app:
-                quota:
+                quota: 
                   enabled: false
                 spikeArrest:
                   enabled: false
+          - name: requestLimit_referral
+            value: {{ ENV.request_limit | default('2880000') }}
+          - name: requestLimit_general
+            value: {{ ENV.request_limit | default('2880000') }}
+          - name: burstLimit_referral
+            value: {{ ENV.burst_limit | default('6300pm') }}
+          - name: burstLimit_general
+            value: {{ ENV.burst_limit | default('6300pm') }}
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name }})
         environments: [ {{ ENV.name }} ]

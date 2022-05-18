@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.InvalidTargetIdentifier">
+  <DisplayName>RaiseFault.InvalidTargetIdentifier</DisplayName>
+  <Properties/>
+  <FaultResponse>
+    <Set>
+      <Headers/>
+      <Payload contentType="text/plain"/>
+      <StatusCode>404</StatusCode>
+      <ReasonPhrase>Not Found</ReasonPhrase>
+    </Set>
+    <AssignVariable>
+      <Name>erspca.error.code</Name>
+      <Value>not-found</Value>
+    </AssignVariable>
+    <AssignVariable>
+      <Name>erspca.error.coding.code</Name>
+      <Value>VALIDATION_ERROR</Value>
+    </AssignVariable>
+    <AssignVariable>
+      <Name>erspca.error.diagnostics</Name>
+      <Value>Unknown value</Value>
+    </AssignVariable>
+    <AssignVariable>
+      <Name>erspca.error.expression</Name>
+      <Value>http."NHSD-Target-Identifier"</Value>
+    </AssignVariable>
+  </FaultResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
