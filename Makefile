@@ -25,6 +25,7 @@ clean:
 publish: clean copy-examples
 	mkdir -p build
 	npm run publish 2> /dev/null
+	poetry run python scripts/validate_oas_examples.py
 
 publish-aws: clean copy-examples
 	mkdir -p build
