@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ResponseCache async="false" continueOnError="false" enabled="true" name="ResponseCache.HealthcareServiceCache">
+  <DisplayName>ResponseCache.HealthcareServiceCache</DisplayName>
+  <Properties/>
+  <CacheKey>
+    <Prefix/>
+    <KeyFragment ref="request.uri"/>
+  </CacheKey>
+  <Scope>Exclusive</Scope>
+  <ExpirySettings>
+    <ExpiryDate/>
+    <TimeOfDay/>
+    <TimeoutInSeconds>120</TimeoutInSeconds>
+  </ExpirySettings>
+  <SkipCacheLookup>(request.header.cache-control = "no-cache") or (request.path  = "/_ping") or (request.path = "/_status") or (request.path  = "/healthcheck") or (request.path  = "/health")</SkipCacheLookup>
+  <SkipCachePopulation>(request.header.cache-control = "no-cache") or (request.path  = "/_ping") or (request.path = "/_status") or (request.path  = "/healthcheck") or (request.path  = "/health")</SkipCachePopulation>
+  <CacheLookupTimeoutInSeconds>5</CacheLookupTimeoutInSeconds>
+  <ExcludeErrorResponse>true</ExcludeErrorResponse>
+  <UseAcceptHeader>true</UseAcceptHeader>
+</ResponseCache>

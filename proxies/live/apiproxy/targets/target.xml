@@ -90,10 +90,18 @@
         <Step>
           <Name>Quota.General</Name>
         </Step>
+        <Step>
+          <Name>ResponseCache.HealthcareServiceCache</Name>
+        </Step>
       </Request>
       <Condition>
         (not(proxy.pathsuffix MatchesPath "/FHIR/R4/ServiceRequest"))
       </Condition>
+      <Response>
+        <Step>
+          <Name>ResponseCache.HealthcareServiceCache</Name>
+        </Step>
+      </Response>
     </Flow>
   </Flows>
   <FaultRules>
