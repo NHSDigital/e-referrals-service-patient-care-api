@@ -1,6 +1,6 @@
 <Quota name="Quota.Referrals" type="rollingwindow">
-    <Interval>8</Interval>
-    <TimeUnit>hour</TimeUnit>
+    <Interval>1</Interval>
+    <TimeUnit>minute</TimeUnit>
     <Allow countRef="apiproduct.requestLimit_referral"/>
     <Distributed>true</Distributed>
     <Synchronous>false</Synchronous>
