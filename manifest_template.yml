@@ -8,18 +8,18 @@ DESCRIPTION: e-RS Patient Care API
 APIGEE_ENVIRONMENTS:
     - name: internal-dev
       display_name: Internal Development
-      request_limit: '288000'
-      burst_limit: '660pm'
+      request_limit: '600'
+      burst_limit: '900pm'
     - name: internal-dev-sandbox
       display_name: Internal Development Sandbox
     - name: int
       display_name: Integration Testing
-      request_limit: '288000'
-      burst_limit: '660pm'
+      request_limit: '600'
+      burst_limit: '900pm'
     - name: internal-qa
       display_name: Internal QA
-      request_limit: '288000'
-      burst_limit: '660pm'
+      request_limit: '600'
+      burst_limit: '900pm'
     - name: internal-qa-sandbox
       display_name: Internal QA Sandbox
     - name: ref
@@ -74,13 +74,13 @@ apigee:
                 spikeArrest:
                   enabled: false
           - name: requestLimit_referral
-            value: {{ ENV.request_limit | default('2880000') }}
+            value: {{ ENV.request_limit | default('6000') }}
           - name: requestLimit_general
-            value: {{ ENV.request_limit | default('2880000') }}
+            value: {{ ENV.request_limit | default('6000') }}
           - name: burstLimit_referral
-            value: {{ ENV.burst_limit | default('6300pm') }}
+            value: {{ ENV.burst_limit | default('9000pm') }}
           - name: burstLimit_general
-            value: {{ ENV.burst_limit | default('6300pm') }}
+            value: {{ ENV.burst_limit | default('9000pm') }}
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
         environments: [ {{ ENV.name }} ]
