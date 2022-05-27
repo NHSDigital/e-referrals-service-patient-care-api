@@ -25,7 +25,21 @@ The contents of this repository are protected by Crown Copyright (C).
 * make
 * nodejs + npm/yarn
 * [poetry](https://github.com/python-poetry/poetry)
-* Java 8+
+
+### Environment setup
+Currently, automation for setting up the right environment is only available for machines based on RedHatEnterpriseLinux (RHEL).
+Running the following will ensure your environment is ready for development.
+It will install [pyenv](https://github.com/pyenv/pyenv), Python 3.8.12 and its dependencies (yum), create a virtual environment (named apigee), and ensure poetry is installed under it.
+```
+$ make setup-environment
+```
+>Activating apigee is now done by the file .python-version, so cd'ing into the repository directory will suffice to use the virtual environment.
+
+If you wish to remove all changes made by setup-environment, you can run the following:
+```
+$ make clean-environment
+```
+> This will erase your ~/.pyenv directory, where pyenv stores the different Python versions, and will revert ~/.bashrc and ~./bash_profile. You may want to logout/login for changes to take effect.
 
 ### Install
 ```
