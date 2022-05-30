@@ -33,7 +33,7 @@
         <Condition>(request.header.echo)</Condition>
       </Step> {% endif %}
      <Step>
-        <Name>Python.DecodeBase64TargetIdentifier</Name>
+        <Name>AssignMessage.SetTargetIdentifierDecoded</Name>
         <Condition>request.header.NHSD-Target-Identifier != null</Condition>
       </Step>
       <Step>
