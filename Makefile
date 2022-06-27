@@ -71,6 +71,9 @@ test:
 smoketest:
 #	this target is for end to end smoketests this would be run 'post deploy' to verify an environment is working
 	poetry run pytest -v --junitxml=smoketest-report.xml -s -m smoketest
+integrationtest:
+#	this target is for end to end integration tests this would be run 'post deploy' to verify the environment has integration with e-RS
+	poetry run pytest -v tests/integration --junitxml=tests/ers-test-integration-report.xml
 
 setup-environment:
 	@if [ -e /usr/bin/yum ]; then \
