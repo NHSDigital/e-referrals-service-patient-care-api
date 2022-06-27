@@ -1,7 +1,5 @@
-var b64decoded = JSON.parse(context.getVariable("targetIdentifierDecoded"));
-
 var isValid = false;
-var b64decoded;
+var b64decoded = null;
 try{
   b64decoded = JSON.parse(context.getVariable("targetIdentifierDecoded"));
 

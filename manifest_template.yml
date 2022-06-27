@@ -3,7 +3,7 @@ PRODUCT_DISPLAY_NAME: e-referrals-service-patient-care-api
 DESCRIPTION: e-RS Patient Care API
 
 # The request_limit and burst_limit variables included here define the ratelimiting applied to each policy. 
-# The request_limit variable defines how many requests can be made to the referenced proxy over 8 hours, 
+# The request_limit variable defines how many requests can be made to the referenced proxy per minute, 
 # whereas the burst_limit defines how many requests can be sent to the reference proxy as a spike of traffic.
 APIGEE_ENVIRONMENTS:
     - name: internal-dev
@@ -74,13 +74,13 @@ apigee:
                 spikeArrest:
                   enabled: false
           - name: requestLimit_referral
-            value: {{ ENV.request_limit | default('6000') }}
+            value: {{ ENV.request_limit | default('15000') }}
           - name: requestLimit_general
-            value: {{ ENV.request_limit | default('6000') }}
+            value: {{ ENV.request_limit | default('15000') }}
           - name: burstLimit_referral
-            value: {{ ENV.burst_limit | default('9000pm') }}
+            value: {{ ENV.burst_limit | default('22500pm') }}
           - name: burstLimit_general
-            value: {{ ENV.burst_limit | default('9000pm') }}
+            value: {{ ENV.burst_limit | default('22500pm') }}
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
         environments: [ {{ ENV.name }} ]
@@ -122,13 +122,13 @@ apigee:
                 spikeArrest:
                   enabled: false
           - name: requestLimit_referral
-            value: {{ ENV.request_limit | default('2880000') }}
+            value: {{ ENV.request_limit | default('15000') }}
           - name: requestLimit_general
-            value: {{ ENV.request_limit | default('2880000') }}
+            value: {{ ENV.request_limit | default('15000') }}
           - name: burstLimit_referral
-            value: {{ ENV.burst_limit | default('6300pm') }}
+            value: {{ ENV.burst_limit | default('22500pm') }}
           - name: burstLimit_general
-            value: {{ ENV.burst_limit | default('6300pm') }}
+            value: {{ ENV.burst_limit | default('22500pm') }}
         description: {{ DESCRIPTION }}
         displayName: {{ TITLE }} ({{ ENV.display_name }})
         environments: [ {{ ENV.name }} ]

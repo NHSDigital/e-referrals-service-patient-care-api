@@ -1,0 +1,6 @@
+<AssignMessage name="AssignMessage.SetTargetIdentifierDecoded" continueOnError="false" enabled="true" async="false">
+  <AssignVariable>
+    <Name>targetIdentifierDecoded</Name>
+    <Template>{decodeBase64(request.header.NHSD-Target-Identifier)}</Template>
+  </AssignVariable>
+</AssignMessage>
