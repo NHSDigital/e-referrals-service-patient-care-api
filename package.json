@@ -13,14 +13,11 @@
   "license": "MIT",
   "homepage": "https://github.com/NHSDigital/e-referrals-service-patient-care-api",
   "dependencies": {
-    "newman-reporter-htmlextra": "^1.20.1",
     "speccy": "^0.11.0"
   },
   "devDependencies": {
     "apigeetool": "^0.5.4",
     "license-checker": "^25.0.1",
-    "minimist": "^1.2.2",
-    "newman": "^5.3.0",
-    "newman-reporter-html": "^1.0.5"
+    "minimist": "^1.2.2"
   }
 }
