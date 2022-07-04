@@ -18,6 +18,6 @@
   "devDependencies": {
     "apigeetool": "^0.5.4",
     "license-checker": "^25.0.1",
-    "minimist": "^1.2.2"
+    "minimist": "^1.2.6"
   }
 }
