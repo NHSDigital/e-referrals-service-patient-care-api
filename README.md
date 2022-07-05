@@ -2,6 +2,7 @@
 
 ![Build](https://github.com/NHSDigital/e-referrals-service-patient-care-api/workflows/Build/badge.svg?branch=master)
 
+
 This is a specification for the *e-referrals-service-patient-care-api* API.
 
 * `specification/` This [Open API Specification](https://swagger.io/docs/specification/about/) describes the endpoints, methods and messages exchanged by the API. Use it to generate interactive documentation; the contract between the API and its consumers.
