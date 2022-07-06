@@ -22,7 +22,7 @@
                }
               ]
             },
-            "diagnostics": "%faultstring#",
+            "diagnostics": "%faultstring#"
           }
         ]
       }
