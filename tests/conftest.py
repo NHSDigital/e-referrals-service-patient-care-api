@@ -34,24 +34,14 @@ def get_env(variable_name: str) -> str:
         raise RuntimeError(f"Variable is not set, Check {variable_name}.")
 
 
-def get_env_file(variable_name: str) -> str:
-    """Returns an environment variable as path"""
-    try:
-        path = os.path.abspath(os.environ[variable_name])
-        if not path:
-            raise RuntimeError(f"Variable is null, Check {variable_name}.")
-        with open(path, "r") as f:
-            contents = f.read()
-        if not contents:
-            raise RuntimeError(f"Contents of file empty. Check {variable_name}.")
-        return contents
-    except KeyError:
-        raise RuntimeError(f"Variable is not set, Check {variable_name}.")
-
-
 @pytest.fixture(scope="session")
 def environment():
     return get_env("ENVIRONMENT")
+
+
+@pytest.fixture(scope="session")
+def valid_nhs_number():
+    return "9912003888"
 
 
 @pytest.fixture(scope="session")
@@ -166,7 +156,7 @@ async def patient_care_app(
 
 
 @pytest.fixture
-async def nhs_login_subject_token(patient_care_app: ApigeeApiDeveloperApps):
+async def nhs_login_subject_token(patient_care_app: ApigeeApiDeveloperApps, valid_nhs_number: str):
     id_token_claims = {
         "aud": "tf_-APIM-1",
         "id_status": "verified",
@@ -180,7 +170,7 @@ async def nhs_login_subject_token(patient_care_app: ApigeeApiDeveloperApps):
         "jti": str(uuid4()),
         "identity_proofing_level": "P9",
         "birthdate": "1939-09-26",
-        "nhs_number": "9912003888",
+        "nhs_number": valid_nhs_number,
         "nonce": "randomnonce",
         "surname": "CARTHY",
         "vot": "P9.Cp.Cd",
@@ -216,28 +206,26 @@ async def patient_access_token(patient_care_app: ApigeeApiDeveloperApps, nhs_log
     token_url = f"{oauth_base_uri}/{oauth_proxy}/token"
 
     jwt = patient_care_app.oauth.create_jwt(
-        **{
-            "kid": "test-1",
-            "claims": {
+        kid="test-1",
+        claims={
                 "sub": patient_care_app.client_id,
                 "iss": patient_care_app.client_id,
                 "jti": str(uuid4()),
                 "aud": token_url,
                 "exp": int(time()) + 60,
-            },
         }
     )
 
-    token = await get_token(patient_care_app, nhs_login_subject_token, jwt, grant_type="client_credentials")
+    token = await get_token(patient_care_app, nhs_login_subject_token, jwt)
     return token["access_token"]
 
 
 async def get_token(
-    app: ApigeeApiDeveloperApps, nhs_login_subject_token, jwt, grant_type: str = "token_exchange"
+    app: ApigeeApiDeveloperApps, nhs_login_subject_token, jwt
 ):
     oauth = app.oauth
 
-    resp = await oauth.get_token_response(grant_type=grant_type, 
+    resp = await oauth.get_token_response(grant_type="token_exchange", 
     data={
         "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
         "subject_token_type": "urn:ietf:params:oauth:token-type:id_token",

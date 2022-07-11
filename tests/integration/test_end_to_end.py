@@ -50,7 +50,7 @@ class TestEndToEnd:
         # Verify the status
         assert (
             response.status_code == http_status
-        ), f"Expected a {http_status} when accesing the api but got " + (str)(response.status_code)
+        ), f"Expected a {http_status} when accesing the api but got {response.status_code}"
 
         # Verify the received headers
         response_headers = response.headers
