@@ -1,7 +1,8 @@
-<Quota name="Quota.General" type="rollingwindow">
+<Quota name="Quota.General" type="calendar">
     <Interval>1</Interval>
     <TimeUnit>minute</TimeUnit>
+    <StartTime>2020-3-30 12:00:00</StartTime>
     <Allow countRef="apiproduct.requestLimit_general"/>
     <Distributed>true</Distributed>
-    <Synchronous>false</Synchronous>
+    <Synchronous>true</Synchronous>
 </Quota>
