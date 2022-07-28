@@ -29,7 +29,7 @@ requests = "^2.25.1"
 openapi-core = "0.14.2"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^3.7.9"
+flake8 = "^4.0.1"
 black = "^22.6"
 pip-licenses = "^2.0.1"
 jinja2 = "^2.11.1"
