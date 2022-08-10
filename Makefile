@@ -4,8 +4,8 @@ install-python:
 	poetry install
 
 install-node:
-	npm install
-	cd sandbox && npm install
+	npm install --legacy-peer-deps
+	cd sandbox && npm install --legacy-peer-deps
 
 .git/hooks/pre-commit:
 	cp scripts/pre-commit .git/hooks/pre-commit

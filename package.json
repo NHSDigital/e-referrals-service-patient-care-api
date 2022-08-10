@@ -3,21 +3,20 @@
   "version": "0.0.1",
   "description": "OAS (Swagger v3) API Definition for Template API",
   "scripts": {
-    "lint": "node_modules/.bin/speccy lint -s openapi-tags -s operation-tags specification/e-referrals-service-patient-care-api.yaml --skip default-and-example-are-redundant",
-    "publish": "mkdir -p build && node_modules/.bin/speccy resolve specification/e-referrals-service-patient-care-api.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py > build/e-referrals-service-patient-care-api.json",
+    "lint": "openapi-generator-cli validate -i specification/e-referrals-service-patient-care-api.yaml",
+    "publish": "openapi-generator-cli generate -i specification/e-referrals-service-patient-care-api.yaml --generator-key v3.0 -g openapi -o build && rm openapitools.json && mv build/openapi.json build/e-referrals-service-patient-care-api.json",
     "publish-aws": "mkdir -p build && node_modules/.bin/speccy resolve specification/e-referrals-service-patient-care-api.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py | poetry run python scripts/api-gateway-integration.py > build/e-referrals-service-patient-care-api-aws.json",
-    "serve": "node_modules/.bin/speccy serve build/e-referrals-service-patient-care-api.json",
     "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL"
   },
   "author": "NHS Digital",
   "license": "MIT",
   "homepage": "https://github.com/NHSDigital/e-referrals-service-patient-care-api",
-  "dependencies": {
-    "speccy": "^0.11.0"
-  },
   "devDependencies": {
     "apigeetool": "^0.16.1",
     "license-checker": "^25.0.1",
     "minimist": "^1.2.2"
+  },
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.1"
   }
 }
