@@ -225,7 +225,7 @@ async def get_token(
 ):
     oauth = app.oauth
 
-    resp = await oauth.get_token_response(grant_type="token_exchange", 
+    resp = await oauth.get_token_response(grant_type="token_exchange",
     data={
         "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
         "subject_token_type": "urn:ietf:params:oauth:token-type:id_token",
@@ -243,6 +243,7 @@ async def get_token(
             f"STATUS CODE: {resp.get('status_code')}\n"
             f"RESPONSE: {resp.get('body')}\n"
             f"HEADERS: {resp.get('headers')}\n"
+            f"TOKEN: {nhs_login_subject_token}\n"
             f"{'*' * len(message)}\n"
         )
     return resp["body"]
