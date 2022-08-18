@@ -162,7 +162,7 @@ async def nhs_login_subject_token(patient_care_app: ApigeeApiDeveloperApps, vali
         "id_status": "verified",
         "token_use": "id",
         "auth_time": 1616600683,
-        "iss": "https://internal-dev.api.service.nhs.uk",  # Points to internal dev -> testing JWKS
+        "iss": "https://identity.ptl.api.platform.nhs.uk/auth/realms/NHS-Login-mock-internal-dev",  # Points to internal dev -> testing JWKS
         "sub": "https://internal-dev.api.service.nhs.uk",
         "exp": int(time()) + 300,
         "iat": int(time()) - 10,
@@ -178,7 +178,7 @@ async def nhs_login_subject_token(patient_care_app: ApigeeApiDeveloperApps, vali
     }
 
     id_token_headers = {
-        "kid": "nhs-login",
+        "kid": "B86zGrfcoloO13rnjKYDyAJcqj2iZAMrS49jyleL0Fo",
         "typ": "JWT",
         "alg": "RS512"
     }
@@ -225,7 +225,7 @@ async def get_token(
 ):
     oauth = app.oauth
 
-    resp = await oauth.get_token_response(grant_type="token_exchange", 
+    resp = await oauth.get_token_response(grant_type="token_exchange",
     data={
         "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
         "subject_token_type": "urn:ietf:params:oauth:token-type:id_token",
