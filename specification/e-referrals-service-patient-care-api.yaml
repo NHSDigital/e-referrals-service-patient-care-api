@@ -2,18 +2,129 @@
 # for e-referrals-service-patient-care-api owned by NHS Digital (https://digital.nhs.uk/)
 openapi: '3.0.0'
 info:
-  title: 'e-referrals-service-patient-care-api'
+  title: 'Patient Care - FHIR API'
   version: 'Computed and injected at build time by `scripts/set_version.py`'
   description: |
+    
+    <div class="nhsd-m-emphasis-box nhsd-m-emphasis-box--emphasis nhsd-!t-margin-bottom-6" aria-label="Highlighted Information">
+        <div class="nhsd-a-box nhsd-a-box--border-blue">
+            <div class="nhsd-m-emphasis-box__image-box">
+                <figure class="nhsd-a-image">
+                    <picture class="nhsd-a-image__picture">
+                        <img src="//nhs-prod.global.ssl.fastly.net/svg-magic/binaries/content/gallery/icons/info.svg?colour=231f20" alt="" style="object-fit:fill">
+                    </picture>
+                </figure>
+            </div>
+            <div class="nhsd-m-emphasis-box__content-box">
+                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is currently for internal NHS Digital use only.</p></div>            
+            </div>
+        </div>
+    </div>
+    
     ## Overview
-    Add a fully fledged description here with markdown syntax.
+    
+    Use this API to retrieve referrals for a patient from the [[HYPERLINK_ERS]] and, if applicable, retrieve service information for a referral that has a current appointment booking with a service or is currently deferred to a service.
+  
+    This API is designed to be used by the [[HYPERLINK_PC_AGGREGATOR]].
+    
+    As an integrated system acting on behalf of a patient, you can:
+    
+      - retrieve a patient's referrals
+      - retrieve information for a single service
+    
+    You cannot use this API to:
+      - get patient personal demographic details – instead, use the [[HYPERLINK_PDS]]
+    
+    You can access the following data:
+      - a summary of each active referral
+    
+    ### Access modes
+    
+    This API has one access mode:
+    
+    | Access mode                   | Authentication via         | Functions               | Availability                    |
+    | ----------------------------- | -------------------------- | ----------------------- | ------------------------------- |
+    | [[HYPERLINK_PATIENT_ACCESS]]  | [[HYPERLINK_NHS_LOGIN]]    | Get own details         | [[HYPERLINK_BETA]]              |
+  
+    #### Patient, user-restricted access
+    This access mode allows integrated systems acting on behalf of a patient to access Patient Care FHIR API endpoints by authenticating users with [[HYPERLINK_NHS_LOGIN]].
+  
+    ## Who can use this API
+    
+    Currently, this API is for [[HYPERLINK_INTERNAL_USE_ONLY]].
+    
+    ## Related APIs
+    
+    The following APIs are related to this API:
+    
+      - [[HYPERLINK_ERS_FHIR_API]] - use this API to access the national service for creating and managing paperless referrals in primary and secondary care.
+      - [[HYPERLINK_PDS]] - use this API to access patients' personal information such as name, address, date of birth, related people, registered GP and NHS number.
+      - [[HYPERLINK_PC_AGGREGATOR]] - use this API to get an aggregated list of referrals and bookings for a patient from secondary care providers.
+    
+    ## API status and roadmap
+    
+    This API is in [[HYPERLINK_BETA]].
+    
+    ## Service level
+    This API is a gold service, meaning it is operational and supported 24 x 7 x 365.
+    
+    For more details, see [[HYPERLINK_SERVICE_LEVELS]].
+    
+    ## Technology
+    
+    This API is [[HYPERLINK_RESTFUL]].
+    
+    It conforms to the [[HYPERLINK_FHIR]] global standard for health care data exchange, specifically to [[HYPERLINK_FHIR_R4]], except that it does not support the [[HYPERLINK_CAPABILITIES]] interaction.
+    
+    It includes some country-specific FHIR extensions, which are built against [[HYPERLINK_FHIR_UK_CORE]], specifically [[HYPERLINK_FHIR_UK_CORE_STU1]].
+    
+    You do not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
+    
+      - resource names are capitalised and singular, for example `/ServiceRequest` not `/servicerequests`
+      - array names are singular, for example `line` not `lines` for address lines
+      - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
+    
+    There are [[HYPERLINK_LIBRARIES_AND_SDKS]] available to help with the FHIR API integration.
+    
+    ## Network access
+    
+    This API is available on the internet and, indirectly, on the [[HYPERLINK_HSCN]].
+    
+    For more details see [[HYPERLINK_NETWORK_ACCESS]].
+    
+    
+    ## Security and authorisation
+        
+    This access mode is [[HYPERLINK_USER_RESTRICTED]].
+    
+    The end user must be:
+    - present
+    - a patient
+    - strongly authenticated and authorised by [[HYPERLINK_NHS_LOGIN]]
+    
+    To use this access mode, use one of the following security patterns:
+    - [[HYPERLINK_USER_RESTRICTED_SEPARATE_AUTHENTICATION]]
+    - [[HYPERLINK_USER_RESTRICTED_COMBINED_AUTHENTICATION]]
+  
+    ## Environments and testing
+    
+    | Environment       | Base URL                                                               |
+    | ----------------- | ---------------------------------------------------------------------- |
+    | Integration Test  | `https://int.api.service.nhs.uk/e-referrals-service-patient-care-api`  |
+    | Production        | `https://api.service.nhs.uk/e-referrals-service-patient-care-api`      |
+    
+    ## Onboarding
+    
+    Currently new suppliers are not being onboarded onto this API.
+    
   contact:
     name: 'e-referrals-service-patient-care-api API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
     email: api.management@nhs.net
+x-spec-publication:
+  try-this-api:
+    disabled: true
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/e-referrals-service-patient-care-api'
-    description: Sandbox environment.
   - url: 'https://int.api.service.nhs.uk/e-referrals-service-patient-care-api'
     description: Integration test environment.
   - url: 'https://api.service.nhs.uk/e-referrals-service-patient-care-api'
@@ -21,23 +132,41 @@ servers:
 paths:
   /FHIR/R4/ServiceRequest:
     get:
-      parameters: 
+      summary: Retrieve referral requests for a patient
+      description: |
+        ## Overview
+        
+        Use this endpoint to retrieve active e-RS referrals for an authenticated patient, including summary details relating to its current state.
+        
+        Where the referral is currently being managed by a service provider, this endpoint will reference the Service ID for that service. This can then be used to retrieve the service information using [[HYPERLINK_A002]].
+
+        The referrals that are returned by this endpoint are the same referrals that are accessible to the patient via [[HYPERLINK_MANAGE_REFERRAL]].
+
+        ## Pre-requisites
+        
+        In order to use this endpoint the patient must be an authenticated user.
+        
+        The patient needs to have authenticated via [[HYPERLINK_NHS_LOGIN]] and meet the required [[HYPERLINK_PROOFING_LEVEL]] (currently this is "P9").
+      
+        ## Use case
+        
+        As an authenticated user
+        
+        I want to retrieve my referrals
+        
+        So that I can view and manage my referrals
+        
+        ## Related endpoints
+        
+        You can retrieve the attributes of a single service via [[HYPERLINK_A002]] using the Service ID
+      
+      operationId: a001-retrieve-referral-requests
+      parameters:
         - $ref: 'components/schemas/queryParameters/Patient.yaml'
         - $ref: 'components/schemas/queryParameters/Category.yaml'
         - $ref: 'components/schemas/queryParameters/RevInclude.yaml'
         - $ref: 'components/schemas/headers/request/CorrelationID.yaml'
-      summary: Retrieve Service Requests
-      description: |
-        ## Overview
         
-        Use this endpoint to retrieve active referrals for a patient.  You can test the following scenarios in our sandbox environment:
-
-        | Scenario                                    | Request Query Parameters                                                                                                  | Response                                                                |
-        | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------| ----------------------------------------------------------------------- |
-        | Service requests with Appointment and Task  | `patient:identifier`=`9912003888`, `category`=`3457005`, `_revinclude`=`Appointment:based-on`, `_revinclude`=`Task:focus` | Illustrates a Service request with 'Appointment' or 'Task' linked    |
-        | Empty service request search response       | `patient:identifier`=`1000000001`, `category`=`3457005`, `_revinclude`=`Appointment:based-on`, `_revinclude`=`Task:focus` | Illustrates how a 'no service request' response appears.                |
-
-      operationId: a001-retrieve-service-requests
       responses:
         '200':
           $ref: 'components/schemas/responses/retrieveServiceRequests/200Response.yaml'
@@ -47,8 +176,6 @@ paths:
           $ref: 'components/schemas/responses/Unauthorized.yaml'
         '403':
           $ref: 'components/schemas/responses/retrieveServiceRequests/403Response.yaml'
-        '406':
-          $ref: 'components/schemas/responses/SendNotAcceptable.yaml'
         '429':
           $ref: 'components/schemas/responses/TooManyRequests.yaml'
         '500':
@@ -57,15 +184,35 @@ paths:
           $ref: 'components/schemas/responses/GatewayTimeout.yaml'
   /FHIR/R4/HealthcareService/{id}:
     get:
+      summary: Retrieve healthcare service
+      description: |
+        ## Overview
+        
+        Use this endpoint to retrieve attributes about a single service.
+        
+        ## Pre-requisites
+        
+        In order to use this endpoint the patient must be an authenticated user.
+        
+        The patient needs to have authenticated via [[HYPERLINK_NHS_LOGIN]] and meet the required [identity proofing level](https://nhsconnect.github.io/nhslogin/vectors-of-trust/) (currently this is "P9").
+
+        You need to have identified one service ID to use this endpoint. 
+        
+        ## Use case
+        
+        As an authenticated user
+        
+        I want to know more about a healthcare service  
+
+        So that I can make appropriate decisions about my care
+        
+        ## Related endpoints
+
+        If a referral currently has an appointment booking to a service or is deferred to a service then [[HYPERLINK_A001]] can be used to retrieve the Service ID of that service.
+      operationId: a002-retrieve-healthcare-service
       parameters:
         - $ref: 'components/schemas/path/HealthcareId.yaml'
         - $ref: 'components/schemas/headers/request/CorrelationID.yaml'
-      operationId: a002-retrieve-healthcare-service
-      summary: Retrieve Healthcare Service
-      description: | 
-        ## Overview
-
-        Use this endpoint to retrieve a specific Healthcare service by their identifier.
       
       responses:
         '200':
@@ -74,8 +221,6 @@ paths:
           $ref: 'components/schemas/responses/Unauthorized.yaml'
         '404':
           $ref: 'components/schemas/responses/retrieveHealthcareService/404Response.yaml'  
-        '406':
-          $ref: 'components/schemas/responses/SendNotAcceptable.yaml'
         '429':
           $ref: 'components/schemas/responses/TooManyRequests.yaml'
         '500':

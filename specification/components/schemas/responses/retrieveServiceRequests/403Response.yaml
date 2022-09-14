@@ -5,9 +5,9 @@ description: |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
   | REC_FORBIDDEN                      | The user cannot retrieve the requested data. |
 headers:
-  x-correlation-id:
+  X-Correlation-ID:
     $ref: '../../headers/response/CorrelationID.yaml'
-  x-request-id:
+  X-Request-ID:
     $ref: '../../headers/response/RequestID.yaml'
   Content-Type:
     $ref: '../../headers/response/ContentTypeFhirJson.yaml'

@@ -1,5 +1,5 @@
 type: object
-description: e-RS representation of the state of the service request.
+description: e-RS representation of the state of the ServiceRequest.
 required:
   - url
   - valueCoding
