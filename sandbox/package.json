@@ -11,7 +11,7 @@
   "dependencies": {
     "express": "^4.18.1",
     "loglevel": "^1.8.0",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "chai": "^4.3.6",
