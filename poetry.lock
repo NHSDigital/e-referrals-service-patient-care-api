@@ -61,7 +61,7 @@ python-versions = ">=3.5.3"
 name = "atomicwrites"
 version = "1.4.1"
 description = "Atomic file writes."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -166,7 +166,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 name = "colorama"
 version = "0.4.4"
 description = "Cross-platform colored terminal text."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -343,7 +343,7 @@ python-versions = ">=3.5"
 name = "iniconfig"
 version = "1.1.1"
 description = "iniconfig: brain-dead simple config-ini parsing"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -538,7 +538,7 @@ attrs = ">=19.2.0"
 name = "packaging"
 version = "21.3"
 description = "Core utilities for Python packages"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -611,7 +611,7 @@ test = ["appdirs (==1.4.4)", "pytest (>=6)", "pytest-cov (>=2.7)", "pytest-mock 
 name = "pluggy"
 version = "1.0.0"
 description = "plugin and hook calling mechanisms for python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -639,7 +639,7 @@ python-versions = "*"
 name = "py"
 version = "1.10.0"
 description = "library with cross-python path, ini-parsing, io, code, log facilities"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -716,7 +716,7 @@ test = ["flaky", "pretend", "pytest (>=3.0.1)"]
 name = "pyparsing"
 version = "2.4.7"
 description = "Python parsing module"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -740,7 +740,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 name = "pytest"
 version = "6.2.5"
 description = "pytest: simple powerful testing with Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -773,17 +773,11 @@ testing = ["async-generator (>=1.3)", "coverage", "hypothesis (>=5.7.1)"]
 
 [[package]]
 name = "pytest-check"
-version = "1.0.5"
+version = "1.0.9"
 description = "A pytest plugin that allows multiple failures per test."
 category = "main"
 optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-pytest = ">=6.0.0"
-
-[package.extras]
-test = ["tox"]
+python-versions = ">3.7"
 
 [[package]]
 name = "pytest-docker"
@@ -924,7 +918,7 @@ python-versions = "*"
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -1053,7 +1047,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "a28d686405df56a12c0e1508b8243874e1b75807f294311a33de3782f66eefa3"
+content-hash = "7dd10d2e0bf4117c2fb4de24520faf73e95b2e72f00f337515fa79e4afce3a9d"
 
 [metadata.files]
 aiohttp = [
@@ -1728,8 +1722,8 @@ pytest-asyncio = [
     {file = "pytest_asyncio-0.14.0-py3-none-any.whl", hash = "sha256:2eae1e34f6c68fc0a9dc12d4bea190483843ff4708d24277c41568d6b6044f1d"},
 ]
 pytest-check = [
-    {file = "pytest_check-1.0.5-py3-none-any.whl", hash = "sha256:56a8e5a267e8d7ff5be869079df7d4095dfd30082738845cc892a74573ad4e33"},
-    {file = "pytest_check-1.0.5.tar.gz", hash = "sha256:b9c8db6b1dee3c1e66162bd079b81c083296cb7131e9841519c28a40818a4875"},
+    {file = "pytest-check-1.0.9.tar.gz", hash = "sha256:cd53104f3a4fc3644f7028b55e238766f6d65a12a207d31bcd4c8ba00db23fd9"},
+    {file = "pytest_check-1.0.9-py3-none-any.whl", hash = "sha256:a41b706e928d9859daa736dce9ca13598a829075aec19ca3b2378d3bbdc37aed"},
 ]
 pytest-docker = [
     {file = "pytest-docker-0.10.3.tar.gz", hash = "sha256:29a6a316508b0601f0085fbc45c9a54c7169f7213cac9ff906658186e3bcca23"},
