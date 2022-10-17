@@ -74,7 +74,7 @@ properties:
       anyOf:
         - $ref: 'PractitionerRole.yaml'
   status:
-    description: The status of the Service Request.
+    description: The status of the ServiceRequest.
     type: string
     enum:
       - active

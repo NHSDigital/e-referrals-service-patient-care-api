@@ -5,9 +5,9 @@ description: |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
   | TOO_MANY_REQUESTS                  | Too many requests received. |
 headers:
-  x-correlation-id:
+  X-Correlation-ID:
     $ref: '../headers/response/CorrelationID.yaml'
-  x-request-id:
+  X-Request-ID:
     $ref: '../headers/response/RequestID.yaml'
   Content-Type:
     $ref: '../headers/response/ContentTypeFhirJson.yaml'

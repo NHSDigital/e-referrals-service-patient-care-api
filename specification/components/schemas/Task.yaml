@@ -37,7 +37,7 @@ properties:
       coding:
         $ref: codings/TaskCategory.yaml
   focus:
-    description: Which service request is this Deferral related to.
+    description: Which ServiceRequest is this Deferral related to.
     type: object
     required:
       - reference
@@ -63,7 +63,7 @@ properties:
     description: | 
       Review Due Date. 
       If deferred to provider (because there were no appointments available for a directly bookable service) then this is the date by which the provide should resolve the appointment slot issue; or
-      If the service request was sent to a triage service then this is the date by which the provider should have reviewed the service request.
+      If the ServiceRequest was sent to a triage service then this is the date by which the provider should have reviewed the ServiceRequest.
     type: object
     required:
       - period
