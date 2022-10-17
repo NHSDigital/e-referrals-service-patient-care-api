@@ -2,8 +2,8 @@ SERVICE_NAME: e-referrals-service-patient-care-api
 PRODUCT_DISPLAY_NAME: e-referrals-service-patient-care-api
 DESCRIPTION: e-RS Patient Care API
 
-# The request_limit and burst_limit variables included here define the ratelimiting applied to each policy. 
-# The request_limit variable defines how many requests can be made to the referenced proxy per minute, 
+# The request_limit and burst_limit variables included here define the ratelimiting applied to each policy.
+# The request_limit variable defines how many requests can be made to the referenced proxy per minute,
 # whereas the burst_limit defines how many requests can be sent to the reference proxy as a spike of traffic.
 APIGEE_ENVIRONMENTS:
     - name: internal-dev
@@ -27,7 +27,6 @@ APIGEE_ENVIRONMENTS:
     - name: sandbox
       display_name: Sandbox
     - name: prod
-      approval_type: manual
       display_name: Production
 
 INTERNAL_DEV_VARIANTS:
@@ -62,7 +61,7 @@ apigee:
     products:
 {% for VARIANT in INTERNAL_DEV_VARIANTS %}
       - name: {{ SERVICE_NAME }}-{{ VARIANT.service | default(VARIANT.name) }}-{{ ENV.name }}
-        approvalType: {{ ENV.approval_type | default('auto') }}
+        approvalType: manual
         attributes:
           - name: access
             value: public
@@ -103,21 +102,21 @@ apigee:
         description: {{ DESCRIPTION }} ({{ ENV.display_name}} - {{ VARIANT.name }})
         requireCallbackUrl: false
         title: {{ TITLE }} ({{ ENV.display_name}} - {{ VARIANT.name }})
-        visibility: false
+        visibility: true
         specId: {{ SERVICE_NAME }}-{{ VARIANT.service | default(VARIANT.name) }}-{{ ENV.name }}
 {% endfor %}
 {% else %}
   - name: {{ ENV.name }}
     products:
       - name: {{ NAME }}
-        approvalType: {{ ENV.approval_type | default('auto') }}
+        approvalType: manual
         attributes:
           - name: access
             value: public
           - name: ratelimiting
             value:
               {{ NAME }}:
-                quota: 
+                quota:
                   enabled: false
                 spikeArrest:
                   enabled: false
@@ -154,7 +153,7 @@ apigee:
         description: {{ DESCRIPTION }}
         requireCallbackUrl: false
         title: {{ TITLE }} ({{ ENV.display_name}})
-        visibility: false
+        visibility: true
         specId: {{ NAME }}
 {% endif %}
 {% endfor %}
