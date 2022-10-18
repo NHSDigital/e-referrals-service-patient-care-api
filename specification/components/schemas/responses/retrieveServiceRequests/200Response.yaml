@@ -1,9 +1,9 @@
 description: |
-  The Response contains a FHIR 'Bundle' that, in turn, contains 'Service Request' resources where each 'Service Request' resource can include the latest 'Task' or 'Appointment' associated to the 'Service Request'.
+  The Response contains a FHIR 'Bundle' that, in turn, contains 'ServiceRequest' resources where each 'ServiceRequest' resource can include the latest 'Task' or 'Appointment' associated to the 'ServiceRequest'.
 headers:
-  x-correlation-id: 
+  X-Correlation-ID: 
     $ref: '../../headers/response/CorrelationID.yaml'
-  x-request-id:
+  X-Request-ID:
     $ref: '../../headers/response/RequestID.yaml'
   Content-Type:
     $ref: '../../headers/response/ContentTypeFhirJson.yaml'
@@ -13,10 +13,10 @@ content:
       $ref: '../../ServiceRequestBundle.yaml'
     examples:
       multiple:
-        summary: Service requests search response containing multiple service requests with an associated task or appointment. 
+        summary: ServiceRequest search response containing multiple ServiceRequest resources with an associated Task or Appointment. 
         value:
           $ref: '../../../examples/retrieveServiceRequests/responses/ServiceRequestsWithAppointmentAndTask.json'    
       empty:
-        summary: Empty Service Request search response
+        summary: Empty ServiceRequest search response
         value:
           $ref: '../../../examples/retrieveServiceRequests/responses/NoServiceRequests.json'

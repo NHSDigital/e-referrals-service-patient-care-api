@@ -1,4 +1,4 @@
-title: Bundle resource containing Service Requests
+title: Bundle resource containing ServiceRequest resources
 type: object
 required:
   - id
@@ -73,9 +73,9 @@ properties:
     description: |
       | Field                  | Cardinality | Notes                                                                                       |
       | ---------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-      | `ServiceRequest`       | `0..*`      | A ServiceRequest might have an Appointment or a Task related, but not both at the same time. If the Service request is unbooked then it will not have an Appointment or a Task.|
-      | `Appointment`          | `0..*`      | If the Service Request is booked then it will have one Appointment. Note that multiple Appointments can be returned, but each one will refer to a single Service request.      |
-      | `Task`                 | `0..*`      | If the Service Request has a deferral or a triage deferral. Note that multiple Tasks can be returned, but each one will refer to a single Service request.                     |
+      | `ServiceRequest`       | `0..*`      | A ServiceRequest might have an Appointment or a Task related, but not both at the same time. If the ServiceRequest is unbooked then it will not have an Appointment or a Task.|
+      | `Appointment`          | `0..*`      | If the ServiceRequest is booked then it will have one Appointment. Note that multiple Appointments can be returned, but each one will refer to a single ServiceRequest.      |
+      | `Task`                 | `0..*`      | If the ServiceRequest has a deferral or a triage deferral. Note that multiple Tasks can be returned, but each one will refer to a single ServiceRequest.                     |
     items:
       anyOf:
         - title: ServiceRequest

@@ -1,0 +1,60 @@
+{
+  "id": "11002",
+  "meta": {
+    "versionId": "0",
+    "profile": [
+      "https://fhir.nhs.uk/StructureDefinition/NHSDigital-HealthcareService-PatientCare"
+    ]
+  },
+  "resourceType": "HealthcareService",
+  "identifier": [
+    {
+      "system": "https://fhir.nhs.uk/Id/ers-service",
+      "value": "11002"
+    }
+  ],
+  "providedBy": {
+    "identifier": {
+      "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+      "value": "R69"
+    }
+  },
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "https://fhir.nhs.uk/CodeSystem/eRS-AppointmentType",
+          "code": "DIAGNOSTIC"
+        }
+      ]
+    }
+  ],
+  "specialty": [
+    {
+      "coding": [
+        {
+          "system": "https://fhir.nhs.uk/CodeSystem/eRS-Specialty",
+          "code": "CARDIOLOGY",
+          "display": "Cardiology"
+        }
+      ]
+    }
+  ],
+  "location": [
+    {
+      "identifier": {
+        "system": "https://fhir.nhs.uk/Id/ods-site-code",
+        "value": "R69"
+      }
+    }
+  ],
+  "name": "Cardiology Directly Bookable Service",
+  "endpoint": [
+    {
+      "identifier": {
+        "system": "https://fhir.nhs.uk/Id/nhsSpineASID",
+        "value": "TESTPAS3110"
+      }
+    }
+  ]
+}

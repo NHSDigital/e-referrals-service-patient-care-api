@@ -1,9 +1,9 @@
 description: |
   The Response contains a Healthcare service.
 headers:
-  x-correlation-id:
+  X-Correlation-ID:
     $ref: '../../headers/response/CorrelationID.yaml'
-  x-request-id: 
+  X-Request-ID: 
     $ref: '../../headers/response/RequestID.yaml'
   Content-Type:
     $ref: '../../headers/response/ContentTypeFhirJson.yaml'
@@ -12,7 +12,11 @@ content:
     schema:
       $ref: '../../HealthcareService.yaml'
     examples:
-      single:
-        summary: Healthcare service exists 
+      minimal:
+        summary: Service containing the minimal attributes 
         value:
-          $ref: '../../../examples/retrieveHealthcareService/responses/Single.json'
+          $ref: '../../../examples/retrieveHealthcareService/responses/MinimalAttributes.json'
+      maximul:
+        summary: Service containing the maximum attributes
+        value:
+          $ref: '../../../examples/retrieveHealthcareService/responses/MaximumAttributes.json'

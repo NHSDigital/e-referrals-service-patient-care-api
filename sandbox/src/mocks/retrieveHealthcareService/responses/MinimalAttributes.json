@@ -1,0 +1,42 @@
+{
+  "id": "70000",
+  "meta": {
+    "versionId": "1",
+    "profile": [
+      "https://fhir.nhs.uk/StructureDefinition/NHSDigital-HealthcareService-PatientCare"
+    ]
+  },
+  "resourceType": "HealthcareService",
+  "identifier": [
+    {
+      "system": "https://fhir.nhs.uk/Id/ers-service",
+      "value": "70000"
+    }
+  ],
+  "providedBy": {
+    "identifier": {
+      "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+      "value": "R69"
+    }
+  },
+  "specialty": [
+    {
+      "coding": [
+        {
+          "system": "https://fhir.nhs.uk/CodeSystem/eRS-Specialty",
+          "code": "CARDIOLOGY",
+          "display": "Cardiology"
+        }
+      ]
+    }
+  ],
+  "location": [
+    {
+      "identifier": {
+        "system": "https://fhir.nhs.uk/Id/ods-site-code",
+        "value": "R68"
+      }
+    }
+  ],
+  "name": "Cardiology Triage Service"
+}

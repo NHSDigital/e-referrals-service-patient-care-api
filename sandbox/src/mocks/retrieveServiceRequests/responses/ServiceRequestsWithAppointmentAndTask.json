@@ -8,13 +8,13 @@
     },
     "entry": [
       {
-        "fullUrl": "_baseUrl_/ServiceRequest/6c2a1f9b-2517-419d-9099-591ba63f176c",
+        "fullUrl": "_baseUrl_/ServiceRequest/r.6c2a1f9b-2517-419d-9099-591ba63f176c",
         "search": {
           "mode": "match"
         },
         "resource": {
           "resourceType": "ServiceRequest",
-          "id": "6c2a1f9b-2517-419d-9099-591ba63f176c",
+          "id": "r.6c2a1f9b-2517-419d-9099-591ba63f176c",
           "meta": {
             "versionId": "1",
             "profile": ["https://fhir.nhs.uk/StructureDefinition/NHSDigital-ServiceRequest-PatientCare"]
@@ -107,13 +107,13 @@
         }
       },
       {
-        "fullUrl": "_baseUrl_/ServiceRequest/876f5a90-ca1d-4644-b830-376b821a917b",
+        "fullUrl": "_baseUrl_/ServiceRequest/r.876f5a90-ca1d-4644-b830-376b821a917b",
         "search": {
           "mode": "match"
         },
         "resource": {
           "resourceType": "ServiceRequest",
-          "id": "876f5a90-ca1d-4644-b830-376b821a917b",
+          "id": "r.876f5a90-ca1d-4644-b830-376b821a917b",
           "meta": {
             "versionId": "2",
             "profile": ["https://fhir.nhs.uk/StructureDefinition/NHSDigital-ServiceRequest-PatientCare"]
@@ -206,13 +206,13 @@
         }
       },
       {
-        "fullUrl": "_baseUrl_/ServiceRequest/eb13327f-e990-4667-b37a-89eb93a94c47",
+        "fullUrl": "_baseUrl_/ServiceRequest/r.eb13327f-e990-4667-b37a-89eb93a94c47",
         "search": {
           "mode": "match"
         },
         "resource": {
           "resourceType": "ServiceRequest",
-          "id": "eb13327f-e990-4667-b37a-89eb93a94c47",
+          "id": "r.eb13327f-e990-4667-b37a-89eb93a94c47",
           "meta": {
             "versionId": "3",
             "profile": ["https://fhir.nhs.uk/StructureDefinition/NHSDigital-ServiceRequest-PatientCare"]
@@ -376,7 +376,7 @@
             ]
           },
           "focus": {
-            "reference": "_baseUrl_/ServiceRequest/eb13327f-e990-4667-b37a-89eb93a94c47"
+            "reference": "_baseUrl_/ServiceRequest/r.eb13327f-e990-4667-b37a-89eb93a94c47"
           },
           "for": {
             "identifier": {
