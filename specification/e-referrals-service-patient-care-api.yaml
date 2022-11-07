@@ -44,7 +44,7 @@ info:
     
     | Access mode                   | Authentication via         | Functions               | Availability                    |
     | ----------------------------- | -------------------------- | ----------------------- | ------------------------------- |
-    | [[HYPERLINK_PATIENT_ACCESS]]  | [[HYPERLINK_NHS_LOGIN]]    | Get own details         | [[HYPERLINK_BETA]]              |
+    | [[HYPERLINK_PATIENT_ACCESS]]  | [[HYPERLINK_NHS_LOGIN]]    | Get own details         | [[HYPERLINK_IN_PROD_BETA]]      |
   
     #### Patient, user-restricted access
     This access mode allows integrated systems acting on behalf of a patient to access Patient Care FHIR API endpoints by authenticating users with [[HYPERLINK_NHS_LOGIN]].
@@ -63,7 +63,7 @@ info:
     
     ## API status and roadmap
     
-    This API is in [[HYPERLINK_BETA]].
+    This API is [[HYPERLINK_IN_PROD_BETA_INTERNAL]].
     
     ## Service level
     This API is a gold service, meaning it is operational and supported 24 x 7 x 365.

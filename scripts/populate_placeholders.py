@@ -24,7 +24,7 @@ def main():
         "[[HYPERLINK_FHIR_UK_CORE_STU1]]": "[fhir.r4.ukcore.stu1](https://simplifier.net/packages/fhir.r4.ukcore.stu1)",
         "[[HYPERLINK_FHIR_R4]]": "[FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/)",
         "[[HYPERLINK_STABLE]]": "[stable](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses)",
-        "[[HYPERLINK_BETA]]": "[beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses)",
+        "[[HYPERLINK_IN_PROD_BETA]]": "[in production, beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses)",
         "[[HYPERLINK_PDS]]": "[Personal Demographic Service (PDS)](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir)",
         "[[HYPERLINK_PROOFING_LEVEL]]": "[identity proofing level](https://nhsconnect.github.io/nhslogin/vectors-of-trust/)",
         "[[HYPERLINK_NETWORK_ACCESS]]": "[Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis)",
@@ -39,6 +39,7 @@ def main():
         "[[HYPERLINK_HSCN]]": "[Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network)",
         "[[HYPERLINK_MANAGE_REFERRAL]]": "[NHS Manage Your Referral](https://www.nhs.uk/nhs-services/hospitals/book-an-appointment/)",
         "[[HYPERLINK_PC_AGGREGATOR]]": "[Patient Care Aggregator](https://digital.nhs.uk/developer/api-catalogue/patient-care-aggregator-fhir)",
+        "[[HYPERLINK_IN_PROD_BETA_INTERNAL]]": "[in production, beta but internal](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses)",
     }
 
     data = sys.stdin.read()
