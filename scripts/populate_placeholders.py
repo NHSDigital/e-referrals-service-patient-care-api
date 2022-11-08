@@ -40,8 +40,8 @@ def main():
         "[[HYPERLINK_MANAGE_REFERRAL]]": "[NHS Manage Your Referral](https://www.nhs.uk/nhs-services/hospitals/book-an-appointment/)",
         "[[HYPERLINK_PC_AGGREGATOR]]": "[Patient Care Aggregator](https://digital.nhs.uk/developer/api-catalogue/patient-care-aggregator-fhir)",
         "[[HYPERLINK_IN_PROD_BETA_INTERNAL]]": "[in production, beta but internal](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses)",
-        "[[HYPERLINK_IN_PROD_BETA_INTERNAL_HTTP]]": "<a href=\"https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses\">in production, beta but internal</a>
-        "[[HYPERLINK_CONTACT_US_HTTP]]": "<a href=\"https://digital.nhs.uk/developer/help-and-support\">contact us</a>,
+        "[[HYPERLINK_IN_PROD_BETA_INTERNAL_HTTP]]": "<a href=\"https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses\">in production, beta but internal</a>",
+        "[[HYPERLINK_CONTACT_US_HTTP]]": "<a href=\"https://digital.nhs.uk/developer/help-and-support\">contact us</a>",
     }
 
     data = sys.stdin.read()
