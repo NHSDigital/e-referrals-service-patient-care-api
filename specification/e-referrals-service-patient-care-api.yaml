@@ -16,7 +16,7 @@ info:
                 </figure>
             </div>
             <div class="nhsd-m-emphasis-box__content-box">
-                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is [[HYPERLINK_IN_PROD_BETA_INTERNAL_HTTP]], meaning the API is not currently available for integration by external third parties. If you want to use it, [[HYPERLINK_CONTACT_US_HTTP]] and we'll look at making it available</p></div>            
+                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is <a href=\"https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses\">in production, beta but internal</a>, meaning the API is not currently available for integration by external third parties. If you want to use it, <a href=\"https://digital.nhs.uk/developer/help-and-support\">contact us</a> and we'll look at making it available</p></div>            
             </div>
         </div>
     </div>
