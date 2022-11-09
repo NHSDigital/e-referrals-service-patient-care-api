@@ -16,7 +16,7 @@ info:
                 </figure>
             </div>
             <div class="nhsd-m-emphasis-box__content-box">
-                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is currently for internal NHS Digital use only.</p></div>            
+                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is <a href="https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses">in production, beta but internal</a>, meaning the API is not currently available for integration by external third parties. If you want to use it, <a href="https://digital.nhs.uk/developer/help-and-support">contact us</a> and we'll look at making it available.</p></div>            
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@ info:
     
     | Access mode                   | Authentication via         | Functions               | Availability                    |
     | ----------------------------- | -------------------------- | ----------------------- | ------------------------------- |
-    | [[HYPERLINK_PATIENT_ACCESS]]  | [[HYPERLINK_NHS_LOGIN]]    | Get own details         | [[HYPERLINK_BETA]]              |
+    | [[HYPERLINK_PATIENT_ACCESS]]  | [[HYPERLINK_NHS_LOGIN]]    | Get own details         | [[HYPERLINK_IN_PROD_BETA]]      |
   
     #### Patient, user-restricted access
     This access mode allows integrated systems acting on behalf of a patient to access Patient Care FHIR API endpoints by authenticating users with [[HYPERLINK_NHS_LOGIN]].
@@ -63,7 +63,7 @@ info:
     
     ## API status and roadmap
     
-    This API is in [[HYPERLINK_BETA]].
+    This API is [[HYPERLINK_IN_PROD_BETA_INTERNAL]].
     
     ## Service level
     This API is a gold service, meaning it is operational and supported 24 x 7 x 365.
