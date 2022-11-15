@@ -9,16 +9,16 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "loglevel": "^1.8.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "chai": "^4.3.6",
     "mocha": "<10.0.0",
-    "mocha-junit-reporter": "^2.0.2",
+    "mocha-junit-reporter": "^2.1.1",
     "mocha-multi": "^1.1.3",
     "nodemon": "^2.0.20",
-    "supertest": "^6.2.4"
+    "supertest": "^6.3.1"
   }
 }
