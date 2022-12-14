@@ -32,7 +32,18 @@
         <Name>AssignMessage.SetEchoTarget</Name>
         <Condition>(request.header.echo)</Condition>
       </Step> {% endif %}
-     <Step>
+      {% if '--ft-' in (ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api')) %}
+      <Step>
+        <Name>AssignMessage.SetTruststore</Name>
+        <!--Condition is implemented this way around to account for isEchoCall being null (https://docs.apigee.com/api-platform/reference/conditions-reference#behaviorofnulloperandsinconditionalstatements)-->
+        <Condition>(isEchoCall != true )</Condition>
+      </Step>
+      <Step>
+        <Name>AssignMessage.SetEchoTruststore</Name>
+        <Condition>(isEchoCall == true)</Condition>
+      </Step>
+      {% endif %}
+      <Step>
         <Name>AssignMessage.SetTargetIdentifierDecoded</Name>
         <Condition>request.header.NHSD-Target-Identifier != null</Condition>
       </Step>
@@ -120,11 +131,13 @@
     </FaultRule>
   </FaultRules>
   <HTTPTargetConnection>
-      <SSLInfo>{% if '--ft-' in (ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api')) %}
-        <TrustStore>ref://e-referral-service-ca</TrustStore> {% endif %}
+    <SSLInfo>
+        {% if '--ft-' in (ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api')) %}
+        <TrustStore>{truststore}</TrustStore>
+        {% endif %}
         <Enabled>true</Enabled>
-      </SSLInfo>
-      <LoadBalancer>
+    </SSLInfo>
+    <LoadBalancer>
         <Server name="{{ ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api') }}"/>
       </LoadBalancer>
 {% if '--ft-' not in (ERS_TARGET_SERVER | default('e-referrals-service-patient-care-api')) %}

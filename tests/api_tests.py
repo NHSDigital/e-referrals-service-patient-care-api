@@ -12,7 +12,6 @@ async def _is_deployed(resp: ClientResponse, api_test_config: APITestSessionConf
     if resp.status != 200:
         return False
     body = await resp.json()
-
     return body.get("commitId") == api_test_config.commit_id
 
 
@@ -21,7 +20,6 @@ async def _is_deployed_and_connected(resp: ClientResponse, api_test_config: APIT
     if resp.status != 200:
         return False
     body = await resp.json()
-
     return body.get("commitId") == api_test_config.commit_id and body.get("status") == "pass"
 
 

@@ -3,4 +3,8 @@
     <Name>target.url</Name>
     <Value>https://mocktarget.apigee.net/echo/{proxy.pathsuffix}</Value>
   </AssignVariable>
+  <AssignVariable>
+    <Name>isEchoCall</Name>
+    <Value>true</Value>
+  </AssignVariable>
 </AssignMessage>
