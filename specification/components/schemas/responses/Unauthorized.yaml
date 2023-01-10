@@ -1,5 +1,5 @@
 description: |
-  Where status code 401 (Unauthorized) is returned when there is a failure on the authentication process. An OperationOutcome will be included in the body, as detailed below.
+  Status code 401 (Unauthorized) is returned when there is a failure on the authentication process. An OperationOutcome will be included in the body, as detailed below.
   
   | Error code                         | Description                                                                                                                  |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
