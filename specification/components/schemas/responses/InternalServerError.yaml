@@ -1,5 +1,5 @@
 description: |
-  Where status code 500 (Internal Server Error) is returned then an OperationOutcome will be included in the body. An OperationOutcome will be included in the body, as detailed below.
+  When status code 500 (Internal Server Error) is returned then an OperationOutcome will be included in the body, as detailed below.
   
   | Error code                         | Description                                                                                                                  |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |

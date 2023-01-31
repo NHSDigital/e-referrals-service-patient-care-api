@@ -1,5 +1,5 @@
 description: |
-  Where status code 429 (Too Many Requests) is returned when too many requests received in a given amount of time. An OperationOutcome will be included in the body, as detailed below.
+  Status code 429 (Too Many Requests) is returned when too many requests are received in a given amount of time. An OperationOutcome will be included in the body, as detailed below.
   
   | Error code                         | Description                                                                                                                  |
   | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |

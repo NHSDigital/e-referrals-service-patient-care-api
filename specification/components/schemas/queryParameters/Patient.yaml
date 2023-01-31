@@ -1,7 +1,7 @@
 in: query
 name: patient:identifier
 description: |
-  Parameter to supply a patient nhs-number.
+  Parameter to supply a patient NHS Number.
 required: true
 schema:
   type: string
