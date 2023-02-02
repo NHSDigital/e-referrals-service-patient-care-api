@@ -41,7 +41,7 @@ class TestHeaders:
         so in order to exercise this the parameter send_apim_headers is used:
             * False: the client does not send the headers (which is the normal scenario)
             * True: the client sends the headers
-        
+
         """
         client_request_headers = {
             _HEADER_ECHO: "",  # enable echo target
@@ -56,7 +56,7 @@ class TestHeaders:
             client_request_headers[InternalHeader.BASE_URL.name] = _DUMMY_VALUE
             client_request_headers[InternalHeader.APPLICATION_ID.name] = _DUMMY_VALUE
             client_request_headers[InternalHeader.ACCESS_TOKEN.name] = _DUMMY_VALUE
-            client_request_headers[RenamedHeader.CORRELATION_ID.renamed] = _DUMMY_VALUE 
+            client_request_headers[RenamedHeader.CORRELATION_ID.renamed] = _DUMMY_VALUE
 
         # Make the API call
         response = requests.get(service_url, headers=client_request_headers)
@@ -94,10 +94,10 @@ class TestHeaders:
         assert target_request_headers[InternalHeader.NHS_NUMBER.name] == _MATCH_PATIENT_NHS_NUMBER
         assert target_request_headers[InternalHeader.BASE_URL.name] == service_url
         assert target_request_headers[InternalHeader.ACCESS_TOKEN.name] == patient_access_token
-        
+
         app_details = await patient_care_app.get_app_details()
         assert target_request_headers[InternalHeader.APPLICATION_ID.name] == app_details["appId"]
-        
+
 
     @pytest.mark.parametrize(
         "auth_header",
@@ -138,8 +138,8 @@ class TestHeaders:
 
     @pytest.mark.parametrize(
         "target_identifier",
-        [(base64.b64encode(bytes(json.dumps(_INVALID_SYSTEM_NHSD_TARGET_IDENTIFIER), 'utf-8'))), 
-        (base64.b64encode(bytes(json.dumps(_INVALID_VALUE_NHSD_TARGET_IDENTIFIER), 'utf-8'))), 
+        [(base64.b64encode(bytes(json.dumps(_INVALID_SYSTEM_NHSD_TARGET_IDENTIFIER), 'utf-8'))),
+        (base64.b64encode(bytes(json.dumps(_INVALID_VALUE_NHSD_TARGET_IDENTIFIER), 'utf-8'))),
         (None), (""), ("AA")],
     )
     def test_invalid_target_application(self, service_url, patient_access_token, target_identifier):
