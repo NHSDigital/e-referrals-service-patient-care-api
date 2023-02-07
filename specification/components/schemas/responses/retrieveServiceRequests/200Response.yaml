@@ -13,7 +13,7 @@ content:
       $ref: '../../ServiceRequestBundle.yaml'
     examples:
       multiple:
-        summary: ServiceRequest search response containing multiple ServiceRequest resources with an associated Task or Appointment. 
+        summary: ServiceRequest search response containing multiple ServiceRequest resources with an associated Task or Appointment
         value:
           $ref: '../../../examples/retrieveServiceRequests/responses/ServiceRequestsWithAppointmentAndTask.json'    
       empty:

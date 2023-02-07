@@ -1,5 +1,5 @@
 type: object
-description: Unique Booking Reference Number. (12 digit number used as an internal and external identifier of the referral), known as "Booking Reference" Patient side.
+description: Unique Booking Reference Number (known as "Booking Reference" Patient side) is a 12 digit number used as an internal and external identifier of the referral.
 required:
   - system
   - value
