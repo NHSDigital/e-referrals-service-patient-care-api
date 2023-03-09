@@ -1,0 +1,55 @@
+{%- macro environment(ENV) -%}
+  - name: {{ ENV.name }}
+    products:
+{% endmacro %}
+-
+{%- macro product(SERVICE_NAME, ENV, TITLE, productName, displayName) -%}
+      - name: {{ SERVICE_NAME }}-{{ productName }}
+        approvalType: manual
+        attributes:
+          - name: access
+            value: public
+          - name: ratelimiting
+            value:
+              {{ SERVICE_NAME }}-{{ productName }}:
+                quota:
+                  enabled: false
+                spikeArrest:
+                  enabled: false
+          - name: requestLimit_referral
+            value: {{ ENV.request_limit | default('15000') }}
+          - name: requestLimit_general
+            value: {{ ENV.request_limit | default('15000') }}
+          - name: burstLimit_referral
+            value: {{ ENV.burst_limit | default('22500pm') }}
+          - name: burstLimit_general
+            value: {{ ENV.burst_limit | default('22500pm') }}
+        description: e-RS Patient Care API
+        displayName: {{ TITLE }} ({{ displayName }})
+        environments: [ {{ ENV.name }} ]
+        proxies:
+          - {{ SERVICE_NAME }}-{{ productName }}
+          - identity-service-{{ ENV.name }}
+{% if ENV.additional_proxies is defined %}
+{%  for proxy in ENV.additional_proxies %}
+          - {{ proxy }}
+{%  endfor %}
+{% endif %}
+        scopes:
+          - 'urn:nhsd:apim:user-nhs-login:P9:{{ SERVICE_NAME }}'
+{% endmacro %}
+
+{%- macro specs(SERVICE_NAME, productName) -%}
+      - name: {{ SERVICE_NAME }}-{{ productName }}
+        path: {{ SERVICE_NAME }}.json
+{%- endmacro %}
+
+{%- macro api_catalog(SERVICE_NAME, TITLE, DESCRIPTION, productName, displayName) -%}
+      - edgeAPIProductName: {{ SERVICE_NAME }}-{{ productName }}
+        anonAllowed: true
+        description: {{ DESCRIPTION }}
+        requireCallbackUrl: false
+        title: {{ TITLE }} ({{ displayName }})
+        visibility: true
+        specId: {{ SERVICE_NAME }}-{{ productName }}
+{% endmacro %}
