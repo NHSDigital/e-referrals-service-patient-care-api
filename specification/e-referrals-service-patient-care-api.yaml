@@ -37,9 +37,7 @@ info:
     
     You can access the following data:
       - a summary of each active referral
-      
-    A healthcare worker must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API. 
-    
+          
     ### Access modes
     
     This API has one access mode:
