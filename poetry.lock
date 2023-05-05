@@ -1431,14 +1431,14 @@ files = [
 
 [[package]]
 name = "pip-licenses"
-version = "4.3.0"
+version = "4.3.1"
 description = "Dump the software license list of Python packages installed with pip."
 category = "dev"
 optional = false
 python-versions = "~=3.8"
 files = [
-    {file = "pip-licenses-4.3.0.tar.gz", hash = "sha256:bd18ebd91a9c67ff880351131b91f418cc571d05bf62b5532aa1aa3e1b78bf94"},
-    {file = "pip_licenses-4.3.0-py3-none-any.whl", hash = "sha256:01c1aaf595aed12ea3aeb6c56d9af535650e73ae8186cb26d3596b94ddc43998"},
+    {file = "pip-licenses-4.3.1.tar.gz", hash = "sha256:80236ae03036f0edccae57489de3932aa93984a7b552f4fd47399b08793918ff"},
+    {file = "pip_licenses-4.3.1-py3-none-any.whl", hash = "sha256:1e6652f7f3bd173e0a3551202e19518b21ac1d5ab1a2b54e08d96ee67146f9ca"},
 ]
 
 [package.dependencies]
@@ -2194,4 +2194,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "1e34b97f1983cce6c1ee82e3e1f872d896039cf5de96e65e200a951a18f4aa36"
+content-hash = "27e267c12e4a5c0a2b1de4eb801ca6b61a39e654a9d97c5acc6225300c02d231"
