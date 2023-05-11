@@ -7,9 +7,11 @@
 
 *  @NHSDigital/e-referrals
 
-/sandbox/Dockerfile
-/sandbox/package*.json
-/package*.json
-/poetry*
-/pyproject.toml
-
+/sandbox/Dockerfile @nhsd-david-wass @adamoldfield-nhs @nhsd-jack-wainwright
+/sandbox/package.json @nhsd-david-wass @adamoldfield-nhs @nhsd-jack-wainwright
+/sandbox/package-lock.json @nhsd-david-wass @adamoldfield-nhs @nhsd-jack-wainwright
+/package.json @nhsd-david-wass @adamoldfield-nhs @nhsd-jack-wainwright
+/package-lock.json @nhsd-david-wass @adamoldfield-nhs @nhsd-jack-wainwright
+/poetry.lock @nhsd-david-wass @adamoldfield-nhs @nhsd-jack-wainwright
+/poetry.toml @nhsd-david-wass @adamoldfield-nhs @nhsd-jack-wainwright
+/pyproject.toml @nhsd-david-wass @adamoldfield-nhs @nhsd-jack-wainwright
