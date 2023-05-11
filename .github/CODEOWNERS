@@ -6,3 +6,10 @@
 # review when someone opens a pull request.
 
 *  @NHSDigital/e-referrals
+
+/sandbox/Dockerfile
+/sandbox/package*.json
+/package*.json
+/poetry*
+/pyproject.toml
+
