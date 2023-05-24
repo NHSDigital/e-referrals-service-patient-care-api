@@ -32,9 +32,10 @@ extends:
     service_base_path: ${{ variables.service_base_path }}
     enable_status_monitoring: true
     manual_approval_env: manual-approval-ptl
+    prod_producer_approval: true
     apigee_deployments:
       - environment: manual-approval
-        stage_name: manual_approval_alpha
+        stage_name: ers_manual_approval_alpha
       - environment: internal-dev
         stage_name: ers_alpha_release
         service_name: "${{ variables.service_name }}-alpha"
@@ -49,9 +50,9 @@ extends:
               integration_tests: true
               smoke_tests: true
         depends_on:
-          - manual_approval_alpha
+          - ers_manual_approval_alpha
       - environment: manual-approval
-        stage_name: manual_approval_rc
+        stage_name: ers_manual_approval_rc
       - environment: internal-dev
         stage_name: ers_rc_release
         service_name: "${{ variables.service_name }}-rc"
@@ -66,9 +67,9 @@ extends:
                 integration_tests: true
                 smoke_tests: true
         depends_on:
-          - manual_approval_rc
+          - ers_manual_approval_rc
       - environment: manual-approval
-        stage_name: manual_approval_fix
+        stage_name: ers_manual_approval_fix
       - environment: internal-dev
         stage_name: ers_fix_release
         service_name: "${{ variables.service_name }}-fix"
@@ -83,9 +84,9 @@ extends:
               integration_tests: true
               smoke_tests: true
         depends_on:
-          - manual_approval_fix
+          - ers_manual_approval_fix
       - environment: manual-approval
-        stage_name: manual_approval_sa
+        stage_name: ers_manual_approval_sa
       - environment: internal-qa
         stage_name: ers_sa_release
         post_deploy:
@@ -93,9 +94,9 @@ extends:
             parameters:
               smoke_tests: true
         depends_on:
-          - manual_approval_sa
+          - ers_manual_approval_sa
       - environment: manual-approval
-        stage_name: manual_approval_int
+        stage_name: ers_manual_approval_int
       - environment: int
         stage_name: ers_int_release
         post_deploy:
@@ -103,7 +104,11 @@ extends:
             parameters:
               smoke_tests: true
         depends_on:
-          - manual_approval_int
+          - ers_manual_approval_int
+      - environment: manual-approval
+        stage_name: ers_manual_approval_prod
+        depends_on:
+          - ers_sa_release
       - environment: prod
         stage_name: prod #revert to ers_prod_release when monitoring stack fixed to support it.
         post_deploy:
@@ -111,9 +116,9 @@ extends:
             parameters:
               smoke_tests: true
         depends_on:
-          - ers_sa_release
+          - ers_manual_approval_prod
       - environment: manual-approval
-        stage_name: manual_approval_nft2
+        stage_name: ers_manual_approval_nft2
       - environment: ref
         stage_name: ers_nft2_release
         post_deploy:
@@ -121,12 +126,12 @@ extends:
             parameters:
               smoke_tests: true
         depends_on:
-          - manual_approval_nft2
+          - ers_manual_approval_nft2
       - environment: internal-qa-sandbox
         proxy_path: sandbox
         depends_on:
-          - manual_approval_sa
+          - ers_manual_approval_sa
       - environment: sandbox
         proxy_path: sandbox
         depends_on:
-          - manual_approval_int
+          - ers_manual_approval_int
