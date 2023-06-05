@@ -21,7 +21,7 @@ properties:
       - identifier
     properties:
       identifier:
-        type: string
+        type: object
         $ref: identifiers/SdsUserId.yaml
   organization:
     type: object

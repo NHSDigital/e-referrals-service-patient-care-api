@@ -38,6 +38,11 @@ properties:
     items: 
       anyOf:
       - $ref: identifiers/HealthcareService.yaml
+  resourceType:
+    type: string
+    enum:
+      - HealthcareService
+    example: 'HealthcareService'
   providedBy:
     type: object
     required:
