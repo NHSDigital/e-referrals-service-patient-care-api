@@ -162,7 +162,7 @@ async def nhs_login_subject_token(patient_care_app: ApigeeApiDeveloperApps, vali
         "id_status": "verified",
         "token_use": "id",
         "auth_time": 1616600683,
-        "iss": "https://identity.ptl.api.platform.nhs.uk/auth/realms/NHS-Login-mock-internal-dev",  # Points to internal dev -> testing JWKS
+        "iss": "https://identity.ptl.api.platform.nhs.uk/realms/NHS-Login-mock-internal-dev",  # Points to internal dev -> testing JWKS
         "sub": "https://internal-dev.api.service.nhs.uk",
         "exp": int(time()) + 300,
         "iat": int(time()) - 10,
