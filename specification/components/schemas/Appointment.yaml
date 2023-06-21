@@ -75,6 +75,7 @@ properties:
     minItems: 2
     maxItems: 2
     description: |
+      
       | Field                                   | Cardinality | Notes                                      |
       | --------------------------------------- | ----------- | ------------------------------------------ |
       | `HealthcareService`                     | `1..1`      |                                            |  

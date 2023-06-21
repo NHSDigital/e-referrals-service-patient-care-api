@@ -11,8 +11,8 @@ import sys
 def main():
     """Main entrypoint"""
     substitutes_dict = {
-        "[[HYPERLINK_A001]]": "[Retrieve referral requests for a patient](#api-Default-a001-retrieve-referral-requests)",
-        "[[HYPERLINK_A002]]": "[Retrieve heathcare service](#api-Default-a002-retrieve-healthcare-service)",
+        "[[HYPERLINK_A001]]": "[Retrieve referral requests for a patient](#get-/FHIR/R4/ServiceRequest)",
+        "[[HYPERLINK_A002]]": "[Retrieve heathcare service](#get-/FHIR/R4/HealthcareService/-id-)",
         "[[HYPERLINK_ERS]]": "[e-Referral Service (e-RS)](https://digital.nhs.uk/services/e-referral-service)",
         "[[HYPERLINK_NHS_LOGIN]]": "[NHS login](https://digital.nhs.uk/services/nhs-login/nhs-login-for-partners-and-developers)",
         "[[HYPERLINK_PATIENT_ACCESS]]": "[Patient access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis)",
