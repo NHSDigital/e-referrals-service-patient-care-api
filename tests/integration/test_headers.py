@@ -24,7 +24,7 @@ _INVALID_VALUE_NHSD_TARGET_IDENTIFIER = {
 _VALID_NHSD_TARGET_IDENTIFIER_BASE_64 = base64.b64encode(bytes(json.dumps(_VALID_NHSD_TARGET_IDENTIFIER), 'utf-8'))
 
 _EXPECTED_CORRELATION_ID = "123123-123123-123123-123123"
-_MATCH_PATIENT_NHS_NUMBER = "9912003888"
+_MATCH_PATIENT_NHS_NUMBER = "9900000285"
 _DUMMY_VALUE = "DUMMY"
 
 @pytest.mark.contract_test
@@ -95,8 +95,7 @@ class TestHeaders:
         assert target_request_headers[InternalHeader.BASE_URL.name] == service_url
         assert target_request_headers[InternalHeader.ACCESS_TOKEN.name] == patient_access_token
 
-        app_details = await patient_care_app.get_app_details()
-        assert target_request_headers[InternalHeader.APPLICATION_ID.name] == app_details["appId"]
+        assert target_request_headers[InternalHeader.APPLICATION_ID.name] == patient_care_app["appId"]
 
 
     @pytest.mark.parametrize(
