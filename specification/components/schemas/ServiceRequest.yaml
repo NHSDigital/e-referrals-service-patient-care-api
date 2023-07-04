@@ -51,6 +51,7 @@ properties:
     maxItems: 3
     nullable: false
     description: |
+      
       | Field                                      | Cardinality | Notes                                                                 |
       | ------------------------------------------ | ----------- | --------------------------------------------------------------------- |
       | `Extension-Portal-Link`                    | `1..1`      |  Deep Link into the specific landing page in MYR                      |
@@ -67,6 +68,7 @@ properties:
     maxItems: 1
     nullable: false
     description: |
+      
       | Field                                   | Cardinality | Notes                                      |
       | --------------------------------------- | ----------- | ------------------------------------------ |
       | `PractitionerRole`                      | `1..1`      |                                            |  
