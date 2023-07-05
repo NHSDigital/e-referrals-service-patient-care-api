@@ -17,7 +17,6 @@ from pytest_nhsd_apim.apigee_apis import (
     ApigeeNonProdCredentials,
     DeveloperAppsAPI,
 )
-__JWKS_RESOURCE_URL = "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/internal-dev/9baed6f4-1361-4a8e-8531-1f8426e3aba8.json"
 
 @pytest.fixture()
 def client():
@@ -115,15 +114,14 @@ def make_product(client, environment, service_name):
 
 @pytest.fixture
 def make_app(client):
-    async def _make_app(product, custom_attributes):
+    async def _make_app(product, custom_attributes={}):
         # Setup
         devAppAPI = DeveloperAppsAPI(client=client)
         app_name = f"apim-auto-{uuid4()}"
 
-        attributes = [{"name": "DisplayName", "value": app_name}]
+        attributes = [{"name": key, "value": value} for key, value in custom_attributes.items()]
+        attributes.append({"name": "DisplayName", "value": app_name})
 
-        for key, value in custom_attributes.items():
-            attributes.append({"name": key, "value": value})
         body = {
             "apiProducts": [product],
             "attributes": attributes,
@@ -157,13 +155,14 @@ async def patient_care_product(client,make_product):
 async def patient_care_app(
     client,
     make_app,
-    patient_care_product
+    patient_care_product,
+    jwt_public_key_url
 ):
     # Setup
     app = await make_app(
         patient_care_product,
         {
-            "jwks-resource-url": __JWKS_RESOURCE_URL
+            "jwks-resource-url": jwt_public_key_url
         },
     )
 
