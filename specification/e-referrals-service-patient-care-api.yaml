@@ -141,6 +141,8 @@ servers:
 paths:
   /FHIR/R4/ServiceRequest:
     get:
+      security:
+        - bearerAuth: []
       summary: Retrieve referral requests for a patient
       description: |
         ## Overview
@@ -193,6 +195,8 @@ paths:
           $ref: 'components/schemas/responses/GatewayTimeout.yaml'
   /FHIR/R4/HealthcareService/{id}:
     get:
+      security:
+        - bearerAuth: []
       summary: Retrieve healthcare service
       description: |
         ## Overview
@@ -236,7 +240,12 @@ paths:
           $ref: 'components/schemas/responses/InternalServerError.yaml'
         '504':
           $ref: 'components/schemas/responses/GatewayTimeout.yaml'
-
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
           
         
