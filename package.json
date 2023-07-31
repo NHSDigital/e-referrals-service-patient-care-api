@@ -3,17 +3,17 @@
   "version": "0.0.1",
   "description": "OAS (Swagger v3) API Definition for Template API",
   "scripts": {
-    "lint": "node_modules/.bin/speccy lint -s openapi-tags -s operation-tags specification/e-referrals-service-patient-care-api.yaml --skip default-and-example-are-redundant",
-    "publish": "mkdir -p build && node_modules/.bin/speccy resolve specification/e-referrals-service-patient-care-api.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py | poetry run python scripts/populate_placeholders.py > build/e-referrals-service-patient-care-api.json",
-    "publish-aws": "mkdir -p build && node_modules/.bin/speccy resolve specification/e-referrals-service-patient-care-api.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py | poetry run python scripts/populate_placeholders.py | poetry run python scripts/api-gateway-integration.py > build/e-referrals-service-patient-care-api-aws.json",
-    "serve": "node_modules/.bin/speccy serve build/e-referrals-service-patient-care-api.json",
+    "publish": "redocly bundle specification/e-referrals-service-patient-care-api.yaml --dereferenced --remove-unused-components --ext json | poetry run python scripts/set_version.py | poetry run python scripts/populate_placeholders.py > build/e-referrals-service-patient-care-api.json",
+    "publish-aws": "redocly bundle specification/e-referrals-service-patient-care-api.yaml --dereferenced --remove-unused-components --ext json | poetry run python scripts/set_version.py | poetry run python scripts/populate_placeholders.py | poetry run python scripts/api-gateway-integration.py > build/e-referrals-service-patient-care-api-aws.json",
+    "serve": "redocly preview-docs -p 5000 build/e-referrals-service-patient-care-api.json",
+    "lint": "redocly lint specification/e-referrals-service-patient-care-api.yaml",
     "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL"
   },
   "author": "NHS Digital",
   "license": "MIT",
   "homepage": "https://github.com/NHSDigital/e-referrals-service-patient-care-api",
   "dependencies": {
-    "speccy": "^0.11.0"
+    "@redocly/cli": "^1.0.0-beta.124"
   },
   "devDependencies": {
     "apigeetool": "^0.16.1",

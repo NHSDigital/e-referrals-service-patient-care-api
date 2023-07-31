@@ -117,16 +117,6 @@ extends:
               smoke_tests: true
         depends_on:
           - ers_manual_approval_prod
-      - environment: manual-approval
-        stage_name: ers_manual_approval_nft2
-      - environment: ref
-        stage_name: ers_nft2_release
-        post_deploy:
-          - template: templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-        depends_on:
-          - ers_manual_approval_nft2
       - environment: internal-qa-sandbox
         proxy_path: sandbox
         depends_on:

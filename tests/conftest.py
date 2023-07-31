@@ -1,26 +1,27 @@
 # flake8: noqa
 import os
+import requests
 
 from uuid import uuid4
 from time import time
+from datetime import datetime
 
 import pytest
-from api_test_utils.apigee_api_apps import ApigeeApiDeveloperApps
-from api_test_utils.apigee_api_products import ApigeeApiProducts
-from api_test_utils.oauth_helper import OauthHelper
-from api_test_utils.api_test_session_config import APITestSessionConfig
-from api_test_utils.fixtures import api_client   # pylint: disable=unused-import
+from pytest_nhsd_apim.identity_service import (
+    AuthorizationCodeConfig,
+    AuthorizationCodeAuthenticator,
+)
+from pytest_nhsd_apim.apigee_apis import (
+    ApiProductsAPI,
+    ApigeeClient,
+    ApigeeNonProdCredentials,
+    DeveloperAppsAPI,
+)
 
-__JWKS_RESOURCE_URL = "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/internal-dev/9baed6f4-1361-4a8e-8531-1f8426e3aba8.json"
-
-@pytest.fixture(scope='session')
-def api_test_config() -> APITestSessionConfig:
-    """
-        this imports a 'standard' test session config,
-        which builds the proxy uri
-
-    """
-    return APITestSessionConfig()
+@pytest.fixture()
+def client():
+    config = ApigeeNonProdCredentials()
+    return ApigeeClient(config=config)
 
 
 def get_env(variable_name: str) -> str:
@@ -41,7 +42,7 @@ def environment():
 
 @pytest.fixture(scope="session")
 def valid_nhs_number():
-    return "9912003888"
+    return "9900000285"
 
 
 @pytest.fixture(scope="session")
@@ -67,182 +68,133 @@ def status_endpoint_api_key():
 
 
 @pytest.fixture(scope="session")
-def token_url():
+def oauth_url():
     oauth_proxy = get_env("OAUTH_PROXY")
     oauth_base_uri = get_env("OAUTH_BASE_URI")
-    return f"{oauth_base_uri}/{oauth_proxy}/token"
+    return f"{oauth_base_uri}/{oauth_proxy}"
 
 
 @pytest.fixture
-def make_product(environment, service_name):
+def make_product(client, environment, service_name):
     async def _make_product(product_scopes):
         # Setup
-        product = ApigeeApiProducts()
-        await product.create_new_product()
+        product = ApiProductsAPI(client=client)
 
-        print(f"CREATED PRODUCT NAME: {product.name}")
-
-        # Update products allowed paths
         proxies = [f"identity-service-mock-{environment}"]
 
         if service_name is not None:
             proxies.append(service_name)
 
-        await product.update_proxies(proxies)
-        await product.update_scopes(scopes=product_scopes)
-        return product
+        product_name = f"apim-auto-{uuid4()}"
+
+        attributes=[
+            {"name": "requestLimit_referral", "value": "100"},
+            {"name": "requestLimit_general", "value": "100"},
+            {"name": "burstLimit_referral", "value": "1200pm"},
+            {"name": "burstLimit_general", "value": "1200pm"}
+        ]
+
+        body = {
+            "proxies": proxies,
+            "scopes": product_scopes,
+            "name": product_name,
+            "displayName": product_name,
+            "attributes": attributes,
+            "approvalType": "auto",
+            "environments": ["internal-dev"],
+            "quota": 500,
+            "quotaInterval": "1",
+            "quotaTimeUnit": "minute",
+        }
+        product.post_products(body=body)
+        return product_name
 
     return _make_product
 
 
 @pytest.fixture
-def make_app():
-    async def _make_app(product, custom_attributes):
+def make_app(client):
+    async def _make_app(product, custom_attributes={}):
         # Setup
-        app = ApigeeApiDeveloperApps()
-        await app.create_new_app()
+        devAppAPI = DeveloperAppsAPI(client=client)
+        app_name = f"apim-auto-{uuid4()}"
 
-        print(f"CREATED APP NAME: {app.name}")
+        attributes = [{"name": key, "value": value} for key, value in custom_attributes.items()]
+        attributes.append({"name": "DisplayName", "value": app_name})
 
-        await app.set_custom_attributes(custom_attributes)
+        body = {
+            "apiProducts": [product],
+            "attributes": attributes,
+            "name": app_name,
+            "scopes": [],
+            "status": "approved",
+            "callbackUrl": "http://example.com",
+        }
+        app = devAppAPI.create_app(email="apm-testing-internal-dev@nhs.net", body=body)
+        print(f"CREATED APP NAME: {app_name}")
 
-        # Assign the new app to the product
-        await app.add_api_product([product.name])
-
-        app.oauth = OauthHelper(app.client_id, app.client_secret, app.callback_url)
         return app
 
     return _make_app
 
 
 @pytest.fixture
-async def patient_care_product(make_product):
+async def patient_care_product(client,make_product):
     # Setup
-    product = await make_product(["urn:nhsd:apim:user-nhs-login:P9:e-referrals-service-patient-care-api"])
+    productName = await make_product(["urn:nhsd:apim:user-nhs-login:P9:e-referrals-service-patient-care-api"])
 
-    await product.update_attributes(
-        attributes={"requestLimit_referral": "100",
-            "requestLimit_general": "100",
-            "burstLimit_referral": "1200pm",
-            "burstLimit_general": "1200pm"
-        }
-    )
-
-    yield product
+    yield productName
 
     # Teardown
-    print(f"Cleanup product: {product.name}")
-    await product.destroy_product()
+    print(f"Cleanup product: {productName}")
+    product = ApiProductsAPI(client=client)
+    product.delete_product_by_name(product_name=productName)
 
 
 @pytest.fixture
 async def patient_care_app(
+    client,
     make_app,
-    patient_care_product
+    patient_care_product,
+    jwt_public_key_url
 ):
     # Setup
     app = await make_app(
         patient_care_product,
         {
-            "jwks-resource-url": __JWKS_RESOURCE_URL
+            "jwks-resource-url": jwt_public_key_url
         },
     )
 
+    appName = app["name"]
     yield app
 
     # Teardown
-    print(f"Cleanup app: {app.name}")
-    await app.destroy_app()
+    print(f"Cleanup app: {appName}")
+
+    devApp = DeveloperAppsAPI(client=client)
+    devApp.delete_app_by_name(email="apm-testing-internal-dev@nhs.net", app_name=appName)
 
 
 @pytest.fixture
-async def nhs_login_subject_token(patient_care_app: ApigeeApiDeveloperApps, valid_nhs_number: str):
-    id_token_claims = {
-        "aud": "tf_-APIM-1",
-        "id_status": "verified",
-        "token_use": "id",
-        "auth_time": 1616600683,
-        "iss": "https://identity.ptl.api.platform.nhs.uk/realms/NHS-Login-mock-internal-dev",  # Points to internal dev -> testing JWKS
-        "sub": "https://internal-dev.api.service.nhs.uk",
-        "exp": int(time()) + 300,
-        "iat": int(time()) - 10,
-        "vtm": "https://auth.sandpit.signin.nhs.uk/trustmark/auth.sandpit.signin.nhs.uk",
-        "jti": str(uuid4()),
-        "identity_proofing_level": "P9",
-        "birthdate": "1939-09-26",
-        "nhs_number": valid_nhs_number,
-        "nonce": "randomnonce",
-        "surname": "CARTHY",
-        "vot": "P9.Cp.Cd",
-        "family_name": "CARTHY",
-    }
+async def patient_access_token(client, patient_care_app, valid_nhs_number,environment, oauth_url):
+        print(f"Attempting to authenticate: {valid_nhs_number}")
 
-    id_token_headers = {
-        "kid": "B86zGrfcoloO13rnjKYDyAJcqj2iZAMrS49jyleL0Fo",
-        "typ": "JWT",
-        "alg": "RS512"
-    }
+        credentials = patient_care_app["credentials"][0]
 
-    # private key we retrieved from earlier
-    nhs_login_id_token_private_key_path = get_env("ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH")
-
-    with open(nhs_login_id_token_private_key_path, "r") as f:
-        contents = f.read()
-
-    id_token_jwt = patient_care_app.oauth.create_id_token_jwt(
-        algorithm="RS512",
-        claims=id_token_claims,
-        headers=id_token_headers,
-        signing_key=contents,
-    )
-
-    return id_token_jwt
-
-@pytest.fixture
-async def patient_access_token(patient_care_app: ApigeeApiDeveloperApps, nhs_login_subject_token):
-
-    oauth_proxy = get_env("OAUTH_PROXY")
-    oauth_base_uri = get_env("OAUTH_BASE_URI")
-    token_url = f"{oauth_base_uri}/{oauth_proxy}/token"
-
-    jwt = patient_care_app.oauth.create_jwt(
-        kid="test-1",
-        claims={
-                "sub": patient_care_app.client_id,
-                "iss": patient_care_app.client_id,
-                "jti": str(uuid4()),
-                "aud": token_url,
-                "exp": int(time()) + 60,
-        }
-    )
-
-    token = await get_token(patient_care_app, nhs_login_subject_token, jwt)
-    return token["access_token"]
-
-
-async def get_token(
-    app: ApigeeApiDeveloperApps, nhs_login_subject_token, jwt
-):
-    oauth = app.oauth
-
-    resp = await oauth.get_token_response(grant_type="token_exchange",
-    data={
-        "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
-        "subject_token_type": "urn:ietf:params:oauth:token-type:id_token",
-        "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-        "subject_token": nhs_login_subject_token,
-        "client_assertion": jwt,
-    })
-
-    if resp["status_code"] != 200:
-        message = "unable to get token"
-        raise RuntimeError(
-            f"\n{'*' * len(message)}\n"
-            f"MESSAGE: {message}\n"
-            f"URL: {resp.get('url')}\n"
-            f"STATUS CODE: {resp.get('status_code')}\n"
-            f"RESPONSE: {resp.get('body')}\n"
-            f"HEADERS: {resp.get('headers')}\n"
-            f"{'*' * len(message)}\n"
+        config = AuthorizationCodeConfig(
+            environment=environment,
+            identity_service_base_url=oauth_url,
+            client_id=credentials["consumerKey"],
+            client_secret=credentials["consumerSecret"],
+            scope="nhs-login",
+            login_form={"username": valid_nhs_number},
+            callback_url=patient_care_app["callbackUrl"],
         )
-    return resp["body"]
+        # 2. Pass the config to the Authenticator
+        authenticator = AuthorizationCodeAuthenticator(config=config)
+
+        # 3. Get your token
+        token_response = authenticator.get_token()
+        print(f"user restricted resp: {token_response}")
+        return token_response["access_token"]
