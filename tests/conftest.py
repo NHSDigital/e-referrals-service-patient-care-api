@@ -7,6 +7,8 @@ from time import time
 from datetime import datetime
 
 import pytest
+import pytest_asyncio
+
 from pytest_nhsd_apim.identity_service import (
     AuthorizationCodeConfig,
     AuthorizationCodeAuthenticator,
@@ -138,7 +140,7 @@ def make_app(client):
     return _make_app
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def patient_care_product(client,make_product):
     # Setup
     productName = await make_product(["urn:nhsd:apim:user-nhs-login:P9:e-referrals-service-patient-care-api"])
@@ -151,7 +153,7 @@ async def patient_care_product(client,make_product):
     product.delete_product_by_name(product_name=productName)
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def patient_care_app(
     client,
     make_app,
@@ -177,7 +179,7 @@ async def patient_care_app(
 
 
 @pytest.fixture
-async def patient_access_token(client, patient_care_app, valid_nhs_number,environment, oauth_url):
+def patient_access_token(client, patient_care_app, valid_nhs_number,environment, oauth_url):
         print(f"Attempting to authenticate: {valid_nhs_number}")
 
         credentials = patient_care_app["credentials"][0]

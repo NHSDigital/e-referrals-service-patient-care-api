@@ -16,12 +16,23 @@ Running 'make publish' will execute this script
 """
 
 import os.path
+from requests.models import Request
+from requests.models import Response
+from urllib3.response import HTTPResponse
+
+from io import BytesIO
 from json import load
-from openapi_core import create_spec
-from openapi_core.validation.request.validators import RequestValidator
-from openapi_core.validation.request.datatypes import OpenAPIRequest
-from openapi_core.validation.response.validators import ResponseValidator
-from openapi_core.validation.response.datatypes import OpenAPIResponse
+from json import loads as json_loads
+from json import dumps as json_dumps
+
+from openapi_core import Spec
+from openapi_core import validate_apicall_response
+from openapi_core.contrib.requests import RequestsOpenAPIRequest
+from openapi_core.contrib.requests import RequestsOpenAPIResponse
+from openapi_core.validation.response.validators import V30ResponseDataValidator
+from openapi_core.validation.schemas.exceptions import ValidateError
+
+
 from yaml import safe_load
 
 SCRIPT_LOCATION = os.path.join(os.path.dirname(os.path.abspath(__file__)))
@@ -52,7 +63,7 @@ with open(spec_path_yaml) as yaml_file:
 all_endpoints_url = oas_spec_from_yaml["paths"].keys()
 
 # Create OpenAPICore Spec
-spec = create_spec(oas_spec)
+spec = Spec.from_dict(oas_spec)
 
 # Fetch base URL (will not matter for validation)
 base_url = oas_spec["servers"][0]["url"]
@@ -144,51 +155,6 @@ def get_success_code(endpoint, http_method):
     return list(filtered_code)[0]
 
 
-def validate_request_examples():
-    """
-    Validates examples for requests
-    """
-    # Build request validator
-    req_validator = RequestValidator(spec)
-
-    # Build data object with endpoints and examples
-    endpoints_and_examples_request = build_request_validation_data()
-
-    # Validate request examples
-    for endpoint in endpoints_and_examples_request:
-        for example_req_path in endpoints_and_examples_request[endpoint]:
-
-            abs_path = os.path.join(REPO_ROOT, "specification", example_req_path)
-            with open(abs_path, "r") as example_file:
-                example_request = load(example_file)
-
-            oapi_req = OpenAPIRequest(
-                full_url_pattern=base_url + endpoint,
-                method=get_http_method(endpoint),
-                body=example_request,
-                mimetype="application/fhir+json",
-            )
-
-            # Validate request body
-            result = req_validator._validate_body(oapi_req)
-
-            # Raise errors if request invalid
-            try:
-                result.raise_for_errors()
-            except Exception as e:
-                print("\nError: JSON data file with path " + abs_path)
-                print(
-                    "used in request example for endpoint "
-                    + endpoint
-                    + " is not valid."
-                )
-                print("See 'ValidationError' field below:")
-                print(e)
-                exit(1)
-
-    print("JSON request examples are valid for each endpoint")
-
-
 def build_request_validation_data():
     """
     Builds dictionary with endpoints and requestBody examples' file paths
@@ -202,19 +168,40 @@ def build_request_validation_data():
     return endpoints_request_examples
 
 
+def validate_no_request_examples():
+    endpoints_and_examples_request = build_request_validation_data()
+
+    for endpoint in endpoints_and_examples_request:
+        if len(endpoints_and_examples_request[endpoint]) > 0:
+            print(f"Unexpected request examples for endpoiny: {endpoint}")
+            exit(3)
+
+
+def create_response(data, status_code=200, content_type="application/fhir+json"):
+
+    bt = bytes(json_dumps(data), "utf-8")
+    fp = BytesIO(bt)
+    raw = HTTPResponse(fp, preload_content=False)
+    resp = Response()
+    resp.headers = {"Content-Type": content_type}
+    resp.status_code = status_code
+    resp.raw = raw
+    return resp
+
+
 def validate_response_examples():
     """
     Validates examples for responses
     """
 
-    # Build response validator
-    res_validator = ResponseValidator(spec)
-
     # Build data object with endpoint info and examples
     endpoints_and_examples_response = build_response_validation_data()
 
+    file_count = 0
+
     # Validate response for each endpoint
     for endpoint_dict in endpoints_and_examples_response:
+        file_count += len(endpoint_dict["examples"])
         for example_res_path in endpoint_dict["examples"]:
 
             # Process response example file path
@@ -224,27 +211,28 @@ def validate_response_examples():
             with open(abspath_example, "r") as example_file:
                 example_response = load(example_file)
 
+            response = create_response(example_response, status_code=endpoint_dict["code"])
+            oapi_res = RequestsOpenAPIResponse(response)
+
             # Dummy request
-            oapi_req = OpenAPIRequest(
-                full_url_pattern=base_url + endpoint_dict["path"],
-                method=endpoint_dict["method"],
-                body={},
-                mimetype="application/fhir+json",
-            )
+            request = Request(
+                endpoint_dict["method"],
+                base_url + endpoint_dict["path"],
+                headers={"content-type": "application/fhir+json"},
+                )
+            oapi_req = RequestsOpenAPIRequest(request)
 
-            # Build openAPI response
-            oapi_res = OpenAPIResponse(
-                data=example_response,
-                status_code=endpoint_dict["code"],
-                mimetype="application/fhir+json",
-            )
-
-            result = res_validator._validate_data(oapi_req, oapi_res)
-
-            # Raise errors if request invalid
             try:
-                result.raise_for_errors()
-            except Exception as e:
+                validate_apicall_response(
+                    oapi_req,
+                    oapi_res,
+                    spec=spec,
+                    cls=V30ResponseDataValidator,
+                    extra_media_type_deserializers={
+                        "application/fhir+json": json_loads
+                    }
+                )
+            except ValidateError as exc:
                 print("\nError: JSON data file with path " + abspath_example)
                 print(
                     "used in response example for endpoint "
@@ -252,10 +240,13 @@ def validate_response_examples():
                     + " is not valid."
                 )
                 print("See 'ValidationError' field below:")
-                print(e)
+                print(exc.__context__)
                 exit(1)
+    if file_count == 0:
+        print("no response files found to validate")
+        exit(2)
 
-    print("JSON response examples are valid for each endpoint")
+    print(f"JSON response {file_count} examples are valid for {len(endpoints_and_examples_response)} endpoints")
 
 
 def build_response_validation_data():
@@ -305,5 +296,5 @@ def build_response_validation_data():
 
 if __name__ == "__main__":
     # Call validation methods
-    validate_request_examples()
+    validate_no_request_examples()
     validate_response_examples()
