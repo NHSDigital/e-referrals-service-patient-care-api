@@ -114,4 +114,4 @@ As currently defined in your `proxies` folder, your proxies do pretty much nothi
 Telling Apigee how to connect to your backend requires a *Target Server*, which you should call named `e-referrals-service-patient-care-api-target`.
 Our *Target Servers* defined in the [api-management-infrasture](https://github.com/NHSDigital/api-management-infrastructure) repository.
 
-:bulb: For Sandbox-running environments (`test`) these need to be present for successful deployment but can be set to empty/dummy values.
+:bulb: For Sandbox-running environments (`test`) these need to be present for successful deployment but can be set to empty/dummy values..
