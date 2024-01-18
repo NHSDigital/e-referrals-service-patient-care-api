@@ -1974,12 +1974,13 @@ test = ["pytest (>=3.0.0)"]
 
 [[package]]
 name = "xmlformatter"
-version = "0.2.4"
+version = "0.2.6"
 description = "Format and compress XML documents"
 optional = false
 python-versions = "*"
 files = [
-    {file = "xmlformatter-0.2.4.tar.gz", hash = "sha256:6d93c4bc04cffb1d4cf6eb9d9034018e9b264e4554269e7da67539ba4bff03f5"},
+    {file = "xmlformatter-0.2.6-py3-none-any.whl", hash = "sha256:d0cb194c3f72f142cc4c6e5d9244e8e43fc13fc4023f0d639d831ba239e5a916"},
+    {file = "xmlformatter-0.2.6.tar.gz", hash = "sha256:9b63fffa375045cfcb5966fc7d276c33b798b77c4581d590df0d4db3afb6c6e5"},
 ]
 
 [[package]]
@@ -2103,4 +2104,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "5febeeef837a72d244d7cb71ce8bc9158fd316c906646a373b8f013f02fc16c8"
+content-hash = "d0ba174296999646b4bdfa9f349116beb9b8f8895a327247983e3becefb3c821"
