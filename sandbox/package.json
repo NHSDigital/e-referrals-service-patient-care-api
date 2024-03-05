@@ -10,11 +10,11 @@
   "private": true,
   "dependencies": {
     "express": "^4.18.2",
-    "loglevel": "^1.8.1",
+    "loglevel": "^1.9.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "chai": "^5.0.0",
+    "chai": "^5.1.0",
     "mocha": "<11.0.0",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi": "^1.1.7",
