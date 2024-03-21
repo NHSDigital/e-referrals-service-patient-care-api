@@ -9,7 +9,7 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
-    "express": "^4.18.3",
+    "express": "^4.19.1",
     "loglevel": "^1.9.1",
     "uuid": "^9.0.1"
   },
