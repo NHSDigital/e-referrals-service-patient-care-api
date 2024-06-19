@@ -8,8 +8,10 @@ schema:
   enum:
     - '3457005'
     - 'http://snomed.info/sct|3457005'
-  example: 
-    code:
-      '3457005'
-    systemWithCode:
-     'http://snomed.info/sct|3457005'
+examples: 
+  code:
+    value: '3457005'
+    summary: 'Searching by code'
+  systemWithCode:
+    value: 'http://snomed.info/sct|3457005'
+    summary: 'Searching by system with code'
