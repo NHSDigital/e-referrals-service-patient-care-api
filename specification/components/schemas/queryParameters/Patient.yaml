@@ -5,8 +5,10 @@ description: |
 required: true
 schema:
   type: string
-  example: 
-    nhsNumber:
-      '9912003888'
-    systemWithNhsNumber:
-      'https://fhir.nhs.uk/Id/nhs-number|9912003888'
+examples: 
+  nhsNumber:
+    value: '9912003888'
+    summary: 'Searching by NHS number'
+  systemWithNhsNumber:
+    value: 'https://fhir.nhs.uk/Id/nhs-number|9912003888'
+    summary: 'Searching by system with NHS number'
