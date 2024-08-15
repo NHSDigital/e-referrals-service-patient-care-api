@@ -1226,13 +1226,13 @@ files = [
 
 [[package]]
 name = "openapi-core"
-version = "0.19.2"
+version = "0.19.3"
 description = "client-side and server-side support for the OpenAPI Specification v3"
 optional = false
 python-versions = "<4.0.0,>=3.8.0"
 files = [
-    {file = "openapi_core-0.19.2-py3-none-any.whl", hash = "sha256:b05f81031cc5b14f3a90b02f955d2ec756ccd5fba4f4e80bc4362520dac679a4"},
-    {file = "openapi_core-0.19.2.tar.gz", hash = "sha256:db4e13dd3162d861d9485ae804f350586d9fd1d72808cdb264d6993d9b5ede3f"},
+    {file = "openapi_core-0.19.3-py3-none-any.whl", hash = "sha256:88c8be49b083a39923ada4c1269919ba119ab617c951f901757a054a483988b0"},
+    {file = "openapi_core-0.19.3.tar.gz", hash = "sha256:5db6479ecccf76c52422961dc42b411b7625a802087d847251fdd66f0392b095"},
 ]
 
 [package.dependencies]
@@ -1249,7 +1249,7 @@ werkzeug = "*"
 aiohttp = ["aiohttp (>=3.0)", "multidict (>=6.0.4,<7.0.0)"]
 django = ["django (>=3.0)"]
 falcon = ["falcon (>=3.0)"]
-fastapi = ["fastapi (>=0.108.0,<0.109.0)"]
+fastapi = ["fastapi (>=0.111,<0.113)"]
 flask = ["flask"]
 requests = ["requests"]
 starlette = ["aioitertools (>=0.11.0,<0.12.0)", "starlette (>=0.26.1,<0.38.0)"]
@@ -2144,4 +2144,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "2aecad3fccbc759b92ff782a20ca5e13ef192ec658def77752c227f230f96f45"
+content-hash = "0ac9acc8b05d6943bb72e31c636b987b8244386dfed893bf9bceda248ceb764b"
