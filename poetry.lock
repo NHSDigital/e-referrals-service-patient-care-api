@@ -745,14 +745,17 @@ test = ["coverage[toml]", "ddt (>=1.1.1,!=1.4.3)", "mock", "mypy", "pre-commit",
 
 [[package]]
 name = "idna"
-version = "3.8"
+version = "3.10"
 description = "Internationalized Domain Names in Applications (IDNA)"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "idna-3.8-py3-none-any.whl", hash = "sha256:050b4e5baadcd44d760cedbd2b8e639f2ff89bbc7a5730fcc662954303377aac"},
-    {file = "idna-3.8.tar.gz", hash = "sha256:d838c2c0ed6fced7693d5e8ab8e734d5f8fda53a039c0164afb0b82e771e3603"},
+    {file = "idna-3.10-py3-none-any.whl", hash = "sha256:946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3"},
+    {file = "idna-3.10.tar.gz", hash = "sha256:12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9"},
 ]
+
+[package.extras]
+all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2)"]
 
 [[package]]
 name = "importlib-resources"
@@ -1124,13 +1127,13 @@ files = [
 
 [[package]]
 name = "more-itertools"
-version = "10.4.0"
+version = "10.5.0"
 description = "More routines for operating on iterables, beyond itertools"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "more-itertools-10.4.0.tar.gz", hash = "sha256:fe0e63c4ab068eac62410ab05cccca2dc71ec44ba8ef29916a0090df061cf923"},
-    {file = "more_itertools-10.4.0-py3-none-any.whl", hash = "sha256:0f7d9f83a0a8dcfa8a2694a770590d98a67ea943e3d9f5298309a484758c4e27"},
+    {file = "more-itertools-10.5.0.tar.gz", hash = "sha256:5482bfef7849c25dc3c6dd53a6173ae4795da2a41a80faea6700d9f5846c5da6"},
+    {file = "more_itertools-10.5.0-py3-none-any.whl", hash = "sha256:037b0d3203ce90cca8ab1defbbdac29d5f993fc20131f3664dc8d6acfa872aef"},
 ]
 
 [[package]]
@@ -1387,13 +1390,13 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "4.3.2"
+version = "4.3.6"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "platformdirs-4.3.2-py3-none-any.whl", hash = "sha256:eb1c8582560b34ed4ba105009a4badf7f6f85768b30126f351328507b2beb617"},
-    {file = "platformdirs-4.3.2.tar.gz", hash = "sha256:9e5e27a08aa095dd127b9f2e764d74254f482fef22b0970773bfba79d091ab8c"},
+    {file = "platformdirs-4.3.6-py3-none-any.whl", hash = "sha256:73e575e1408ab8103900836b97580d5307456908a03e92031bab39e4554cc3fb"},
+    {file = "platformdirs-4.3.6.tar.gz", hash = "sha256:357fb2acbc885b0419afd3ce3ed34564c13c9b95c89360cd9563f73aa5e2b907"},
 ]
 
 [package.extras]
@@ -1650,13 +1653,13 @@ testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)"]
 
 [[package]]
 name = "pytest-check"
-version = "2.3.1"
+version = "2.4.1"
 description = "A pytest plugin that allows multiple failures per test."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "pytest_check-2.3.1-py3-none-any.whl", hash = "sha256:c54c18f0b890cac1c610c78ef2bb3d8ecb29cf33d1cf09fc1166802d6ab88e28"},
-    {file = "pytest_check-2.3.1.tar.gz", hash = "sha256:51b8f18a8ccaa426c5d913c4e0e46f014aaa7579481ea03d22d7e1f498f689b2"},
+    {file = "pytest_check-2.4.1-py3-none-any.whl", hash = "sha256:74f38938183880d9921aeb85662437d2b13e1e053e1bed7d186d54613d3068c7"},
+    {file = "pytest_check-2.4.1.tar.gz", hash = "sha256:5224efcef059bf7f0cda253f8d0f62704b4819ff48c93f51c675aea6a014f650"},
 ]
 
 [package.dependencies]
@@ -2174,4 +2177,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "8f97c3e5669a4e4310bc4c7f9aff96676e2b908007195923af59ec2613d0152f"
+content-hash = "8970b406173a28bc70de83019690c0ff254565c3ce931e63e7c85553c70a8bae"
