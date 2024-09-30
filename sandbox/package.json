@@ -10,7 +10,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.21.0",
-    "loglevel": "^1.9.1",
+    "loglevel": "^1.9.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
