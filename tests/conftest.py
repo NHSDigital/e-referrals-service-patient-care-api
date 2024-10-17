@@ -57,7 +57,8 @@ def service_url(environment):
     if environment == "prod":
         base_url = "https://api.service.nhs.uk"
     else:
-        base_url = f"https://{environment}.api.service.nhs.uk"
+        http_base = "https://"
+        base_url = f"{http_base}{environment}.api.service.nhs.uk"
 
     service_base_path = get_env("SERVICE_BASE_PATH")
 
