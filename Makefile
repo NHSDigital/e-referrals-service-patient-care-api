@@ -16,6 +16,7 @@ install: install-node install-python .git/hooks/pre-commit
 lint: copy-examples
 	npm run lint
 	find . -name '*.py' -not -path '**/.venv/*' | xargs poetry run flake8
+	poetry check
 	@printf "\nLinting passed.\n\n"
 
 clean:
