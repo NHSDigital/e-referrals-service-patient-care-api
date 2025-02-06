@@ -1,0 +1,44 @@
+type: object
+description: e-RS representation of the reason for the state of the ServiceRequest.
+required:
+  - url
+  - valueCoding
+properties:
+  url:
+    type: string
+    enum:
+      - 'reason'
+    example: 'reason'
+  valueCoding:
+    type: object
+    required:
+      - system
+      - code
+    properties:
+      system: 
+        type: string
+        enum:
+          - 'https://fhir.nhs.uk/CodeSystem/eRS-RequestCancellationReason'
+        example: 'https://fhir.nhs.uk/CodeSystem/eRS-RequestCancellationReason'
+      code:
+        type: string
+        enum:
+          - INTEND_PRIVATE
+          - PATIENT_REQUEST_CANCELLATION_OTHER
+          - REFERRER_CANCELLATION
+          - PATIENT_DIED
+          - RAISED_IN_ERROR
+          - TREATMENT_NO_LONGER_REQUIRED
+          - BOOKED_OUTSIDE_CAB
+          - PROVIDER_CANCELLATION
+          - PATIENT_APPOINTMENT_CANCELLATION_OTHER
+          - TRIAGE_ENDED
+          - OUTPATIENT_SERVICE_NA
+          - OUTPATIENT_CLINICIAN_NA
+          - COMMUNITY_SERVICE_NA
+          - STRAIGHT_TO_TEST
+          - BOOKED_CLINICAL_NEED
+          - COMPLEX_PATHWAY
+          - NO_LONGER_REQUIRED
+          - OTHER_OTHER
+        example: 'INTEND_PRIVATE'
