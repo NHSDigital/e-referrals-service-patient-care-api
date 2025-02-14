@@ -1715,17 +1715,18 @@ testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)"]
 
 [[package]]
 name = "pytest-check"
-version = "2.4.2"
+version = "2.5.0"
 description = "A pytest plugin that allows multiple failures per test."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "pytest_check-2.4.2-py3-none-any.whl", hash = "sha256:12a4f5d4346a861ac74ca9b433fa991f0c0116b2bdc044c38b0a70b712eb4ee2"},
-    {file = "pytest_check-2.4.2.tar.gz", hash = "sha256:5aa59e0c1b670651b96f40819dc0607dcd8a3f6781804f8d9534100f32e20c27"},
+    {file = "pytest_check-2.5.0-py3-none-any.whl", hash = "sha256:5c90dfe92e5e5870b34c1ed7a648aef5c2dfb2273acfba77f35ca648219a33f3"},
+    {file = "pytest_check-2.5.0.tar.gz", hash = "sha256:3a6be8431c7720287958436d97a6b823eed5ae5ceb7da5572a0e4a9462feaf88"},
 ]
 
 [package.dependencies]
 pytest = ">=7.0.0"
+typing-extensions = {version = ">=4.12.2,<5", markers = "python_version < \"3.11\""}
 
 [package.extras]
 dev = ["build", "tox", "tox-uv"]
@@ -2245,4 +2246,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "19308572c104bc66fa370e270396fa886a173e21de27b474c0b566d534f8d365"
+content-hash = "fca1fec871ced4d9b25934cb3f3161a958dabed0e7242416f5c82f57fb23c827"
