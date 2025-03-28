@@ -15,7 +15,7 @@ content:
       multiple:
         summary: ServiceRequest search response containing multiple ServiceRequest resources with an associated Task or Appointment
         value:
-          $ref: '../../../examples/retrieveServiceRequests/responses/ServiceRequestsWithAppointmentAndTask.json'    
+          $ref: '../../../examples/retrieveServiceRequests/responses/ServiceRequestsWithAppointmentAndTask.json'
       empty:
         summary: Empty ServiceRequest search response
         value:

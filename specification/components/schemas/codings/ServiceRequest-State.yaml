@@ -34,4 +34,5 @@ properties:
           - CARL
           - ARBL
           - CARBL_OR_ARL
+          - CANCELLED
         example: 'NOT_BOOKED'
