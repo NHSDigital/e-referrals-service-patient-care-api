@@ -1,24 +1,22 @@
 # flake8: noqa
+from contextlib import contextmanager
 import os
-import requests
 
 from uuid import uuid4
-from time import time
-from datetime import datetime
+from typing import Callable, Collection, Generator
+
 
 import pytest
 import pytest_asyncio
 
-from pytest_nhsd_apim.identity_service import (
-    AuthorizationCodeConfig,
-    AuthorizationCodeAuthenticator,
-)
 from pytest_nhsd_apim.apigee_apis import (
     ApiProductsAPI,
     ApigeeClient,
     ApigeeNonProdCredentials,
     DeveloperAppsAPI,
 )
+
+from .utils import PatientAuthenticator
 
 @pytest.fixture()
 def client():
@@ -114,6 +112,28 @@ def make_product(client, environment, service_name):
 
     return _make_product
 
+@pytest.fixture
+def update_product(
+    patient_care_product, client: ApigeeClient
+) -> Callable[[Collection[str]], Generator[dict[str, str], None, None]]:
+    @contextmanager
+    def _update_function(append_scopes: Collection[str]):
+        product_api = ApiProductsAPI(client=client)
+        product = product_api.get_product_by_name(product_name=patient_care_product)
+
+        existing_scopes = product["scopes"]
+        new_scopes = existing_scopes + append_scopes
+        product["scopes"] = new_scopes
+
+        yield product_api.put_product_by_name(
+            product_name=product["name"], body=product
+        )
+
+        # reset the product once the context manager has been closed.
+        product["scopes"] = existing_scopes
+        product_api.put_product_by_name(product_name=product["name"], body=product)
+
+    return _update_function
 
 @pytest.fixture
 def make_app(client):
@@ -178,26 +198,13 @@ async def patient_care_app(
     devApp = DeveloperAppsAPI(client=client)
     devApp.delete_app_by_name(email="apm-testing-internal-dev@nhs.net", app_name=appName)
 
+@pytest.fixture
+def patient_authenticator(patient_care_app: dict[str, Collection[str]], environment: str, oauth_url: str) -> "PatientAuthenticator":
+    return PatientAuthenticator(patient_care_app=patient_care_app,
+        environment=environment,
+        oauth_url=oauth_url)
 
 @pytest.fixture
-def patient_access_token(client, patient_care_app, valid_nhs_number,environment, oauth_url):
-        print(f"Attempting to authenticate: {valid_nhs_number}")
-
-        credentials = patient_care_app["credentials"][0]
-
-        config = AuthorizationCodeConfig(
-            environment=environment,
-            identity_service_base_url=oauth_url,
-            client_id=credentials["consumerKey"],
-            client_secret=credentials["consumerSecret"],
-            scope="nhs-login",
-            login_form={"username": valid_nhs_number},
-            callback_url=patient_care_app["callbackUrl"],
-        )
-        # 2. Pass the config to the Authenticator
-        authenticator = AuthorizationCodeAuthenticator(config=config)
-
-        # 3. Get your token
-        token_response = authenticator.get_token()
-        print(f"user restricted resp: {token_response}")
-        return token_response["access_token"]
+def patient_access_token(valid_nhs_number: str, patient_authenticator: "PatientAuthenticator"):
+    print(f"Attempting to authenticate: {valid_nhs_number}")
+    return patient_authenticator.auth(valid_nhs_number)

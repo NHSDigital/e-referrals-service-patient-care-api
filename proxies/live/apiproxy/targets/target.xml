@@ -17,6 +17,13 @@
         <Name>DecodeJWT.DecodeIdToken</Name>
       </Step>
       <Step>
+        <Name>Javascript.ValidateVectorOfTrust</Name>
+      </Step>
+      <Step>
+        <Name>RaiseFault.UnsupportedVectorOfTrust</Name>
+        <Condition>apigee.has_required_vot = false </Condition>
+      </Step>
+      <Step>
         <Name>javascript.SetNhsNumber</Name>
       </Step>
       <Step>
