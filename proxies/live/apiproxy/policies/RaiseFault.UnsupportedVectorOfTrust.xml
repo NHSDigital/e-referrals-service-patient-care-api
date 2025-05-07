@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.UnsupportedVectorOfTrust">
+    <DisplayName>RaiseFault.UnsupportedVectorOfTrust</DisplayName>
+    <Properties/>
+    <FaultResponse>
+        <Set>
+            <Headers/>
+            <Payload contentType="text/plain"/>
+            <StatusCode>401</StatusCode>
+            <ReasonPhrase>Unauthorized</ReasonPhrase>
+        </Set>
+        <AssignVariable>
+            <Name>erspca.error.code</Name>
+            <Value>login</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>erspca.error.coding.code</Name>
+            <Value>ACCESS_DENIED</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>erspca.error.diagnostics</Name>
+            <Value>Unsupported Vector of Trust value utilised for authentication.</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>erspca.error.expression</Name>
+            <Value>http."Authorization"</Value>
+        </AssignVariable>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
