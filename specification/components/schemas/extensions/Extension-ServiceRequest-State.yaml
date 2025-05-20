@@ -14,6 +14,13 @@ properties:
     type: array
     minItems: 1
     maxItems: 3
+    description: |
+      
+      | Field                                      | Cardinality | Notes                                                                 |
+      | ------------------------------------------ | ----------- | --------------------------------------------------------------------- |
+      | `ServiceRequest-State`                     | `1..1`      |  Code for the ServiceRequest state                      |
+      | `ServiceRequest-Cancellation-Reason`       | `0..1`      |  Code for the ServiceRequest cancellation reason - only returned for CANCELLED Service Requests |
+      | `ServiceRequest-StatusChanged`             | `0..1`      |  Code for the ServiceRequest last changed date - only returned for CANCELLED Service Requests   |
     items:
       anyOf:
         - $ref: '../codings/ServiceRequest-State.yaml'

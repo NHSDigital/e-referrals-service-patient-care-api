@@ -36,7 +36,7 @@ info:
       - get patient personal demographic details – instead, use the [[HYPERLINK_PDS]]
     
     You can access the following data:
-      - a summary of each active referral
+      - a summary of each active or cancelled referral
           
     ### Access modes
     
@@ -147,11 +147,11 @@ paths:
       description: |
         ## Overview
         
-        Use this endpoint to retrieve active e-RS referrals for an authenticated patient, including summary details relating to its current state.
+        Use this endpoint to retrieve e-RS referrals for an authenticated patient, including summary details relating to its current state. This includes Appointment Requests in a variety of states including Booked, Unbooked, and Cancelled.
         
         Where the referral is currently being managed by a service provider, this endpoint will reference the Service ID for that service. This can then be used to retrieve the service information using [[HYPERLINK_A002]].
 
-        The referrals that are returned by this endpoint are the same referrals that are accessible to the patient via [[HYPERLINK_MANAGE_REFERRAL]].
+        The active referrals that are returned by this endpoint are the same referrals that are accessible to the patient via [[HYPERLINK_MANAGE_REFERRAL]].
 
         ## Pre-requisites
         

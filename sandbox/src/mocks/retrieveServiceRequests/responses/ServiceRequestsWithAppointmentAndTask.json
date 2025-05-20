@@ -335,7 +335,7 @@
                   }
                 },
                 {
-                  "code": "statusChanged",
+                  "url": "statusChanged",
                   "valueInstant": "2012-01-31T00:00:00.000Z"
                 }
               ]
@@ -376,7 +376,7 @@
               "value": "111111111111"
             }
           ],
-          "status": "active",
+          "status": "revoked",
           "intent": "order",
           "category": [
             {

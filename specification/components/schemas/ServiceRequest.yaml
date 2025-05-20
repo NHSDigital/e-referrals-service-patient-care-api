@@ -80,6 +80,7 @@ properties:
     type: string
     enum:
       - active
+      - revoked
     example: 'active'
   priority:
     type: string

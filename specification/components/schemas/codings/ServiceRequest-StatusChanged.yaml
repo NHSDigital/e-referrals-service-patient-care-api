@@ -1,10 +1,10 @@
 title: representation of the date the service request state was set
 type: object
 required:
-  - code
+  - url
   - valueInstant
 properties:
-  code:
+  url:
     type: string
     enum:
       - statusChanged
