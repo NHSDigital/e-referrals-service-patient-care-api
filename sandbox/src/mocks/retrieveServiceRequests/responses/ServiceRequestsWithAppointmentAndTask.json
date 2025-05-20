@@ -305,6 +305,112 @@
         }
       },
       {
+        "fullUrl": "_baseUrl_/ServiceRequest/r.783014dd-c5d5-4f18-b326-739f56fa8c23",
+        "search": {
+          "mode": "match"
+        },
+        "resource": {
+          "resourceType": "ServiceRequest",
+          "id": "r.783014dd-c5d5-4f18-b326-739f56fa8c23",
+          "meta": {
+            "versionId": "1",
+            "profile": ["https://fhir.nhs.uk/StructureDefinition/NHSDigital-ServiceRequest-PatientCare"]
+          },
+          "extension": [
+            {
+              "url": "https://fhir.nhs.uk/StructureDefinition/Extension-eRS-ServiceRequest-State",
+              "extension": [
+                {
+                  "url": "state",
+                  "valueCoding": {
+                    "system": "https://fhir.nhs.uk/CodeSystem/eRS-ReferralState",
+                    "code": "CANCELLED"
+                  }
+                },
+                {
+                  "url": "reason",
+                  "valueCoding": {
+                    "system": "https://fhir.nhs.uk/CodeSystem/eRS-RequestCancellationReason",
+                    "code": "INTEND_PRIVATE"
+                  }
+                },
+                {
+                  "code": "statusChanged",
+                  "valueInstant": "2012-01-31T00:00:00.000Z"
+                }
+              ]
+            },
+            {
+              "url": "https://fhir.nhs.uk/StructureDefinition/Extension-ServiceRequest-Priority",
+              "valueCoding": {
+                "system": "https://fhir.nhs.uk/CodeSystem/eRS-Priority",
+                "code": "TWO_WEEK_WAIT",
+                "display": "2 Week Wait"
+              }
+            }
+          ],
+          "contained": [
+            {
+              "resourceType": "PractitionerRole",
+              "id": "PractitionerRole-R69-000000000101",
+              "meta": {
+                "profile": ["https://fhir.nhs.uk/StructureDefinition/NHSDigital-PractitionerRole-Minimal"]
+              },
+              "practitioner": {
+                "identifier": {
+                  "system": "https://fhir.nhs.uk/Id/sds-user-id",
+                  "value": "000000000101"
+                }
+              },
+              "organization": {
+                "identifier": {
+                  "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                  "value": "R69"
+                }
+              }
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://fhir.nhs.uk/Id/UBRN",
+              "value": "111111111111"
+            }
+          ],
+          "status": "active",
+          "intent": "order",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "3457005"
+                }
+              ]
+            }
+          ],
+          "priority": "asap",
+          "subject": {
+            "identifier": {
+              "system": "https://fhir.nhs.uk/Id/nhs-number",
+              "value": "9912003888"
+            }
+          },
+          "authoredOn": "2022-01-11T16:40:00+00:00",
+          "requester": {
+            "reference": "#PractitionerRole-R69-000000000101"
+          },
+          "performerType": {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/eRS-Specialty",
+                "code": "DERMATOLOGY",
+                "display": "Dermatology"
+              }
+            ]
+          }
+        }
+      },
+      {
         "fullUrl": "_baseUrl_/Appointment/2c539951-0819-4ffb-ab77-b7cbdc5d9c9a",
         "search": {
           "mode": "include"
