@@ -1,19 +1,16 @@
 # flake8: noqa
 import pytest
 import requests
-import base64
-import json
+
 from tests.data import RenamedHeader
 from tests.data import InternalHeader
+from tests.utils import generate_valid_target_identifier, generate_target_identifier
 
 _HEADER_AUTHORIZATION = "Authorization"
 _HEADER_ECHO = "echo"  # enable echo target
 _HEADER_REQUEST_ID = "x-request-id"
 _HEADER_NHSD_TARGET_IDENTIFIER = "nhsd-target-identifier"
-_VALID_NHSD_TARGET_IDENTIFIER = {
-    "system": "urn:ietf:rfc:3986",
-    "value": "2b3b21fd-fe9f-403c-9682-10b8d8a4eaf3"
-}
+
 _INVALID_SYSTEM_NHSD_TARGET_IDENTIFIER = {
     "value": "2b3b21fd-fe9f-403c-9682-10b8d8a4eaf3"
 }
@@ -21,7 +18,7 @@ _INVALID_VALUE_NHSD_TARGET_IDENTIFIER = {
     "system": "urn:ietf:rfc:3986"
 }
 
-_VALID_NHSD_TARGET_IDENTIFIER_BASE_64 = base64.b64encode(bytes(json.dumps(_VALID_NHSD_TARGET_IDENTIFIER), 'utf-8'))
+_VALID_NHSD_TARGET_IDENTIFIER_BASE_64 = generate_valid_target_identifier()
 
 _EXPECTED_CORRELATION_ID = "123123-123123-123123-123123"
 _MATCH_PATIENT_NHS_NUMBER = "9900000285"
@@ -137,9 +134,13 @@ class TestHeaders:
 
     @pytest.mark.parametrize(
         "target_identifier",
-        [(base64.b64encode(bytes(json.dumps(_INVALID_SYSTEM_NHSD_TARGET_IDENTIFIER), 'utf-8'))),
-        (base64.b64encode(bytes(json.dumps(_INVALID_VALUE_NHSD_TARGET_IDENTIFIER), 'utf-8'))),
-        (None), (""), ("AA")],
+        [
+            generate_target_identifier(_INVALID_SYSTEM_NHSD_TARGET_IDENTIFIER),
+            generate_target_identifier(_INVALID_VALUE_NHSD_TARGET_IDENTIFIER),
+            (None), 
+            (""), 
+            ("AA")
+        ],
     )
     def test_invalid_target_application(self, service_url, patient_access_token, target_identifier):
         client_request_headers = {
