@@ -1,4 +1,4 @@
-FROM node:24.2.0-alpine
+FROM node:24.4.0-alpine
 
 COPY . /sandbox
 
