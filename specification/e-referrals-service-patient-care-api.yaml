@@ -180,7 +180,7 @@ paths:
         
       responses:
         '200':
-          $ref: 'components/schemas/responses/retrieveServiceRequests/200Response.yaml'
+          $ref: 'components/schemas/responses/retrieveServiceRequests/rsr-200Response.yaml'
         '400':
           $ref: 'components/schemas/responses/retrieveServiceRequests/400Response.yaml'
         '401':
@@ -229,7 +229,7 @@ paths:
       
       responses:
         '200':
-          $ref: 'components/schemas/responses/retrieveHealthcareService/200Response.yaml'
+          $ref: 'components/schemas/responses/retrieveHealthcareService/rhs-200Response.yaml'
         '401':
           $ref: 'components/schemas/responses/Unauthorized.yaml'
         '404':

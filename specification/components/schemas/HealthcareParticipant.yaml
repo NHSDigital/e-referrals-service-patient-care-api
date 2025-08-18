@@ -10,7 +10,7 @@ properties:
     - identifier
     properties:
       identifier:
-        $ref: identifiers/HealthcareService.yaml
+        $ref: identifiers/HealthcareService-identifier.yaml
   status:
     type: string
     enum:
