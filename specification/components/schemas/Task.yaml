@@ -58,7 +58,7 @@ properties:
       - identifier
     properties:
       identifier:
-        $ref: identifiers/HealthcareService.yaml
+        $ref: identifiers/HealthcareService-identifier.yaml
   restriction:
     description: | 
       Review Due Date. 

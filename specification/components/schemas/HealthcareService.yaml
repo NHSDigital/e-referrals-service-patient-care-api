@@ -37,7 +37,7 @@ properties:
     maxItems: 1
     items: 
       anyOf:
-      - $ref: identifiers/HealthcareService.yaml
+      - $ref: identifiers/HealthcareService-identifier.yaml
   resourceType:
     type: string
     enum:
