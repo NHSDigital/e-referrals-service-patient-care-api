@@ -47,14 +47,14 @@ properties:
       $ref: identifiers/UBRN.yaml
   extension:
     type: array
-    minItems: 3
+    minItems: 2
     maxItems: 3
     nullable: false
     description: |
       
       | Field                                      | Cardinality | Notes                                                                 |
       | ------------------------------------------ | ----------- | --------------------------------------------------------------------- |
-      | `Extension-Portal-Link`                    | `1..1`      |  Deep Link into the specific landing page in MYR                      |
+      | `Extension-Portal-Link`                    | `0..1`      |  Deep Link into the specific landing page in MYR                      |
       | `Extension-ServiceRequest-Priority`        | `1..1`      |  Code for the priority of the referral set by the Referring Clinician |
       | `Extension-ServiceRequest-State`           | `1..1`      |  Code for the ServiceRequest state                                    |
     items:
