@@ -3,4 +3,4 @@ variables:
   short_service_name: erspca
   service_base_path: e-referrals-service-patient-care-api
   product_display_name: e-Referrals-Service-Patient-Care
-  python_version: 3.10
+  python_version: 3.13
