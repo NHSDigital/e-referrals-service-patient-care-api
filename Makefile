@@ -1,6 +1,7 @@
 SHELL=/bin/bash -euo pipefail
 
 install-python:
+	poetry lock
 	poetry install
 
 install-node:
