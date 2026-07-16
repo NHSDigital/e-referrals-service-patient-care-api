@@ -30,7 +30,6 @@ extends:
     service_name: ${{ variables.service_name }}
     short_service_name: ${{ variables.short_service_name }}
     service_base_path: ${{ variables.service_base_path }}
-    enable_status_monitoring: true
     manual_approval_env: manual-approval-ptl
     prod_producer_approval: true
     python_version: ${{ variables.python_version }}
@@ -38,6 +37,8 @@ extends:
       - environment: manual-approval
         stage_name: ers_manual_approval_rc
       - environment: internal-dev
+        enable_status_monitoring: false
+        enable_monitoring: false
         stage_name: ers_rc_release
         service_name: "${{ variables.service_name }}-rc"
         short_service_name: "${{ variables.short_service_name }}-rc"
@@ -55,6 +56,8 @@ extends:
       - environment: manual-approval
         stage_name: ers_manual_approval_fix
       - environment: internal-dev
+        enable_status_monitoring: false
+        enable_monitoring: false
         stage_name: ers_fix_release
         service_name: "${{ variables.service_name }}-fix"
         short_service_name: "${{ variables.short_service_name }}-fix"
@@ -72,6 +75,8 @@ extends:
       - environment: manual-approval
         stage_name: ers_manual_approval_sa
       - environment: internal-qa
+        enable_status_monitoring: false
+        enable_monitoring: false
         stage_name: ers_sa_release
         post_deploy:
           - template: templates/run-tests.yml
@@ -82,6 +87,8 @@ extends:
       - environment: manual-approval
         stage_name: ers_manual_approval_int
       - environment: int
+        enable_status_monitoring: true
+        enable_monitoring: true
         stage_name: ers_int_release
         post_deploy:
           - template: templates/run-tests.yml
@@ -94,6 +101,8 @@ extends:
         depends_on:
           - ers_sa_release
       - environment: prod
+        enable_status_monitoring: true
+        enable_monitoring: true
         stage_name: prod #revert to ers_prod_release when monitoring stack fixed to support it.
         post_deploy:
           - template: templates/run-tests.yml
@@ -102,10 +111,14 @@ extends:
         depends_on:
           - ers_manual_approval_prod
       - environment: internal-qa-sandbox
+        enable_status_monitoring: false
+        enable_monitoring: false
         proxy_path: sandbox
         depends_on:
           - ers_manual_approval_sa
       - environment: sandbox
+        enable_status_monitoring: false
+        enable_monitoring: false
         proxy_path: sandbox
         depends_on:
           - ers_manual_approval_int
