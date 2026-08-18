@@ -1677,21 +1677,21 @@ re2 = ["google-re2 (>=1.1)"]
 
 [[package]]
 name = "pip-licenses"
-version = "5.5.0"
+version = "5.5.5"
 description = "Dump the software license list of Python packages installed with pip."
 optional = false
 python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "pip_licenses-5.5.0-py3-none-any.whl", hash = "sha256:ae1869436d13ee487088d29e71fc5821950062ad25ec28b6a1a443e0add6d8e8"},
-    {file = "pip_licenses-5.5.0.tar.gz", hash = "sha256:2473e7afd02a0c21460758f70fd2bb3b3c080c5150713dd33baa9493dc1563a5"},
+    {file = "pip_licenses-5.5.5-py3-none-any.whl", hash = "sha256:f4c4c6d9e6a03612cf59f29f19dc8ab54904d82e055b8e191498f2279a224e14"},
+    {file = "pip_licenses-5.5.5.tar.gz", hash = "sha256:60750c006adf7a0910347b726e8ee9fee3bc8d2e7c8307a5c4ec0776c8e2a276"},
 ]
 
 [package.dependencies]
 prettytable = ">=3.12.0"
 
 [package.extras]
-dev = ["autopep8", "black", "docutils", "isort", "mypy", "pip-tools", "pypandoc", "pytest-cov", "pytest-pycodestyle", "pytest-runner", "tomli-w", "twine", "wheel"]
+dev = ["docutils (>=0.19)", "mypy", "pip-tools", "pypandoc", "pytest-cov", "pytest-runner", "ruff", "tomli-w", "virtualenv (>=21.1.0)", "wheel"]
 
 [[package]]
 name = "platformdirs"
@@ -2928,4 +2928,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "9f71903a7c174f5fab3089971b0efbfae6532eb1c3db9bdad3604a4677f9460f"
+content-hash = "1634c211b7ad0faf76678d2f27a9244354e93627cf805fd8bb064bcf3a10515e"
