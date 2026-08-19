@@ -2796,14 +2796,14 @@ test = ["pytest (>=6.0.0)", "setuptools (>=77)"]
 
 [[package]]
 name = "xmlformatter"
-version = "0.2.8"
+version = "0.2.9"
 description = "Format and compress XML documents"
 optional = false
-python-versions = "*"
+python-versions = ">=3.2"
 groups = ["main"]
 files = [
-    {file = "xmlformatter-0.2.8-py3-none-any.whl", hash = "sha256:83c35ae024309712e3ac6f79b2a1106f9fc9708dde14810d71f9f7bfe6f85661"},
-    {file = "xmlformatter-0.2.8.tar.gz", hash = "sha256:ddc82e7cb4ff2669f54014e2eaf86b493d5e2da95b536f974f0a15f02763f64c"},
+    {file = "xmlformatter-0.2.9-py3-none-any.whl", hash = "sha256:78b9121f95c745cf4e8edfe672c1911b48b67ce27a3d55a405b78892901bb8d1"},
+    {file = "xmlformatter-0.2.9.tar.gz", hash = "sha256:22266ce398950d7848df66d5edc1bee57ead6d1b2404184c335ac4d0892d2760"},
 ]
 
 [[package]]
@@ -2928,4 +2928,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "ac5b02aa6dd04ff3d936a53e1687ecfbf160f7b483585385d33c0aeb86e05a64"
+content-hash = "589069fe40fb13a721e7cfd51c4fc76f75b5e9c6a32198eef323dd25e7d9973a"
