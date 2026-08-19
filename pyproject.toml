@@ -27,8 +27,8 @@ gitpython = "^3.1.58"
 lxml = "^6.1.1"
 xmlformatter = "^0.2.9"
 pytest-check = "^2.8.0"
-requests = "^2.34.2"
-openapi-core = "^0.22.0"
+requests = "^2.33.0"
+openapi-core = "^0.23.0"
 pytest-nhsd-apim = "^6.0.7"
 
 [tool.poetry.group.dev.dependencies]
