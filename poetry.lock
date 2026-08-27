@@ -194,18 +194,19 @@ files = [
 
 [[package]]
 name = "authlib"
-version = "1.6.12"
+version = "1.7.2"
 description = "The ultimate Python library in building OAuth and OpenID Connect servers and clients."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["main", "dev"]
 files = [
-    {file = "authlib-1.6.12-py2.py3-none-any.whl", hash = "sha256:e9229ad7fde610b139dd12f5edbe97eab9ee78bfb85691247e767727850b99ab"},
-    {file = "authlib-1.6.12.tar.gz", hash = "sha256:0656d8482f28fc8221929d5f35b2bde5d13e10555ebc06b4561b0d622e83b1bd"},
+    {file = "authlib-1.7.2-py2.py3-none-any.whl", hash = "sha256:3e1faedc9d87e7d56a164eca3ccb6ace0d61b94abe83e92242f8dc8bba9b4a9f"},
+    {file = "authlib-1.7.2.tar.gz", hash = "sha256:2cea25fefcd4e7173bdf1372c0afc265c8034b23a8cd5dcb6a9164b826c64231"},
 ]
 
 [package.dependencies]
 cryptography = "*"
+joserfc = ">=1.6.0"
 
 [[package]]
 name = "black"
@@ -1017,6 +1018,24 @@ MarkupSafe = ">=2.0"
 
 [package.extras]
 i18n = ["Babel (>=2.7)"]
+
+[[package]]
+name = "joserfc"
+version = "1.7.4"
+description = "The ultimate Python library for JOSE RFCs, including JWS, JWE, JWK, JWA, JWT"
+optional = false
+python-versions = ">=3.10"
+groups = ["main", "dev"]
+files = [
+    {file = "joserfc-1.7.4-py3-none-any.whl", hash = "sha256:32d46c2cd5e3203c13e87a6c61333cab310b1ba80cd54b4c4f386a848a122463"},
+    {file = "joserfc-1.7.4.tar.gz", hash = "sha256:b3bc561672ae541b17a9237053b48a03dacddd92d68047b3ecdfb4b5714a88ed"},
+]
+
+[package.dependencies]
+cryptography = ">=45.0.1"
+
+[package.extras]
+drafts = ["pycryptodome"]
 
 [[package]]
 name = "jsonpath-rw"
