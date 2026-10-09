@@ -19,7 +19,7 @@
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi": "^1.1.7",
     "nodemon": "^3.1.14",
-    "supertest": "^7.3.0"
+    "supertest": "^7.3.1"
   },
   "overrides": {
     "serialize-javascript": "^7.0.3"
