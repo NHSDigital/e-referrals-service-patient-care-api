@@ -1,0 +1,97 @@
+name: Set up Proxygen CLI (PTL)
+description: Installs the Proxygen CLI and authenticates it as the PTL machine user.
+
+inputs:
+  api-name:
+    description: Proxygen API name
+    required: true
+  client-id:
+    description: Proxygen machine-user client ID
+    required: true
+  key-id:
+    description: Proxygen key ID (KID) registered for the private key
+    required: true
+  private-key:
+    description: RSA private key (PEM, or base64-encoded PEM) registered with Proxygen for the key ID
+    required: true
+  jwks-url:
+    description: Public JWKS registered with APIM. If set, the private key must match the key-id entry.
+    required: false
+    default: ''
+  cli-version:
+    description: proxygen-cli version
+    required: false
+    default: 4.0.8
+
+runs:
+  using: composite
+  steps:
+    - name: Install Proxygen CLI
+      shell: bash
+      env:
+        CLI_VERSION: ${{ inputs.cli-version }}
+      run: |
+        python -m venv "$RUNNER_TEMP/proxygen-cli"
+        "$RUNNER_TEMP/proxygen-cli/bin/pip" install --quiet "proxygen-cli==${CLI_VERSION}"
+        echo "$RUNNER_TEMP/proxygen-cli/bin" >> "$GITHUB_PATH"
+
+    - name: Write Proxygen credentials and settings
+      shell: bash
+      env:
+        PROXYGEN_API_NAME: ${{ inputs.api-name }}
+        PROXYGEN_CLIENT_ID: ${{ inputs.client-id }}
+        PROXYGEN_KEY_ID: ${{ inputs.key-id }}
+        PROXYGEN_PRIVATE_KEY: ${{ inputs.private-key }}
+      run: |
+        for var in PROXYGEN_API_NAME PROXYGEN_CLIENT_ID PROXYGEN_KEY_ID PROXYGEN_PRIVATE_KEY; do
+          if [ -z "${!var}" ]; then
+            echo "::error::$var is empty. Check the GitHub environment variables and secrets."
+            exit 1
+          fi
+        done
+
+        umask 077
+        mkdir -p ~/.proxygen
+        if [[ "$PROXYGEN_PRIVATE_KEY" == *"-----BEGIN"* ]]; then
+          printf '%s\n' "$PROXYGEN_PRIVATE_KEY" > ~/.proxygen/private_key.pem
+        else
+          printf '%s' "$PROXYGEN_PRIVATE_KEY" | base64 --decode > ~/.proxygen/private_key.pem
+        fi
+
+        cat > ~/.proxygen/credentials.yaml <<EOF
+        base_url: https://identity.ptl.api.platform.nhs.uk/realms/api-producers
+        client_id: ${PROXYGEN_CLIENT_ID}
+        key_id: ${PROXYGEN_KEY_ID}
+        private_key_path: ${HOME}/.proxygen/private_key.pem
+        EOF
+        cat > ~/.proxygen/settings.yaml <<EOF
+        api: ${PROXYGEN_API_NAME}
+        endpoint_url: https://proxygen.ptl.api.platform.nhs.uk
+        spec_output_format: yaml
+        EOF
+
+    - name: Check private key matches the public JWKS
+      if: inputs.jwks-url != ''
+      shell: bash
+      env:
+        JWKS_URL: ${{ inputs.jwks-url }}
+        PROXYGEN_KEY_ID: ${{ inputs.key-id }}
+      run: |
+        modulus=$(openssl rsa -in ~/.proxygen/private_key.pem -noout -modulus | cut -d= -f2)
+        curl --fail --silent --show-error "$JWKS_URL" | MODULUS="$modulus" python3 -c '
+        import base64, json, os, sys
+        keys = {k["kid"]: k for k in json.load(sys.stdin)["keys"]}
+        kid = os.environ["PROXYGEN_KEY_ID"]
+        if kid not in keys:
+            sys.exit(f"::error::Key ID {kid} is not in the JWKS")
+        n = keys[kid]["n"]
+        jwks_modulus = base64.urlsafe_b64decode(n + "=" * (-len(n) % 4)).hex().upper().lstrip("0")
+        if jwks_modulus != os.environ["MODULUS"].upper().lstrip("0"):
+            sys.exit(f"::error::Private key secret does not match JWKS key {kid}")
+        print(f"Private key matches JWKS key {kid}")
+        '
+
+    - name: Verify Proxygen authentication
+      shell: bash
+      # `proxygen status` doesn't authenticate; listing instances does.
+      run: proxygen instance list --env internal-dev

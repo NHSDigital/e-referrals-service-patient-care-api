@@ -1,0 +1,110 @@
+name: Proxygen Deploy Internal Dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      base-path:
+        description: Proxygen instance base path (use '_' instead of '/')
+        required: true
+        default: e-referrals-service-patient-care-api-proxygen
+      include-paths:
+        description: Deploy the API's paths (unauthenticated, no target yet). Off = only /_ping and /_status.
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: proxygen-internal-dev-${{ inputs.base-path }}
+  cancel-in-progress: false
+
+env:
+  PROXYGEN_ENV: internal-dev
+  BASE_PATH: ${{ inputs.base-path }}
+  INCLUDE_PATHS: ${{ inputs.include-paths }}
+
+jobs:
+  deploy:
+    name: Publish and deploy to internal-dev
+    runs-on: ubuntu-latest
+    environment: proxygen-internal-dev
+    env:
+      # Variables on the proxygen-internal-dev environment (public values, so not secrets).
+      PROXYGEN_API_NAME: ${{ vars.PROXYGEN_API_NAME }}
+      PROXYGEN_CLIENT_ID: ${{ vars.PTL_PROXYGEN_CLIENT_ID }}
+      PROXYGEN_KEY_ID: ${{ vars.PTL_PROXYGEN_KEY_ID }}
+      PROXYGEN_JWKS_URL: ${{ vars.PTL_PROXYGEN_JWKS_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0  # calculate_version.py needs full history
+          persist-credentials: false
+
+      - name: Install Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: Install poetry
+        run: pip install poetry
+
+      - name: Cache poetry packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-build-cache-poetry-packages-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Cache node modules
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-cache-npm-packages-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          poetry install
+
+      - name: Make publish
+        run: make publish
+
+      - name: Build Proxygen instance spec
+        run: |
+          curl --fail --silent --show-error -o build/proxygen-openapi.json \
+            https://proxygen.ptl.api.platform.nhs.uk/openapi.json
+          args=("$PROXYGEN_ENV" --base-path "$BASE_PATH" --schema build/proxygen-openapi.json)
+          if [ "$INCLUDE_PATHS" = "true" ]; then args+=(--include-paths); fi
+          poetry run python scripts/build_proxygen_spec.py "${args[@]}"
+
+      - name: Upload instance spec
+        uses: actions/upload-artifact@v4
+        with:
+          name: proxygen-${{ env.PROXYGEN_ENV }}-spec
+          path: build/proxygen/${{ env.PROXYGEN_ENV }}.json
+
+      - name: Set up Proxygen CLI (PTL)
+        uses: ./.github/actions/proxygen-setup
+        with:
+          api-name: ${{ env.PROXYGEN_API_NAME }}
+          client-id: ${{ env.PROXYGEN_CLIENT_ID }}
+          key-id: ${{ env.PROXYGEN_KEY_ID }}
+          jwks-url: ${{ env.PROXYGEN_JWKS_URL }}
+          private-key: ${{ secrets.PTL_PROXYGEN_PRIVATE_KEY }}
+
+      - name: Deploy instance
+        run: |
+          set -o pipefail
+          # The CLI spinner prints hundreds of lines; keep the tail, which includes any error.
+          proxygen instance deploy "$PROXYGEN_ENV" "$BASE_PATH" "build/proxygen/${PROXYGEN_ENV}.json" --no-confirm 2>&1 | tail -n 20
+
+      - name: Smoke test /_ping
+        run: |
+          url="https://${PROXYGEN_ENV}.api.service.nhs.uk/${BASE_PATH//_//}/_ping"
+          echo "Checking $url"
+          curl --fail --silent --show-error --retry 10 --retry-delay 15 --retry-all-errors "$url"
+
+      - name: Remove Proxygen credentials
+        if: always()
+        run: rm -rf ~/.proxygen
