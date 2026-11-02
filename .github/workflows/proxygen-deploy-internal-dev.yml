@@ -108,3 +108,22 @@ jobs:
       - name: Remove Proxygen credentials
         if: always()
         run: rm -rf ~/.proxygen
+
+      - name: Deployment summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          REF_NAME: ${{ github.ref_name }}
+          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+        run: |
+          {
+            echo "## Proxygen ${PROXYGEN_ENV} deployment: ${JOB_STATUS}"
+            echo
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| Branch | \`${REF_NAME}\` |"
+            echo "| Commit | [\`${GITHUB_SHA::7}\`](${COMMIT_URL}) |"
+            echo "| Instance | https://${PROXYGEN_ENV}.api.service.nhs.uk/${BASE_PATH//_//} |"
+            echo "| Paths included | ${INCLUDE_PATHS} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "Status: ${JOB_STATUS}, branch: ${REF_NAME}, commit: ${GITHUB_SHA}"
