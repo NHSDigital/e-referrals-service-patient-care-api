@@ -8,7 +8,7 @@ on:
         required: true
         default: e-referrals-service-patient-care-api-proxygen
       include-paths:
-        description: Deploy the API's paths (unauthenticated, no target yet). Off = only /_ping and /_status.
+        description: Deploy the API's paths (NHS login P9, no target yet). Off = only /_ping and /_status.
         type: boolean
         default: false
 
@@ -34,16 +34,15 @@ jobs:
       PROXYGEN_API_NAME: ${{ vars.PROXYGEN_API_NAME }}
       PROXYGEN_CLIENT_ID: ${{ vars.PTL_PROXYGEN_CLIENT_ID }}
       PROXYGEN_KEY_ID: ${{ vars.PTL_PROXYGEN_KEY_ID }}
-      PROXYGEN_JWKS_URL: ${{ vars.PTL_PROXYGEN_JWKS_URL }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0  # calculate_version.py needs full history
           persist-credentials: false
 
       - name: Install Python 3.13
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.13'
 
@@ -51,13 +50,13 @@ jobs:
         run: pip install poetry
 
       - name: Cache poetry packages
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/pypoetry
           key: ${{ runner.os }}-build-cache-poetry-packages-${{ hashFiles('**/poetry.lock') }}
 
       - name: Cache node modules
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-build-cache-npm-packages-${{ hashFiles('**/package-lock.json') }}
@@ -79,7 +78,7 @@ jobs:
           poetry run python scripts/build_proxygen_spec.py "${args[@]}"
 
       - name: Upload instance spec
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: proxygen-${{ env.PROXYGEN_ENV }}-spec
           path: build/proxygen/${{ env.PROXYGEN_ENV }}.json
@@ -90,7 +89,6 @@ jobs:
           api-name: ${{ env.PROXYGEN_API_NAME }}
           client-id: ${{ env.PROXYGEN_CLIENT_ID }}
           key-id: ${{ env.PROXYGEN_KEY_ID }}
-          jwks-url: ${{ env.PROXYGEN_JWKS_URL }}
           private-key: ${{ secrets.PTL_PROXYGEN_PRIVATE_KEY }}
 
       - name: Deploy instance

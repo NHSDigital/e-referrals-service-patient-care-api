@@ -27,6 +27,7 @@ import json
 import pathlib
 import sys
 
+import jsonschema
 import yaml
 from docopt import docopt
 
@@ -96,8 +97,6 @@ def build(spec, overlay, env, base_path, include_paths):
 
 
 def validate(spec, proxygen_openapi):
-    import jsonschema
-
     schema = {
         "$ref": "#/components/schemas/PaasOpenAPI",
         "components": proxygen_openapi["components"],

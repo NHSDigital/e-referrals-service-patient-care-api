@@ -14,10 +14,6 @@ inputs:
   private-key:
     description: RSA private key (PEM, or base64-encoded PEM) registered with Proxygen for the key ID
     required: true
-  jwks-url:
-    description: Public JWKS registered with APIM. If set, the private key must match the key-id entry.
-    required: false
-    default: ''
   cli-version:
     description: proxygen-cli version
     required: false
@@ -69,27 +65,6 @@ runs:
         endpoint_url: https://proxygen.ptl.api.platform.nhs.uk
         spec_output_format: yaml
         EOF
-
-    - name: Check private key matches the public JWKS
-      if: inputs.jwks-url != ''
-      shell: bash
-      env:
-        JWKS_URL: ${{ inputs.jwks-url }}
-        PROXYGEN_KEY_ID: ${{ inputs.key-id }}
-      run: |
-        modulus=$(openssl rsa -in ~/.proxygen/private_key.pem -noout -modulus | cut -d= -f2)
-        curl --fail --silent --show-error "$JWKS_URL" | MODULUS="$modulus" python3 -c '
-        import base64, json, os, sys
-        keys = {k["kid"]: k for k in json.load(sys.stdin)["keys"]}
-        kid = os.environ["PROXYGEN_KEY_ID"]
-        if kid not in keys:
-            sys.exit(f"::error::Key ID {kid} is not in the JWKS")
-        n = keys[kid]["n"]
-        jwks_modulus = base64.urlsafe_b64decode(n + "=" * (-len(n) % 4)).hex().upper().lstrip("0")
-        if jwks_modulus != os.environ["MODULUS"].upper().lstrip("0"):
-            sys.exit(f"::error::Private key secret does not match JWKS key {kid}")
-        print(f"Private key matches JWKS key {kid}")
-        '
 
     - name: Verify Proxygen authentication
       shell: bash
