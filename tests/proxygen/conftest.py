@@ -2,7 +2,8 @@
 Fixtures for testing a deployed Proxygen instance with pytest-nhsd-apim.
 
 Settings come from environment variables; the defaults target the long-lived internal-dev
-instance. See tests/proxygen/README.md.
+instance, so `make proxygen-test` needs no setup. Tests marked apigee_token need
+APIGEE_ACCESS_TOKEN (see TOKEN_HELP) and are skipped without it.
 """
 import os
 import pathlib

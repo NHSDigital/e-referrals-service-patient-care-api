@@ -87,7 +87,7 @@ integrationtest:
 #	this target is for end to end integration tests this would be run 'post deploy' to verify the environment has integration with e-RS
 	poetry run pytest -v tests/integration --junitxml=tests/ers-test-integration-report.xml
 proxygen-test:
-#	this target tests an instance deployed by Proxygen (internal-dev by default), see tests/proxygen/README.md
+#	this target tests an instance deployed by Proxygen (internal-dev by default), settings are in tests/proxygen/conftest.py
 	poetry run pytest -v -rs tests/proxygen --junitxml=proxygen-test-report.xml
 
 setup-environment:
