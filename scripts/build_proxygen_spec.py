@@ -8,7 +8,9 @@ Proxygen's PaasOpenAPI schema needs `openapi: 3.0.3`, a single server and an `x-
 block. Top-level keys in `specification/proxygen/<ENV>.yaml` replace those in the published
 spec. By default `paths` is emptied so only Proxygen's own `/_ping` and `/_status` are
 exposed, because no Proxygen access or target is configured yet. When paths are included,
-our security schemes are swapped for the Proxygen-managed equivalents.
+our security schemes are swapped for the Proxygen-managed equivalents, and an `access`
+grant for those schemes is added (unless the overlay sets one) so that Proxygen creates a
+product apps can subscribe to.
 
 Usage:
   build_proxygen_spec.py <env> [--base-path=<path>] [--include-paths] [--input=<file>]
@@ -76,6 +78,22 @@ def use_proxygen_security(spec, env):
     }
 
 
+def add_access(spec, env):
+    # Without an access grant Proxygen creates no product, so no app (including the test
+    # apps pytest-nhsd-apim creates) can subscribe to the instance.
+    apim = spec.setdefault("x-nhsd-apim", {})
+    if apim.get("access"):
+        return
+    schemes = spec.get("components", {}).get("securitySchemes", {})
+    grants = {name: [] for name in schemes if name in SECURITY_SCHEME_MAP.values()}
+    if not grants:
+        return
+    # Hidden from the developer portal; overlays for public environments set their own access.
+    apim["access"] = [
+        {"title": f"e-RS Patient Care API ({env})", "grants": grants, "visible": False}
+    ]
+
+
 def build(spec, overlay, env, base_path, include_paths):
     spec = copy.deepcopy(spec)
     spec.update(copy.deepcopy(overlay))
@@ -85,6 +103,7 @@ def build(spec, overlay, env, base_path, include_paths):
     if include_paths:
         if spec.get("components", {}).get("securitySchemes"):
             use_proxygen_security(spec, env)
+            add_access(spec, env)
     else:
         spec["paths"] = {}
         spec.pop("security", None)
