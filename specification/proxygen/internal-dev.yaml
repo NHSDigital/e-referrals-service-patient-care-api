@@ -1,0 +1,10 @@
+# Proxygen overlay for internal-dev (PTL).
+# Top-level keys here replace the same keys in the published spec; see scripts/build_proxygen_spec.py.
+# Schema: https://proxygen.ptl.api.platform.nhs.uk/openapi.json (components.schemas.XNhsdApim)
+x-nhsd-apim:
+  # Long-lived testing instance; temporary instances are removed by Proxygen batch jobs.
+  temporary: false
+  # No target yet: the adapter (PROXYGEN_ADAPTER_DESIGN.md) isn't deployed, so only /_ping works.
+  # /_status needs a target healthcheck, so monitoring stays off until a target is added.
+  monitoring: false
+  target: null
