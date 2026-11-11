@@ -107,39 +107,18 @@ jobs:
           echo "Checking $url"
           curl --fail --silent --show-error --retry 10 --retry-delay 15 --retry-all-errors "$url"
 
-      - name: Get pytest-nhsd-apim token
+      - name: Run Proxygen tests
         if: inputs.run-tests
-        run: |
-          # Without a token the suite still runs, but skips the tests that need one. Set the
-          # PROXYGEN_REQUIRE_APIGEE_TOKEN variable to 'true' to fail instead.
-          if ! output=$(proxygen pytest-nhsd-apim get-token 2>&1); then
-            echo "::warning::Couldn't get a pytest-nhsd-apim token, so tests that need one will be skipped"
-            echo "$output" | tail -n 5
-            exit 0
-          fi
-          token=$(echo "$output" | jq -r .pytest_nhsd_apim_token)
-          echo "::add-mask::$token"
-          echo "APIGEE_ACCESS_TOKEN=$token" >> "$GITHUB_ENV"
+        uses: ./.github/actions/proxygen-test
+        with:
+          environment: ${{ env.PROXYGEN_ENV }}
+          base-path: ${{ env.BASE_PATH }}
+          include-paths: ${{ env.INCLUDE_PATHS }}
+          require-token: ${{ vars.PROXYGEN_REQUIRE_APIGEE_TOKEN || 'false' }}
 
       - name: Remove Proxygen credentials
         if: always()
         run: rm -rf ~/.proxygen
-
-      - name: Run Proxygen tests
-        if: inputs.run-tests
-        env:
-          PROXYGEN_BASE_PATH: ${{ env.BASE_PATH }}
-          PROXYGEN_INCLUDE_PATHS: ${{ env.INCLUDE_PATHS }}
-          PROXYGEN_REQUIRE_APIGEE_TOKEN: ${{ vars.PROXYGEN_REQUIRE_APIGEE_TOKEN || 'false' }}
-        run: make proxygen-test
-
-      - name: Upload test report
-        if: always() && inputs.run-tests
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: proxygen-${{ env.PROXYGEN_ENV }}-test-report
-          path: proxygen-test-report.xml
-          if-no-files-found: ignore
 
       - name: Deployment summary
         if: always()

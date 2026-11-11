@@ -1,8 +1,7 @@
 """
-Tests against a deployed Proxygen instance that don't need an Apigee access token.
+Tests against a deployed Proxygen instance that don't need an Apigee access token. They're
+safe to run in every environment, including prod.
 """
-import os
-
 import pytest
 import requests
 
@@ -41,15 +40,10 @@ def test_unauthenticated_requests_are_rejected(proxygen_base_url, path, headers)
     assert response.status_code == 401
 
 
-def test_status_is_healthy(proxygen_base_url, proxygen_monitoring_enabled, request):
-    api_key = os.environ.get("STATUS_ENDPOINT_API_KEY")
-    if not api_key:
-        if not os.environ.get("APIGEE_ACCESS_TOKEN"):
-            pytest.skip("Needs STATUS_ENDPOINT_API_KEY or APIGEE_ACCESS_TOKEN")
-        # In internal-dev the plugin fetches APIM's shared status key via mock-jwks.
-        api_key = request.getfixturevalue("status_endpoint_auth_headers")["apikey"]
-
-    response = requests.get(f"{proxygen_base_url}/_status", headers={"apikey": api_key}, timeout=TIMEOUT)
+def test_status_is_healthy(proxygen_base_url, proxygen_status_api_key):
+    response = requests.get(
+        f"{proxygen_base_url}/_status", headers={"apikey": proxygen_status_api_key}, timeout=TIMEOUT
+    )
 
     assert response.status_code == 200
     assert response.json()["status"] == "pass"

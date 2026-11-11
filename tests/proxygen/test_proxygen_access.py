@@ -19,6 +19,7 @@ def test_plugin_resolves_the_proxy_under_test(nhsd_apim_proxy_url, proxygen_base
 
 
 @pytest.mark.api_paths
+@pytest.mark.nonprod
 @pytest.mark.nhsd_apim_authorization(
     access="patient",
     level="P9",
@@ -28,6 +29,6 @@ def test_plugin_resolves_the_proxy_under_test(nhsd_apim_proxy_url, proxygen_base
 def test_p9_patient_passes_proxygen_auth(nhsd_apim_proxy_url, nhsd_apim_auth_headers, path):
     response = requests.get(f"{nhsd_apim_proxy_url}/{path}", headers=nhsd_apim_auth_headers, timeout=TIMEOUT)
 
-    # Until the instance has a target, only Proxygen's auth decision can be asserted.
-    # Tighten to the backend's responses once the adapter target is deployed.
+    # Only Proxygen's auth decision is asserted here, so this holds with or without a target.
+    # test_proxygen_backend.py checks the responses once there is one.
     assert response.status_code not in (401, 403), response.text
