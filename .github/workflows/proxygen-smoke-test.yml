@@ -1,0 +1,102 @@
+name: Proxygen Smoke Test
+
+# Runs tests/proxygen against an instance that's already deployed. Nothing is deployed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Proxygen environment to test
+        type: choice
+        # Add more once each has a proxygen-<env> GitHub environment and credentials.
+        options:
+          - internal-dev
+        default: internal-dev
+      base-path:
+        description: Proxygen instance base path (use '_' instead of '/')
+        required: true
+        default: e-referrals-service-patient-care-api-proxygen
+      include-paths:
+        description: The instance was deployed with the API's paths. Off = only /_ping and /_status are tested.
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  # Same group as the deploy workflow, so tests don't run while that instance is being deployed.
+  group: proxygen-${{ inputs.environment }}-${{ inputs.base-path }}
+  cancel-in-progress: false
+
+env:
+  PROXYGEN_ENV: ${{ inputs.environment }}
+  BASE_PATH: ${{ inputs.base-path }}
+  INCLUDE_PATHS: ${{ inputs.include-paths }}
+
+jobs:
+  smoke-test:
+    name: Smoke test ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: proxygen-${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Python 3.13
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13'
+
+      - name: Install poetry
+        run: pip install poetry
+
+      - name: Cache poetry packages
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-build-cache-poetry-packages-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        run: poetry install
+
+      # Only used to get the pytest-nhsd-apim token; the test action removes the credentials after.
+      - name: Set up Proxygen CLI (PTL)
+        uses: ./.github/actions/proxygen-setup
+        with:
+          api-name: ${{ vars.PROXYGEN_API_NAME }}
+          client-id: ${{ vars.PTL_PROXYGEN_CLIENT_ID }}
+          key-id: ${{ vars.PTL_PROXYGEN_KEY_ID }}
+          private-key: ${{ secrets.PTL_PROXYGEN_PRIVATE_KEY }}
+
+      - name: Run Proxygen tests
+        uses: ./.github/actions/proxygen-test
+        with:
+          environment: ${{ env.PROXYGEN_ENV }}
+          base-path: ${{ env.BASE_PATH }}
+          include-paths: ${{ env.INCLUDE_PATHS }}
+          require-token: ${{ vars.PROXYGEN_REQUIRE_APIGEE_TOKEN || 'false' }}
+          status-endpoint-api-key: ${{ secrets.STATUS_ENDPOINT_API_KEY }}
+
+      - name: Remove Proxygen credentials
+        if: always()
+        run: rm -rf ~/.proxygen
+
+      - name: Test summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          {
+            echo "## Proxygen ${PROXYGEN_ENV} smoke test: ${JOB_STATUS}"
+            echo
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| Branch | \`${REF_NAME}\` |"
+            echo "| Instance | https://${PROXYGEN_ENV}.api.service.nhs.uk/${BASE_PATH//_//} |"
+            echo "| Paths included | ${INCLUDE_PATHS} |"
+            echo "| Report | proxygen-${PROXYGEN_ENV}-test-report artifact |"
+          } >> "$GITHUB_STEP_SUMMARY"
