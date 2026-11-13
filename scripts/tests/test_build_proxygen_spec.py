@@ -70,6 +70,33 @@ def test_prod_platform_environments_use_prod_proxygen_and_hosts():
     assert ref.startswith("https://proxygen.prod.api.platform.nhs.uk/")
 
 
+def test_with_paths_grants_hidden_access_to_the_proxygen_schemes_in_use():
+    spec = build(include_paths=True)
+
+    assert spec["x-nhsd-apim"]["access"] == [
+        {
+            "title": "e-RS Patient Care API (internal-dev)",
+            "grants": {"nhs-login-p9": []},
+            "visible": False,
+        }
+    ]
+
+
+def test_with_paths_keeps_access_set_by_the_overlay():
+    access = [{"title": "Custom", "grants": {"nhs-login-p9": []}}]
+    overlay = {"x-nhsd-apim": {**OVERLAY["x-nhsd-apim"], "access": access}}
+
+    spec = build_proxygen_spec.build(PUBLISHED, overlay, "internal-dev", "pca", True)
+
+    assert spec["x-nhsd-apim"]["access"] == access
+
+
+def test_without_paths_adds_no_access():
+    spec = build(include_paths=False)
+
+    assert "access" not in spec["x-nhsd-apim"]
+
+
 def test_does_not_mutate_published_spec():
     before = json.dumps(PUBLISHED, sort_keys=True)
     build(include_paths=True)

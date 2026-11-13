@@ -17,4 +17,5 @@ __pycache__/
 
 smoketest-report.xml
 ers-test-integration-report.xml
+proxygen-test-report.xml
 
