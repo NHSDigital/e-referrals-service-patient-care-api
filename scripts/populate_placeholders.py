@@ -12,6 +12,7 @@ def main():
     """Main entrypoint"""
     substitutes_dict = {
         "[[HYPERLINK_A001]]": "[Retrieve referral requests for a patient](#get-/FHIR/R4/ServiceRequest)",
+        "[[HYPERLINK_A001_RETRIEVE_REFERRAL_REQUESTS]]": "[Retrieve referral requests ](#get-/FHIR/R4/ServiceRequest)",
         "[[HYPERLINK_A002]]": "[Retrieve heathcare service](#get-/FHIR/R4/HealthcareService/-id-)",
         "[[HYPERLINK_ERS]]": "[e-Referral Service (e-RS)](https://digital.nhs.uk/services/e-referral-service)",
         "[[HYPERLINK_NHS_LOGIN]]": "[NHS login](https://digital.nhs.uk/services/nhs-login/nhs-login-for-partners-and-developers)",
