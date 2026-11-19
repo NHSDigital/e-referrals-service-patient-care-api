@@ -338,7 +338,8 @@
                 "identifier": {
                   "system": "https://fhir.nhs.uk/Id/ers-service",
                   "value": "11002"
-                }
+                },
+                "display": "General clinic - Cardiology - BTL NHS TRUST R69"
               },
               "status": "accepted"
             },
