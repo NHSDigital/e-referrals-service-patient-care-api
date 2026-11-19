@@ -69,6 +69,7 @@ Various scripts and commands rely on environment variables being set. These are 
 There are `make` commands that alias some of this functionality:
  * `lint` -- Lints the spec and code
  * `publish` -- Outputs the specification as a **single file** into the `build/` directory
+ * `proxygen-spec` -- Runs `publish`, then builds a Proxygen instance spec into `build/proxygen/` (see [Proxygen deployment](#proxygen-deployment))
  * `serve` -- Serves a preview of the specification in human-readable format
  * `setup-environment` -- installs python env for the project
  * `clean-environment` -- clears the setup-environment
@@ -115,3 +116,26 @@ Telling Apigee how to connect to your backend requires a *Target Server*, which 
 Our *Target Servers* defined in the [api-management-infrasture](https://github.com/NHSDigital/api-management-infrastructure) repository.
 
 :bulb: For Sandbox-running environments (`test`) these need to be present for successful deployment but can be set to empty/dummy values.
+
+### Proxygen deployment
+
+The [Proxygen Deploy Internal Dev](.github/workflows/proxygen-deploy-internal-dev.yml) workflow deploys the spec to Proxygen's internal-dev environment. Run it manually from the Actions tab on any branch. It:
+
+1. runs `make publish`;
+2. builds a Proxygen instance spec with [build_proxygen_spec.py](scripts/build_proxygen_spec.py), applying the [internal-dev overlay](specification/proxygen/internal-dev.yaml) and validating it against Proxygen's `PaasOpenAPI` schema;
+3. authenticates the Proxygen CLI as the PTL machine user;
+4. runs `proxygen instance deploy internal-dev <base-path> ...` and checks `/_ping`.
+
+Inputs:
+ * `base-path` -- defaults to `e-referrals-service-patient-care-api-proxygen`, served at `https://internal-dev.api.service.nhs.uk/<base-path>`. Use `_` instead of `/`.
+ * `include-paths` -- off by default, which deploys `paths: {}` (Proxygen's `/_ping` and `/_status` only). When on, the API's paths are deployed with NHS login P9 security, but there is no target yet, so they can't reach a backend.
+
+The workflow uses the `proxygen-internal-dev` GitHub environment. Its public values are environment **variables**:
+ * `PROXYGEN_API_NAME` -- `e-referrals-service-patient-care-api-proxygen`
+ * `PTL_PROXYGEN_CLIENT_ID` -- machine-user client ID (`e-referrals-service-patient-care-api-proxygen-client`)
+ * `PTL_PROXYGEN_KEY_ID` -- `2027-10-26-PTL-e-referrals-service-patient-care-api` (expires 2027-10-26)
+ * `PTL_PROXYGEN_JWKS_URL` -- `https://nhsdigital.github.io/identity-service-jwks/jwks/paas/ptl/e-referrals-service-patient-care-api-proxygen.json`. Optional; when set, the run fails early if the private key doesn't match the key ID's public key.
+
+The only **secret** is `PTL_PROXYGEN_PRIVATE_KEY`, the RSA private key as PEM or base64-encoded PEM.
+
+To build the instance spec locally, run `make proxygen-spec` (optionally `PROXYGEN_BASE_PATH=...` and `INCLUDE_PATHS=true`).
