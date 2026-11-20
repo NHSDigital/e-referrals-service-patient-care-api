@@ -39,6 +39,14 @@ publish-all: clean copy-examples
 	npm run publish 2> /dev/null
 	npm run publish-aws 2> /dev/null
 
+PROXYGEN_ENV ?= internal-dev
+PROXYGEN_BASE_PATH ?= e-referrals-service-patient-care-api-proxygen
+INCLUDE_PATHS ?= false
+
+proxygen-spec: publish
+	poetry run python scripts/build_proxygen_spec.py $(PROXYGEN_ENV) --base-path $(PROXYGEN_BASE_PATH) \
+		$(if $(filter true,$(INCLUDE_PATHS)),--include-paths)
+
 serve:
 	npm run serve
 
