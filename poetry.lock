@@ -236,14 +236,14 @@ files = [
 
 [[package]]
 name = "authlib"
-version = "1.9.1"
+version = "1.9.8"
 description = "The ultimate Python library in building OAuth and OpenID Connect servers and clients."
 optional = false
 python-versions = ">=3.10"
 groups = ["main", "dev"]
 files = [
-    {file = "authlib-1.9.1-py2.py3-none-any.whl", hash = "sha256:8b9be8b1e5174dcbf5520e984f1a22dc2edae5b6e40a61d4cedbf86b97e9e69b"},
-    {file = "authlib-1.9.1.tar.gz", hash = "sha256:5c7d9848f47cac340f060f76ae0bc09b59f5c8e89cc1bb032d4370a0c55b5974"},
+    {file = "authlib-1.9.8-py2.py3-none-any.whl", hash = "sha256:de0b0138d398d0058f3139d8332bc8f674143dca0b446116ff285c7f417a4f7e"},
+    {file = "authlib-1.9.8.tar.gz", hash = "sha256:879735216a0b805a4dfedb4fdd19e7d75ebb8debd70cc7566da9d813db34458d"},
 ]
 
 [package.dependencies]
@@ -3274,4 +3274,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "e82bb3fc33984b40ca6736eb26cfc187d8f875b3691e034c8b46fc65525cba31"
+content-hash = "22c3f1ead0d25427b0fe238d38e2593073bb14fb58f8d9728a88ad94c9fd9fa7"
