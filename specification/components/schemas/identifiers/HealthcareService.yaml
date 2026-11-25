@@ -11,3 +11,7 @@ properties:
   value:
     type: string
     example: '11002'
+  display:
+    description: To display the service name
+    type: string
+    example: 'General clinic - Cardiology - BTL NHS TRUST R69'  
